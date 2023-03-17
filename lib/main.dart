@@ -23,6 +23,8 @@ class MyApp extends StatelessWidget {
         ),
         canvasColor: AppColors.lightBackgroundColor,
         scaffoldBackgroundColor: AppColors.lightBackgroundColor,
+        hintColor: AppColors.lightTextColor,
+        cardColor: AppColors.lightTertiaryColor,
       ),
       darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
         brightness: Brightness.dark,
@@ -31,10 +33,13 @@ class MyApp extends StatelessWidget {
             surface: AppColors.darkCardColor
         ),
         canvasColor: AppColors.darkBackgroundColor,
-          scaffoldBackgroundColor: AppColors.darkBackgroundColor,
+        scaffoldBackgroundColor: AppColors.darkBackgroundColor,
+        hintColor: AppColors.darkTextColor,
+        cardColor: AppColors.darkTertiaryColor,
       ),
       themeMode: ThemeMode.system,
       home: HomeScreen(),
+      builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
     );
   }
 }

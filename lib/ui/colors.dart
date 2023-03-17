@@ -21,7 +21,7 @@ class AppColors {
 
   static Color lightBackgroundColor = const Color(0xFFF0F0F0);
   static Color lightCardColor = const Color(0xFFFFFFFF);
-  static Color lightTertiaryColor = const Color(0xFFECECEC);
+  static Color lightTertiaryColor = const Color(0xFFF3F3F3);
   static Color lightSecondaryColor = const Color(0xFF4D75B7);
   static Color lightOnSecondaryColor = const Color(0xFF2A7AD1);
   static Color lightTextColor = const Color(0xFF1E1E1E);
@@ -31,7 +31,7 @@ class AppColors {
 
   static Color darkBackgroundColor = const Color(0xFF101014);
   static Color darkCardColor = const Color(0xFF1E1E1E);
-  static Color darkTertiaryColor = const Color(0xFF3D3D3D);
+  static Color darkTertiaryColor = const Color(0xFF343434);
   static Color darkSecondaryColor = const Color(0xFF73AEFF);
   static Color darkOnSecondaryColor = const Color(0xFFA0CDFF);
   static Color darkTextColor = const Color(0xFFF7F7F7);

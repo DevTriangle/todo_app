@@ -71,7 +71,7 @@ class AppCardState extends State<AppCard> {
                               date.format(widget.destination),
                               style: TextStyle(
                                   fontSize: 12,
-                                  color: Theme.of(context).hintColor
+                                  color: Theme.of(context).hintColor.withOpacity(0.65)
                               ),
                             )
                           ],
@@ -92,5 +92,4 @@ class AppCardState extends State<AppCard> {
     )
     );
   }
-
 }
