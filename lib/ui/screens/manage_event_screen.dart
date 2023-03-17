@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/shapes.dart';
-import 'package:todo_app/ui/widgets/ColorCircle.dart';
+import 'package:todo_app/ui/widgets/color_circle.dart';
 import 'package:todo_app/ui/widgets/app_dropdown.dart';
 import 'package:todo_app/ui/widgets/app_text_field.dart';
+
+import '../../viewmodel/home_viewmodel.dart';
 
 class ManageEventScreen extends StatefulWidget {
   const ManageEventScreen({
@@ -16,13 +19,16 @@ class ManageEventScreen extends StatefulWidget {
 }
 
 class ManageEventScreenState extends State<ManageEventScreen> {
-  List<EventCategory> categoryList = <EventCategory>[
-    EventCategory(categoryTitle: "Праздники", categoryIcon: Icons.celebration_rounded, categoryColor: Colors.amber),
-    EventCategory(categoryTitle: "Дни рождения", categoryIcon: Icons.cake_rounded, categoryColor: Colors.redAccent),
-    EventCategory(categoryTitle: "Другое", categoryIcon: Icons.more_horiz_rounded, categoryColor: Colors.grey),
-  ];
+  late HomeViewModel viewModel;
 
-  late EventCategory category = categoryList[0];
+  @override
+  void initState() {
+    super.initState();
+
+    viewModel = Provider.of<HomeViewModel>(context, listen: false);
+  }
+
+  late EventCategory category = viewModel.categoryList[0];
   late Color selectedColor = colors[0];
 
   List<Color> colors = <Color>[
@@ -91,7 +97,7 @@ class ManageEventScreenState extends State<ManageEventScreen> {
                 ),
                 CategoryDropdown(
                     value: category,
-                    items: categoryList,
+                    items: viewModel.categoryList,
                     onChanged: (eventCategory) {
                       setState(() {
                         category = eventCategory;

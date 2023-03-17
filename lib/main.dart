@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_app/ui/colors.dart';
 import 'package:todo_app/ui/screens/home_screen.dart';
+import 'package:todo_app/viewmodel/home_viewmodel.dart';
 
 Future<void> main() async {
-  runApp(MyApp(
-
-  ));
+  runApp(
+      MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => HomeViewModel())
+          ],
+        child: const MyApp(),
+      )
+  );
 }
 
 class MyApp extends StatelessWidget {

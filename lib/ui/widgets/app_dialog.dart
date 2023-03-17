@@ -1,22 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/colors.dart';
 import 'package:todo_app/ui/shapes.dart';
-import 'package:todo_app/ui/widgets/ColorCircle.dart';
+import 'package:todo_app/ui/widgets/color_circle.dart';
 import 'package:todo_app/ui/widgets/app_dropdown.dart';
 import 'package:todo_app/ui/widgets/app_text_field.dart';
+import 'package:todo_app/viewmodel/home_viewmodel.dart';
 
 class AppDialog extends StatefulWidget {
   final Function() onCloseClick;
-  final Function onTitleChanged;
-  final Function(EventCategory) onCategoryChanged;
+  final Function(AppEvent) onEventCreate;
 
   const AppDialog({
     super.key,
     required this.onCloseClick,
-    required this.onTitleChanged,
-    required this.onCategoryChanged,
+    required this.onEventCreate,
   });
 
   @override
@@ -24,20 +25,33 @@ class AppDialog extends StatefulWidget {
 }
 
 class AppDialogState extends State<AppDialog> {
-  List<EventCategory> categoryList = <EventCategory>[
-    EventCategory(categoryTitle: "Праздники", categoryIcon: Icons.celebration_rounded, categoryColor: Colors.amber),
-    EventCategory(categoryTitle: "Дни рождения", categoryIcon: Icons.cake_rounded, categoryColor: Colors.redAccent),
-    EventCategory(categoryTitle: "Другое", categoryIcon: Icons.more_horiz_rounded, categoryColor: Colors.grey),
+  late HomeViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+
+    viewModel = Provider.of<HomeViewModel>(context, listen: false);
+  }
+
+  final List<String> _repeatList = <String>[
+    "Не повторять",
+    "Повторять каждый день",
+    "Повторять каждую неделю",
+    "Повторять каждый месяц",
+    "Повторять каждый год"
   ];
 
-  late EventCategory category = categoryList[0];
-  late Color selectedColor = colors[0];
+  late EventCategory _category = viewModel.categoryList[0];
+  late String _eventTitle = "";
+  late String _selectedRepeat = _repeatList[0];
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
 
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
+  String? _titleError;
+  String? _dateError;
 
-  DateTime _currentTime = DateTime.now();
-  TextEditingController dateTimeController = TextEditingController();
+  final TextEditingController _dateTimeController = TextEditingController();
 
   List<Color> colors = <Color>[
     Colors.redAccent,
@@ -52,6 +66,8 @@ class AppDialogState extends State<AppDialog> {
     Colors.deepOrange,
     Colors.deepOrange,
   ];
+
+  bool _allDayChecked = false;
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -73,9 +89,9 @@ class AppDialogState extends State<AppDialog> {
     );
 
     if (picked != null) {
-      selectedDate = picked;
+      _selectedDate = picked;
 
-      if (selectedDate != null) {
+      if (_selectedDate != null) {
         final TimeOfDay? timePicked = await showTimePicker(
           context: context,
           initialTime: TimeOfDay.now(),
@@ -93,24 +109,49 @@ class AppDialogState extends State<AppDialog> {
         );
 
         if (timePicked != null) {
-          selectedTime = timePicked;
+          _selectedTime = timePicked;
 
-          String month = selectedDate.month.toString();
-          String day = selectedDate.day.toString();
+          String month = _selectedDate!.month.toString();
+          String day = _selectedDate!.day.toString();
 
-          String hours = selectedTime.hour.toString();
-          String minutes = selectedTime.minute.toString();
+          String hours = _selectedTime!.hour.toString();
+          String minutes = _selectedTime!.minute.toString();
 
-          if (selectedDate.month < 10) month = "0$month";
-          if (selectedDate.day < 10) day = "0$day";
-          if (selectedTime.hour < 10) hours = "0$hours";
-          if (selectedTime.minute < 10) minutes = "0$minutes";
+          if (_selectedDate!.month < 10) month = "0$month";
+          if (_selectedDate!.day < 10) day = "0$day";
+          if (_selectedTime!.hour < 10) hours = "0$hours";
+          if (_selectedTime!.minute < 10) minutes = "0$minutes";
 
           setState(() {
-            dateTimeController.text = "$day.$month.${selectedDate.year} $hours:$minutes";
+            _dateTimeController.text = "$day.$month.${_selectedDate!.year} $hours:$minutes";
           });
         }
       }
+    }
+  }
+
+  void _saveEvent() {
+    if (_eventTitle.trim().isEmpty) {
+      setState(() {
+        _titleError = "Поле должно быть заполнено.";
+      });
+    }
+
+    if (_selectedDate == null || _selectedTime == null) {
+      setState(() {
+        _dateError = "Выбреите дату.";
+      });
+    }
+
+    if (_titleError == null && _dateError == null) {
+      widget.onEventCreate(
+          AppEvent(
+              title: _eventTitle,
+              eventCategory: _category,
+              date: _selectedDate.toString(),
+              time: _selectedTime!.format(context),
+          )
+      );
     }
   }
 
@@ -120,7 +161,7 @@ class AppDialogState extends State<AppDialog> {
       shape: AppShapes.roundedRectangleShape,
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
         child: Wrap(
           children: [
             Column(
@@ -158,89 +199,146 @@ class AppDialogState extends State<AppDialog> {
                 ),
                 const SizedBox(height: 13),
                 AppTextField(
-                    hint: "Название",
-                    margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 3),
-                    onChanged: widget.onTitleChanged
+                  hint: "Название",
+                  margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                  onChanged: (value) {
+                    if (_titleError != null) {
+                      setState(() {
+                        _titleError = null;
+                      });
+                    }
+                    _eventTitle = value;
+                  },
+                  errorText: _titleError,
                 ),
+                const SizedBox(height: 6),
                 CategoryDropdown(
-                    value: category,
-                    items: categoryList,
+                    value: _category,
+                    items: viewModel.categoryList,
                     onChanged: (eventCategory) {
                       setState(() {
-                        widget.onCategoryChanged(eventCategory);
-                        category = eventCategory;
+                        _category = eventCategory;
                       });
                     }
                 ),
+                const SizedBox(height: 6),
                 AppTextField(
                   hint: "Дата начала события",
-                  margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 3),
-                  onChanged: widget.onTitleChanged,
+                  margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                  onChanged: (value) {},
                   icon: Icons.calendar_month_rounded,
-                  controller: dateTimeController,
+                  controller: _dateTimeController,
                   onIconPressed: () {
+                    if (_dateError != null) {
+                      setState(() {
+                        _dateError = null;
+                      });
+                    }
                     _selectDate(context);
                   },
                   readOnly: true,
+                  errorText: _dateError,
                 ),
-                const SizedBox(height: 2.5),
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).cardColor,
-                  margin: EdgeInsets.zero,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Цвет",
-                          style: TextStyle(
-                              color: Theme.of(context).hintColor
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        SizedBox(
-                          height: 33,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: colors.length,
-                              itemBuilder: (rowContext, index) {
-                                Color color = colors[index];
-                                return ColorCircle(
-                                    color: color,
-                                    isSelected: color == selectedColor,
-                                    onSelect: (c) {
-                                      setState(() {
-                                        selectedColor = c;
-                                      });
-                                    }
-                                );
-                              }
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                const SizedBox(height: 6),
+                AppDropdown(
+                    value: _selectedRepeat,
+                    items: _repeatList,
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedRepeat = value;
+                      });
+                    }
                 ),
-                const SizedBox(height: 5),
+                //late Color _selectedColor = colors[0];
+                //Card(
+                //  elevation: 0,
+                //  color: Theme.of(context).cardColor,
+                //  margin: EdgeInsets.zero,
+                //  child: Padding(
+                //    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                //    child: Column(
+                //      crossAxisAlignment: CrossAxisAlignment.start,
+                //      children: [
+                //        Text(
+                //          "Цвет",
+                //          style: TextStyle(
+                //              color: Theme.of(context).hintColor
+                //          ),
+                //        ),
+                //        const SizedBox(height: 5),
+                //        SizedBox(
+                //          height: 33,
+                //          child: ListView.builder(
+                //              scrollDirection: Axis.horizontal,
+                //              itemCount: colors.length,
+                //              itemBuilder: (rowContext, index) {
+                //                Color color = colors[index];
+                //                return ColorCircle(
+                //                    color: color,
+                //                    isSelected: color == selectedColor,
+                //                    onSelect: (c) {
+                //                      setState(() {
+                //                        selectedColor = c;
+                //                      });
+                //                    }
+                //                );
+                //              }
+                //          ),
+                //        )
+                //      ],
+                //    ),
+                //  ),
+                //),
+                const SizedBox(height: 10),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    FloatingActionButton.extended(
-                      onPressed: () {
+                    Card(
+                      color: Colors.transparent,
+                      elevation: 0,
+                      shape: AppShapes.roundedRectangleShape,
+                      clipBehavior: Clip.antiAlias,
+                      child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              _allDayChecked = !_allDayChecked;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Row(
+                              children: [ Transform.scale(
+                                scale: 1.1,
+                                child: Checkbox(
+                                  value: _allDayChecked,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _allDayChecked = value!;
+                                    });
+                                  },
+                                  activeColor: Theme.of(context).colorScheme.primary,
+                                  checkColor: Colors.white,
+                                  hoverColor: Theme.of(context).colorScheme.primary,
+                                  shape: AppShapes.smallRoundedRectangleShape,
+                                ),
+                              ),
+                                const Text(
+                                  "Весь день",
+                                  style: TextStyle(
+                                      fontSize: 14
+                                  ),
+                                )
 
-                      },
+                              ],
+                            ),
+                          )
+                      ),
+                    ),
+                    FloatingActionButton(
+                      onPressed: _saveEvent,
                       tooltip: "Добавить событие",
                       heroTag: "fab",
-                      label: Row(
-                        children: [
-                          const Icon(Icons.add_rounded),
-                          SizedBox(width: 5),
-                          Text("Добавить событие")
-                        ],
-                      ),
-                      extendedPadding: EdgeInsets.all(10),
+                      child: Icon(Icons.check_rounded),
                     )
                   ],
                 )
@@ -249,6 +347,6 @@ class AppDialogState extends State<AppDialog> {
           ],
         ),
       ),
-    ) ;
+    );
   }
 }
