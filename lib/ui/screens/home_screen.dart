@@ -236,12 +236,9 @@ class HomeScreenState extends State<HomeScreen> {
                                             physics: const BouncingScrollPhysics(),
                                             itemCount: viewModel.eventList.length,
                                             itemBuilder: (lContext, index) {
-                                              DateTime dt = DateTime.parse(viewModel.eventList[index].date);
-                                              List<String> times = viewModel.eventList[index].time.split(":");
-                                              TimeOfDay time = TimeOfDay(hour: int.parse(times[0]), minute: int.parse(times[1]));
                                               return AppCard(
                                                   title: viewModel.eventList[index].title,
-                                                  destination: DateTime(dt.year, dt.month, dt.day, time.hour, time.minute),
+                                                  destination: DateTime.parse(viewModel.eventList[index].datetime),
                                                   icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
                                                   color: Color(viewModel.eventList[index].eventCategory.categoryColor)
                                               );

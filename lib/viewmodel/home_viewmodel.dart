@@ -33,7 +33,7 @@ class HomeViewModel extends ChangeNotifier {
         print(events);
 
         eventList.addAll(events);
-        eventList.sort((a, b) => DateTime.parse(a.date).compareTo(DateTime.parse(b.date)));
+        eventList.sort((a, b) => DateTime.parse(a.datetime).compareTo(DateTime.parse(b.datetime)));
       }
 
       return Response(isSuccess: true, message: "События загружены!", code: 0);

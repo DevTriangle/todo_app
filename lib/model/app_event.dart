@@ -6,29 +6,25 @@ import 'package:todo_app/model/event_category.dart';
 class AppEvent {
   final String title;
   final EventCategory eventCategory;
-  final String date;
-  final String time;
+  final String datetime;
 
   AppEvent({
     required this.title,
     required this.eventCategory,
-    required this.date,
-    required this.time,
+    required this.datetime,
   });
 
   factory AppEvent.fromJson(Map<String, dynamic> json) {
     return AppEvent(
         title: json['title'],
         eventCategory: EventCategory.fromJson(json['eventCategory']),
-        date: json['date'],
-        time: json['time']
+        datetime: json['datetime'],
     );
   }
 
   Map toJson() => {
       'title': title,
       'eventCategory': eventCategory.toJson(),
-      'date': date,
-      'time': time
+      'datetime': datetime,
   };
 }

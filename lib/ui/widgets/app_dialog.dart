@@ -148,8 +148,7 @@ class AppDialogState extends State<AppDialog> {
           AppEvent(
               title: _eventTitle,
               eventCategory: _category,
-              date: _selectedDate.toString(),
-              time: _selectedTime!.format(context),
+              datetime: DateTime(_selectedDate!.year, _selectedDate!.month, _selectedDate!.day, _selectedTime!.hour, _selectedTime!.minute).toString(),
           )
       );
     }
