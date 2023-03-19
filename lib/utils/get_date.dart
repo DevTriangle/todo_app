@@ -52,3 +52,14 @@ String getCurrentDate() {
 
   return dateText;
 }
+
+int getMonthLeft(int days) {
+  List<int> monthCountDays = <int>[
+    31, 28,	31,	30,	31,	30,	31,	31,	30,	31,	30,	31
+  ];
+
+  int daysLeft = days;
+  int monthsLeft = 0;
+
+  while
+}

@@ -51,8 +51,6 @@ class HomeScreenState extends State<HomeScreen> {
   Future<Response> _loadCategories() async {
     Response categoriesResponse = await viewModel.loadCategories();
 
-    print(categoriesResponse.isSuccess.toString() + " " + categoriesResponse.message);
-
     return categoriesResponse;
   }
 

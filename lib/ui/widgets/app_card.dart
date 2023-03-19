@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/ui/shapes.dart';
+import 'package:todo_app/utils/format_time.dart';
 
 class AppCard extends StatefulWidget {
   final String title;
@@ -23,6 +26,45 @@ class AppCard extends StatefulWidget {
 
 class AppCardState extends State<AppCard> {
   DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
+
+  Duration timeLeft = Duration();
+
+  int secondsLeft = 0;
+  int minutesLeft = 0;
+  int hoursLeft = 0;
+  int daysLeft = 0;
+  int monthLeft = 0;
+  int yearLeft = 0;
+
+  String displayLeft = "";
+
+  @override
+  void initState() {
+    super.initState();
+
+    displayDate();
+  }
+
+  void displayDate() async {
+    final periodicTimer = Timer.periodic(
+      const Duration(seconds: 1),
+          (timer) {
+            timeLeft = widget.destination.difference(DateTime.now());
+
+            secondsLeft = timeLeft.inSeconds % 60;
+            minutesLeft = timeLeft.inMinutes % 60;
+            hoursLeft = timeLeft.inHours % 24;
+            yearLeft = timeLeft.inDays ~/ 365;
+            monthLeft = timeLeft.inDays % 30 ~/ 12;
+            daysLeft = (timeLeft.inDays % 365) % 30;
+
+
+            setState(() {
+              displayLeft = formatTime(yearLeft, monthLeft, daysLeft, hoursLeft, minutesLeft, secondsLeft);
+            });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +122,7 @@ class AppCardState extends State<AppCard> {
                     ],
                   ),
                   Text(
-                    "31:10:00:00",
+                    displayLeft,
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 14
