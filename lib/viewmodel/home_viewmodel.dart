@@ -67,7 +67,16 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   Future<Response> loadCategories() async {
-    categoryList.clear();
+    final prefs = await SharedPreferences.getInstance();
+    bool isFirstLoad  = prefs.getBool("isFirstLoad") ?? true;
+
+    print(isFirstLoad);
+
+    if (!isFirstLoad) {
+      categoryList.clear();
+    } else {
+      prefs.setBool("isFirstLoad", false);
+    }
 
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -86,7 +95,7 @@ class HomeViewModel extends ChangeNotifier {
       return Response(isSuccess: true, message: "Категории загружены!", code: 0);
     } catch (e) {
       if (e.toString() == "list-null") {
-        return Response(isSuccess: false, message: "Категории отсутсвуют!", code: 1);
+        return Response(isSuccess: true, message: "Категории отсутсвуют!", code: 1);
       } else {
         return Response(isSuccess: false, message: e.toString(), code: -1);
       }
