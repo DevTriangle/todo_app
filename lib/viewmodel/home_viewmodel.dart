@@ -9,7 +9,7 @@ import 'package:todo_app/model/response.dart';
 
 class HomeViewModel extends ChangeNotifier {
   List<AppEvent> eventList = <AppEvent>[];
-  List<EventCategory> categoryList =  <EventCategory>[
+  List<EventCategory> categoryList = <EventCategory>[
     EventCategory(categoryTitle: "Праздники", categoryIconID: 0, categoryColor: Colors.amber.value),
     EventCategory(categoryTitle: "Дни рождения", categoryIconID: 1, categoryColor: Colors.redAccent.value),
     EventCategory(categoryTitle: "Другое", categoryIconID: 2, categoryColor: Colors.grey.value),
@@ -66,6 +66,23 @@ class HomeViewModel extends ChangeNotifier {
     }
   }
 
+  Future<Response> editEvent(int index, AppEvent event) async {
+    eventList.removeAt(index);
+    eventList.insert(index, event);
+
+    Response response = await saveEvents(eventList);
+
+    return response;
+  }
+
+  Future<Response> removeEvent(AppEvent event) async {
+    eventList.remove(event);
+
+    Response response = await saveEvents(eventList);
+
+    return response;
+  }
+
   Future<Response> loadCategories() async {
     final prefs = await SharedPreferences.getInstance();
     bool isFirstLoad  = prefs.getBool("isFirstLoad") ?? true;
@@ -75,7 +92,10 @@ class HomeViewModel extends ChangeNotifier {
     if (!isFirstLoad) {
       categoryList.clear();
     } else {
-      prefs.setBool("isFirstLoad", false);
+      saveCategories(categoryList);
+      await prefs.setBool("isFirstLoad", false);
+
+      return Response(isSuccess: true, message: "Категории загружены!", code: 0);
     }
 
     try {

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
@@ -11,13 +12,23 @@ import 'package:todo_app/ui/widgets/app_text_field.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
 
 class AppDialog extends StatefulWidget {
+  final String title;
+  final DateTime destination;
+  final int categoryIndex;
   final Function() onCloseClick;
   final Function(AppEvent) onEventCreate;
+  final Function() onRemoveClick;
+  final bool isEditing;
 
   const AppDialog({
     super.key,
+    this.title = "",
+    required this.destination,
+    required this.categoryIndex,
     required this.onCloseClick,
     required this.onEventCreate,
+    required this.onRemoveClick,
+    required this.isEditing
   });
 
   @override
@@ -27,11 +38,28 @@ class AppDialog extends StatefulWidget {
 class AppDialogState extends State<AppDialog> {
   late HomeViewModel viewModel;
 
+  DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
+  DateTime? _selectedDate;
+  TimeOfDay? _selectedTime;
+
+  late EventCategory _category = viewModel.categoryList[0];
+  late String _eventTitle = "";
+  late String _selectedRepeat = _repeatList[0];
+
   @override
   void initState() {
     super.initState();
 
     viewModel = Provider.of<HomeViewModel>(context, listen: false);
+
+    _eventTitle = widget.title;
+    _titleController.text = widget.title;
+    _dateTimeController.text = date.format(widget.destination);
+
+    _category = viewModel.categoryList[widget.categoryIndex];
+
+    _selectedDate = widget.destination;
+    _selectedTime = TimeOfDay(hour: widget.destination.hour, minute: widget.destination.minute);
   }
 
   final List<String> _repeatList = <String>[
@@ -42,16 +70,11 @@ class AppDialogState extends State<AppDialog> {
     "Повторять каждый год"
   ];
 
-  late EventCategory _category = viewModel.categoryList[0];
-  late String _eventTitle = "";
-  late String _selectedRepeat = _repeatList[0];
-  DateTime? _selectedDate;
-  TimeOfDay? _selectedTime;
-
   String? _titleError;
   String? _dateError;
 
   final TextEditingController _dateTimeController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
 
   List<Color> colors = <Color>[
     Colors.redAccent,
@@ -200,6 +223,7 @@ class AppDialogState extends State<AppDialog> {
                 AppTextField(
                   hint: "Название",
                   margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                  controller: _titleController,
                   onChanged: (value) {
                     if (_titleError != null) {
                       setState(() {
@@ -238,101 +262,17 @@ class AppDialogState extends State<AppDialog> {
                   readOnly: true,
                   errorText: _dateError,
                 ),
-                const SizedBox(height: 6),
-                AppDropdown(
-                    value: _selectedRepeat,
-                    items: _repeatList,
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedRepeat = value;
-                      });
-                    }
-                ),
-                //late Color _selectedColor = colors[0];
-                //Card(
-                //  elevation: 0,
-                //  color: Theme.of(context).cardColor,
-                //  margin: EdgeInsets.zero,
-                //  child: Padding(
-                //    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                //    child: Column(
-                //      crossAxisAlignment: CrossAxisAlignment.start,
-                //      children: [
-                //        Text(
-                //          "Цвет",
-                //          style: TextStyle(
-                //              color: Theme.of(context).hintColor
-                //          ),
-                //        ),
-                //        const SizedBox(height: 5),
-                //        SizedBox(
-                //          height: 33,
-                //          child: ListView.builder(
-                //              scrollDirection: Axis.horizontal,
-                //              itemCount: colors.length,
-                //              itemBuilder: (rowContext, index) {
-                //                Color color = colors[index];
-                //                return ColorCircle(
-                //                    color: color,
-                //                    isSelected: color == selectedColor,
-                //                    onSelect: (c) {
-                //                      setState(() {
-                //                        selectedColor = c;
-                //                      });
-                //                    }
-                //                );
-                //              }
-                //          ),
-                //        )
-                //      ],
-                //    ),
-                //  ),
-                //),
                 const SizedBox(height: 10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Card(
-                      color: Colors.transparent,
-                      elevation: 0,
-                      shape: AppShapes.roundedRectangleShape,
-                      clipBehavior: Clip.antiAlias,
-                      child: InkWell(
-                          onTap: () {
-                            setState(() {
-                              _allDayChecked = !_allDayChecked;
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: Row(
-                              children: [ Transform.scale(
-                                scale: 1.1,
-                                child: Checkbox(
-                                  value: _allDayChecked,
-                                  onChanged: (value) {
-                                    setState(() {
-                                      _allDayChecked = value!;
-                                    });
-                                  },
-                                  activeColor: Theme.of(context).colorScheme.primary,
-                                  checkColor: Colors.white,
-                                  hoverColor: Theme.of(context).colorScheme.primary,
-                                  shape: AppShapes.smallRoundedRectangleShape,
-                                ),
-                              ),
-                                const Text(
-                                  "Весь день",
-                                  style: TextStyle(
-                                      fontSize: 14
-                                  ),
-                                )
-
-                              ],
-                            ),
-                          )
-                      ),
-                    ),
+                    widget.isEditing ? TextButton(
+                        onPressed: widget.onRemoveClick,
+                        child: Text(
+                            "Удалить событие",
+                            style: TextStyle(color: Theme.of(context).errorColor),
+                        )
+                    ) : const SizedBox(),
                     FloatingActionButton(
                       onPressed: _saveEvent,
                       tooltip: "Добавить событие",

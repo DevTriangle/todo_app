@@ -54,20 +54,35 @@ class HomeScreenState extends State<HomeScreen> {
     return categoriesResponse;
   }
 
-  void _createDialog() {
+  void _createDialog({ int index = -1, bool isEditing = false}) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
           return StatefulBuilder(
             builder: (mContext, setState) {
               return AppDialog(
+                title: isEditing ? viewModel.eventList[index].title : "",
+                destination: isEditing ? DateTime.parse(viewModel.eventList[index].datetime) : DateTime.now(),
+                categoryIndex: isEditing ? viewModel.categoryList.indexWhere((element) => element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
+                    element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
+                    element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor
+                ) : 0,
                 onCloseClick: () {
                   Navigator.pop(context);
                 },
                 onEventCreate: (event) async {
-                  _createEvent(event);
+                  if (isEditing) {
+                    _editEvent(index, event);
+                  } else {
+                    _createEvent(event);
+                  }
                   Navigator.pop(context);
                 },
+                onRemoveClick: () {
+                  _removeEvent(viewModel.eventList[index]);
+                  Navigator.pop(context);
+                },
+                isEditing: isEditing
               );
             },
           );
@@ -88,7 +103,7 @@ class HomeScreenState extends State<HomeScreen> {
                 onCategoryCreate: (category) async {
                   _createCategory(category);
                   Navigator.pop(context);
-                },
+                }
               );
             },
           );
@@ -118,6 +133,46 @@ class HomeScreenState extends State<HomeScreen> {
 
   void _createCategory(EventCategory category) async {
     Response createResponse = await viewModel.createCategory(category);
+
+    final snackBar = SnackBar(
+        shape: AppShapes.roundedRectangleShape,
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        behavior: SnackBarBehavior.floating,
+        content: AppSnackBarContent(
+            label: createResponse.message,
+            icon: Icons.info_rounded
+        )
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    setState(() {
+      _loadEvents = _getEvents();
+    });
+  }
+
+  void _editEvent(int index, AppEvent newEvent) async {
+    Response createResponse = await viewModel.editEvent(index, newEvent);
+
+    final snackBar = SnackBar(
+        shape: AppShapes.roundedRectangleShape,
+        margin: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+        behavior: SnackBarBehavior.floating,
+        content: AppSnackBarContent(
+            label: createResponse.message,
+            icon: Icons.info_rounded
+        )
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    setState(() {
+      _loadEvents = _getEvents();
+    });
+  }
+
+  void _removeEvent(AppEvent event) async {
+    Response createResponse = await viewModel.removeEvent(event);
 
     final snackBar = SnackBar(
         shape: AppShapes.roundedRectangleShape,
@@ -238,7 +293,10 @@ class HomeScreenState extends State<HomeScreen> {
                                                   title: viewModel.eventList[index].title,
                                                   destination: DateTime.parse(viewModel.eventList[index].datetime),
                                                   icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
-                                                  color: Color(viewModel.eventList[index].eventCategory.categoryColor)
+                                                  color: Color(viewModel.eventList[index].eventCategory.categoryColor),
+                                                  onClick: () {
+                                                      _createDialog(index: index, isEditing: true);
+                                                  }
                                               );
                                             }
                                         );
