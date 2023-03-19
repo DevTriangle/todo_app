@@ -32,7 +32,7 @@ class HomeViewModel extends ChangeNotifier {
         List<AppEvent> events = List.from(l.map((e) => AppEvent.fromJson(e)));
         print(events);
 
-        eventList.addAll(events);
+        eventList.addAll(events.where((event) => DateTime.parse(event.datetime).add(const Duration(days: 3)).isAfter(DateTime.now())));
         eventList.sort((a, b) => DateTime.parse(a.datetime).compareTo(DateTime.parse(b.datetime)));
       }
 

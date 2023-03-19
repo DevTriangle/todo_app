@@ -56,14 +56,18 @@ class AppCardState extends State<AppCard> {
             timeLeftMap = calculateRemainingTime(widget.destination);
 
             setState(() {
-              displayLeft = formatTime(
-                  timeLeftMap['years']!,
-                  timeLeftMap['months']!,
-                  timeLeftMap['days']!,
-                  timeLeftMap['hours']!,
-                  timeLeftMap['minutes']!,
-                  timeLeftMap['seconds']!
-              );
+              if (widget.destination.isBefore(DateTime.now())) {
+                displayLeft = "В прогрессе";
+              } else {
+                displayLeft = formatTime(
+                    timeLeftMap['years']!,
+                    timeLeftMap['months']!,
+                    timeLeftMap['days']!,
+                    timeLeftMap['hours']!,
+                    timeLeftMap['minutes']!,
+                    timeLeftMap['seconds']!
+                );
+              }
             });
       },
     );
