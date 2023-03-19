@@ -9,7 +9,7 @@ String formatTime(int years, int months, int days, int hours, int minutes, int s
   if (days > 0 && years == 0) {
     time.add("$days ${getPluralForm(days, 'день', 'дня', 'дней')}");
   }
-  if (hours > 0 && months == 0) {
+  if (hours > 0 && (months == 0 && years == 0)) {
     time.add("$hours ${getPluralForm(hours, 'час', 'часа', 'часов')}");
   }
   if (minutes > 0 && days == 0) {

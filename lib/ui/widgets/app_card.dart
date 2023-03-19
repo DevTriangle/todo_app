@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/ui/shapes.dart';
 import 'package:todo_app/utils/format_time.dart';
+import 'package:todo_app/utils/get_date.dart';
 
 class AppCard extends StatefulWidget {
   final String title;
@@ -36,6 +37,7 @@ class AppCardState extends State<AppCard> {
   int monthLeft = 0;
   int yearLeft = 0;
 
+  Map<String, int> timeLeftMap = <String, int>{};
   String displayLeft = "";
 
   @override
@@ -51,16 +53,17 @@ class AppCardState extends State<AppCard> {
           (timer) {
             timeLeft = widget.destination.difference(DateTime.now());
 
-            secondsLeft = timeLeft.inSeconds % 60;
-            minutesLeft = timeLeft.inMinutes % 60;
-            hoursLeft = timeLeft.inHours % 24;
-            yearLeft = timeLeft.inDays ~/ 365;
-            monthLeft = timeLeft.inDays % 30 ~/ 12;
-            daysLeft = (timeLeft.inDays % 365) % 30;
-
+            timeLeftMap = calculateRemainingTime(widget.destination);
 
             setState(() {
-              displayLeft = formatTime(yearLeft, monthLeft, daysLeft, hoursLeft, minutesLeft, secondsLeft);
+              displayLeft = formatTime(
+                  timeLeftMap['years']!,
+                  timeLeftMap['months']!,
+                  timeLeftMap['days']!,
+                  timeLeftMap['hours']!,
+                  timeLeftMap['minutes']!,
+                  timeLeftMap['seconds']!
+              );
             });
       },
     );

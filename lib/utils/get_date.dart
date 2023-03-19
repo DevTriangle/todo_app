@@ -53,13 +53,25 @@ String getCurrentDate() {
   return dateText;
 }
 
-int getMonthLeft(int days) {
-  List<int> monthCountDays = <int>[
-    31, 28,	31,	30,	31,	30,	31,	31,	30,	31,	30,	31
-  ];
+Map<String, int> calculateRemainingTime(DateTime targetDate) {
+  DateTime now = DateTime.now();
 
-  int daysLeft = days;
-  int monthsLeft = 0;
+  Map<String, int> remainingTime = {};
+  Duration duration = targetDate.difference(now);
 
-  while
+  int years = duration.inDays ~/ 365;
+  int months = (duration.inDays % 365) ~/ 30;
+  int days = duration.inDays % 30;
+  int hours = duration.inHours % 24;
+  int minutes = duration.inMinutes % 60;
+  int seconds = duration.inSeconds % 60;
+
+  remainingTime['years'] = years;
+  remainingTime['months'] = months;
+  remainingTime['days'] = days;
+  remainingTime['hours'] = hours;
+  remainingTime['minutes'] = minutes;
+  remainingTime['seconds'] = seconds;
+
+  return remainingTime;
 }
