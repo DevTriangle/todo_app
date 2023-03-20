@@ -5,29 +5,29 @@ String getCurrentDate() {
   String currentMonth = "";
 
   switch(currentDate.month) {
-    case 0: currentMonth = "Января";
+    case 1: currentMonth = "Января";
     break;
-    case 1: currentMonth = "Февраля";
+    case 2: currentMonth = "Февраля";
     break;
-    case 2: currentMonth = "Марта";
+    case 3: currentMonth = "Марта";
     break;
-    case 3: currentMonth = "Апреля";
+    case 4: currentMonth = "Апреля";
     break;
-    case 4: currentMonth = "Мая";
+    case 5: currentMonth = "Мая";
     break;
-    case 5: currentMonth = "Июня";
+    case 6: currentMonth = "Июня";
     break;
-    case 6: currentMonth = "Июля";
+    case 7: currentMonth = "Июля";
     break;
-    case 7: currentMonth = "Августа";
+    case 8: currentMonth = "Августа";
     break;
-    case 8: currentMonth = "Сентября";
+    case 9: currentMonth = "Сентября";
     break;
-    case 9: currentMonth = "Октября";
+    case 10: currentMonth = "Октября";
     break;
-    case 10: currentMonth = "Ноября";
+    case 11: currentMonth = "Ноября";
     break;
-    case 11: currentMonth = "Декабря";
+    case 12: currentMonth = "Декабря";
     break;
   }
 

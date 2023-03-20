@@ -41,7 +41,7 @@ class AppDialogState extends State<AppDialog> {
   late HomeViewModel viewModel;
 
   DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
-  DateTime? _selectedDate;
+  DateTime _selectedDate = DateTime.now();
   TimeOfDay? _selectedTime;
 
   late EventCategory _category = viewModel.categoryList[0];
@@ -97,7 +97,7 @@ class AppDialogState extends State<AppDialog> {
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: _selectedDate,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(Duration(days: 1000)),
       builder: (BuildContext mContext, Widget? child) {

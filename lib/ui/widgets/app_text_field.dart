@@ -20,6 +20,7 @@ class AppTextField extends StatefulWidget {
   final bool readOnly;
   final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatter;
+  final TextCapitalization textCapitalization;
 
   const AppTextField({
     super.key,
@@ -38,7 +39,8 @@ class AppTextField extends StatefulWidget {
     this.textInputAction = TextInputAction.next,
     this.readOnly = false,
     this.controller,
-    this.inputFormatter
+    this.inputFormatter,
+    this.textCapitalization = TextCapitalization.sentences
   });
 
   @override
@@ -56,6 +58,7 @@ class _AppTextFieldState extends State<AppTextField> {
             margin: widget.margin,
             child: TextFormField(
               key: _formKey,
+              textCapitalization: widget.textCapitalization,
               controller: widget.controller,
               inputFormatters: widget.inputFormatter,
               readOnly: widget.readOnly,

@@ -39,9 +39,10 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
     super.initState();
 
     viewModel = Provider.of<HomeViewModel>(context, listen: false);
+    _titleController.text = _category.categoryTitle;
   }
 
-  late String _categoryTitle = "";
+  late String _categoryTitle = _category.categoryTitle;
   String? _titleError;
 
   late Color _selectedColor = AppColors().categoryColors[0];

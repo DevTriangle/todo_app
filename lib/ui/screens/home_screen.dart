@@ -59,19 +59,21 @@ class HomeScreenState extends State<HomeScreen> {
     return categoriesResponse;
   }
 
-  void _createDialog({ int index = -1, bool isEditing = false}) {
+  void _createDialog({ int index = 0, bool isEditing = false}) {
     showDialog(
         context: context,
         builder: (BuildContext dialogContext) {
           return StatefulBuilder(
             builder: (mContext, setState) {
+              int i = viewModel.categoryList.indexWhere((element) => element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
+                  element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
+                  element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor
+              );
+
               return AppDialog(
                   title: isEditing ? viewModel.eventList[index].title : "",
                   destination: isEditing ? DateTime.parse(viewModel.eventList[index].datetime) : DateTime.now(),
-                  categoryIndex: isEditing ? viewModel.categoryList.indexWhere((element) => element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
-                      element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
-                      element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor
-                  ) : 0,
+                  categoryIndex: isEditing ? i != -1 ? i : 0 : 0,
                   onCloseClick: () {
                     Navigator.pop(context);
                   },

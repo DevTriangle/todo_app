@@ -122,6 +122,7 @@ class AppCardState extends State<AppCard> {
                                   ),
                                   softWrap: true,
                                 ),
+
                                 Text(
                                   date.format(widget.destination),
                                   style: TextStyle(
@@ -131,15 +132,21 @@ class AppCardState extends State<AppCard> {
                                 )
                               ],
                             ),
-                          )
+                          ),
                         ],
                       ),
-                      Text(
-                        displayLeft,
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14
-                        ),
+                      Container(
+                          constraints: BoxConstraints(
+                              maxWidth: MediaQuery.of(context).size.width * 0.2
+                          ),
+                          child: Text(
+                            displayLeft,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 14
+                            ),
+                            textAlign: TextAlign.right,
+                          )
                       )
                     ]
                 ),
