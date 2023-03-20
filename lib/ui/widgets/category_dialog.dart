@@ -77,151 +77,163 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
     return Dialog(
       shape: AppShapes.roundedRectangleShape,
       backgroundColor: Theme.of(context).colorScheme.surface,
-      child: Container(
-        padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
-        child: Wrap(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      "Создание категории",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
+      child: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
+          child: Wrap(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Создание категории",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        textAlign: TextAlign.center,
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    Card(
-                      margin: EdgeInsets.zero,
-                      clipBehavior: Clip.antiAlias,
-                      color: Colors.transparent,
-                      elevation: 0,
-                      shape: AppShapes.circleShape,
-                      child: InkWell(
-                        onTap: widget.onCloseClick,
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Icon(
-                            Icons.close_rounded,
-                            color: Theme.of(context).hintColor.withOpacity(0.65),
+                      Card(
+                        margin: EdgeInsets.zero,
+                        clipBehavior: Clip.antiAlias,
+                        color: Colors.transparent,
+                        elevation: 0,
+                        shape: AppShapes.circleShape,
+                        child: InkWell(
+                          onTap: widget.onCloseClick,
+                          child: Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: Icon(
+                              Icons.close_rounded,
+                              color: Theme.of(context).hintColor.withOpacity(0.65),
+                            ),
                           ),
                         ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(height: 13),
+                  AppTextField(
+                    hint: "Название",
+                    margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                    onChanged: (value) {
+                      if (_titleError != null) {
+                        setState(() {
+                          _titleError = null;
+                        });
+                      }
+                      _eventTitle = value;
+                    },
+                    errorText: _titleError,
+                  ),
+                  SizedBox(height: 6),
+                  Card(
+                    elevation: 0,
+                    color: Theme.of(context).cardColor,
+                    margin: EdgeInsets.zero,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Цвет",
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 16,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          Container(
+                              constraints: const BoxConstraints(maxHeight: 170),
+                              child: GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 48),
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: colors.length,
+                                  itemBuilder: (rowContext, index) {
+                                    Color color = colors[index];
+                                    return ColorCircle(
+                                        color: color,
+                                        isSelected: color == _selectedColor,
+                                        onSelect: (c) {
+                                          setState(() {
+                                            _selectedColor = c;
+                                          });
+                                        }
+                                    );
+                                  }
+                              )
+                          ),
+                        ],
                       ),
-                    )
-                  ],
-                ),
-                const SizedBox(height: 13),
-                AppTextField(
-                  hint: "Название",
-                  margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
-                  onChanged: (value) {
-                    if (_titleError != null) {
-                      setState(() {
-                        _titleError = null;
-                      });
-                    }
-                    _eventTitle = value;
-                  },
-                  errorText: _titleError,
-                ),
-                SizedBox(height: 6),
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).cardColor,
-                  margin: EdgeInsets.zero,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Цвет",
-                          style: TextStyle(
-                              color: Theme.of(context).hintColor
-                          ),
-                        ),
-                        const SizedBox(height: 5),
-                        SizedBox(
-                          height: 33,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: colors.length,
-                              itemBuilder: (rowContext, index) {
-                                Color color = colors[index];
-                                return ColorCircle(
-                                    color: color,
-                                    isSelected: color == _selectedColor,
-                                    onSelect: (c) {
-                                      setState(() {
-                                        _selectedColor = c;
-                                      });
-                                    }
-                                );
-                              }
-                          ),
-                        ),
-                      ],
                     ),
                   ),
-                ),
-                const SizedBox(height: 6),
-                Card(
-                  elevation: 0,
-                  color: Theme.of(context).cardColor,
-                  margin: EdgeInsets.zero,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Иконка",
-                          style: TextStyle(
-                              color: Theme.of(context).hintColor
+                  const SizedBox(height: 6),
+                  Card(
+                    elevation: 0,
+                    color: Theme.of(context).cardColor,
+                    margin: EdgeInsets.zero,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Иконка",
+                            style: TextStyle(
+                              color: Theme.of(context).hintColor,
+                              fontSize: 16,
+                            ),
                           ),
-                        ),
-                        const SizedBox(height: 5),
-                        SizedBox(
-                          height: 33,
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: AppIcons().iconsList.length,
-                              itemBuilder: (rowContext, index) {
-                                return IconCircle(
-                                    iconID: index,
-                                    isSelected: _selectedIcon == index,
-                                    onSelect: (id) {
-                                      setState(() {
-                                        _selectedIcon = id;
-                                      });
-                                    }
-                                );
-                              }
+                          const SizedBox(height: 5),
+                          Container(
+                              constraints: const BoxConstraints(maxHeight: 170),
+                              child:
+                              GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 58),
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: AppIcons().iconsList.length,
+                                  itemBuilder: (rowContext, index) {
+                                    return IconCircle(
+                                      iconID: index,
+                                      isSelected: _selectedIcon == index,
+                                      onSelect: (id) {
+                                        setState(() {
+                                          _selectedIcon = id;
+                                        });
+                                      },
+                                      selectedColor: _selectedColor,
+                                    );
+                                  }
+                              )
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    FloatingActionButton(
-                      onPressed: _saveCategory,
-                      tooltip: "Добавить событие",
-                      heroTag: "fab",
-                      child: const Icon(Icons.check_rounded),
-                    )
-                  ],
-                )
-              ],
-            )
-          ],
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      FloatingActionButton(
+                        onPressed: _saveCategory,
+                        tooltip: "Добавить категорию",
+                        heroTag: "fab",
+                        child: const Icon(Icons.check_rounded),
+                      )
+                    ],
+                  )
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -9,6 +9,7 @@ import 'package:todo_app/ui/icons.dart';
 import 'package:todo_app/ui/screens/manage_event_screen.dart';
 import 'package:todo_app/ui/widgets/app_card.dart';
 import 'package:todo_app/ui/widgets/app_dialog.dart';
+import 'package:todo_app/ui/widgets/error_container.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
 
 import '../widgets/category_dialog.dart';
@@ -232,7 +233,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 }
                             );
                           },
-                          tooltip: "Добавить событие",
+                          tooltip: "Добавить",
                           heroTag: "fab",
                           child: const Icon(Icons.add_rounded),
                         );
@@ -284,7 +285,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   future: _loadEvents,
                                   builder: (fContext, snapshot) {
                                     if (snapshot.data != null) {
-                                      if (snapshot.data!.isSuccess) {
+                                      if (snapshot.data!.isSuccess && viewModel.eventList.isNotEmpty) {
                                         return ListView.builder(
                                             physics: const BouncingScrollPhysics(),
                                             itemCount: viewModel.eventList.length,
@@ -301,8 +302,9 @@ class HomeScreenState extends State<HomeScreen> {
                                             }
                                         );
                                       } else {
-                                        return Center(
-                                          child: Text(snapshot.data!.message),
+                                        return ErrorContainer(
+                                            icon: Icons.note,
+                                            label: snapshot.data!.message
                                         );
                                       }
                                     } else {

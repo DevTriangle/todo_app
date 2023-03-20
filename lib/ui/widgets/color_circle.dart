@@ -38,8 +38,9 @@ class ColorCircle extends StatelessWidget {
             ) : null,
             elevation: 0,
             child: Container(
-              width: 25, height: 25,
+              width: 40, height: 40,
               child: Card(
+                shape: AppShapes.circleShape,
                 margin: const EdgeInsets.all(2),
                 color: color,
               ),

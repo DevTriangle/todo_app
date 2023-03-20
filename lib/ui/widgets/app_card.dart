@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/shapes.dart';
@@ -11,7 +12,7 @@ import 'package:todo_app/utils/get_date.dart';
 class AppCard extends StatefulWidget {
   final String title;
   final DateTime destination;
-  final IconData icon;
+  final String icon;
   final Color color;
   final Function() onClick;
 
@@ -99,10 +100,10 @@ class AppCardState extends State<AppCard> {
                     children: [
                       Row(
                         children: [
-                          Icon(
+                          SvgPicture.asset(
                             widget.icon,
                             color: widget.color,
-                            size: 30,
+                            width: 30, height: 30,
                           ),
                           const SizedBox(width: 10),
                           Container(

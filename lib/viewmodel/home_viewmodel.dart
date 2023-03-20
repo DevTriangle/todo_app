@@ -25,7 +25,7 @@ class HomeViewModel extends ChangeNotifier {
 
       print(eventJson.toString());
 
-      if (eventJson == null) {
+      if (eventJson == null || eventJson == "[]") {
         throw "list-null";
       } else {
         Iterable l = json.decode(eventJson);

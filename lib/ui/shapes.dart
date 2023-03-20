@@ -14,7 +14,7 @@ class AppShapes {
       borderRadius: smallBorderRadius
   );
 
-  static RoundedRectangleBorder circleShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(1000)
+  static RoundedRectangleBorder circleShape = const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10000))
   );
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todo_app/ui/icons.dart';
 import 'package:todo_app/ui/shapes.dart';
 
@@ -7,12 +8,14 @@ class IconCircle extends StatelessWidget {
   final int iconID;
   final bool isSelected;
   final Function(int) onSelect;
+  final Color selectedColor;
 
   const IconCircle({
     super.key,
     required this.iconID,
     required this.isSelected,
     required this.onSelect,
+    required this.selectedColor,
   });
 
   @override
@@ -39,11 +42,16 @@ class IconCircle extends StatelessWidget {
             ) : null,
             elevation: 0,
             child: Container(
-              width: 25, height: 25,
-              child: Icon(
-                AppIcons().iconsList[iconID],
-                size: 18,
-              )
+              width: 50, height: 50,
+              child: Padding(
+                padding: EdgeInsets.all(10),
+                child: SvgPicture.asset(
+                  AppIcons().iconsList[iconID],
+                  width: 18.0, height: 18.0,
+                  fit: BoxFit.contain,
+                  color: selectedColor,
+                ),
+              ) 
             ),
           ),
         )

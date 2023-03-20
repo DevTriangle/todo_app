@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/shapes.dart';
 
@@ -39,9 +40,12 @@ class CategoryDropdown extends StatelessWidget {
                   value: item,
                   child: Row(
                     children: [
-                      Icon(
+                      SvgPicture.asset(
                         AppIcons().iconsList[item.categoryIconID],
                         color: Color(item.categoryColor),
+                        fit: BoxFit.contain,
+                        width: 19, height: 19,
+                        clipBehavior: Clip.antiAlias,
                       ),
                       const SizedBox(width: 10),
                       Text(item.categoryTitle)
