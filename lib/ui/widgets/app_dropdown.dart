@@ -44,7 +44,7 @@ class CategoryDropdown extends StatelessWidget {
                         AppIcons().iconsList[item.categoryIconID],
                         color: Color(item.categoryColor),
                         fit: BoxFit.contain,
-                        width: 19, height: 19,
+                        width: 19.0, height: 19.0,
                         clipBehavior: Clip.antiAlias,
                       ),
                       const SizedBox(width: 10),

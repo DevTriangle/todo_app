@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/ui/widgets/setting_category_dialog.dart';
 import 'package:todo_app/ui/widgets/settings_field.dart';
@@ -115,7 +116,16 @@ class SettingsScreenState extends State<SettingsScreen> {
                                 description: "Настройка добавленных категорий",
                                 trailingWidget: const SizedBox(),
                                 onPressed: _settingCategories
-                            )
+                            ),
+                            const SizedBox(height: 10),
+                            Text(
+                              "Версия приложения: 1.0 (1)",
+                              style: TextStyle(
+                                color: Theme.of(context).hintColor.withOpacity(0.5),
+                                fontSize: 12
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ])
                       )
                     ]
