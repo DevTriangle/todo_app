@@ -38,4 +38,16 @@ class AppColors {
   static Color darkShimmerColor = const Color(0xFF282828);
   static Color darkDisabledColor = const Color(0xFF808080);
   static Color darkErrorColor = const Color(0xFFEF6055);
+
+  List<Color> categoryColors = <Color>[
+    Colors.blueAccent,
+    Colors.purple,
+    Colors.purpleAccent,
+    Colors.redAccent,
+    Colors.orangeAccent,
+    Colors.amber,
+    Colors.lightGreenAccent,
+    Colors.green,
+    Colors.lightBlueAccent,
+  ];
 }

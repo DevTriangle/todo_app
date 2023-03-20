@@ -11,6 +11,8 @@ import 'package:todo_app/ui/widgets/app_dropdown.dart';
 import 'package:todo_app/ui/widgets/app_text_field.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
 
+import 'app_button.dart';
+
 class AppDialog extends StatefulWidget {
   final String title;
   final DateTime destination;
@@ -266,12 +268,9 @@ class AppDialogState extends State<AppDialog> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    widget.isEditing ? TextButton(
-                        onPressed: widget.onRemoveClick,
-                        child: Text(
-                            "Удалить событие",
-                            style: TextStyle(color: Theme.of(context).errorColor),
-                        )
+                    widget.isEditing ? AppTextButton(
+                      label: "Удалить событие",
+                      onPressed: widget.onRemoveClick,
                     ) : const SizedBox(),
                     FloatingActionButton(
                       onPressed: _saveEvent,

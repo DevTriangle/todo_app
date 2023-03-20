@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +9,13 @@ import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/icons.dart';
 import 'package:todo_app/ui/screens/manage_event_screen.dart';
+import 'package:todo_app/ui/screens/settings_screen.dart';
 import 'package:todo_app/ui/widgets/app_card.dart';
 import 'package:todo_app/ui/widgets/app_dialog.dart';
 import 'package:todo_app/ui/widgets/error_container.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
 
+import '../widgets/app_button.dart';
 import '../widgets/category_dialog.dart';
 import '../../model/response.dart';
 import '../../utils/get_date.dart';
@@ -62,28 +66,28 @@ class HomeScreenState extends State<HomeScreen> {
           return StatefulBuilder(
             builder: (mContext, setState) {
               return AppDialog(
-                title: isEditing ? viewModel.eventList[index].title : "",
-                destination: isEditing ? DateTime.parse(viewModel.eventList[index].datetime) : DateTime.now(),
-                categoryIndex: isEditing ? viewModel.categoryList.indexWhere((element) => element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
-                    element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
-                    element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor
-                ) : 0,
-                onCloseClick: () {
-                  Navigator.pop(context);
-                },
-                onEventCreate: (event) async {
-                  if (isEditing) {
-                    _editEvent(index, event);
-                  } else {
-                    _createEvent(event);
-                  }
-                  Navigator.pop(context);
-                },
-                onRemoveClick: () {
-                  _removeEvent(viewModel.eventList[index]);
-                  Navigator.pop(context);
-                },
-                isEditing: isEditing
+                  title: isEditing ? viewModel.eventList[index].title : "",
+                  destination: isEditing ? DateTime.parse(viewModel.eventList[index].datetime) : DateTime.now(),
+                  categoryIndex: isEditing ? viewModel.categoryList.indexWhere((element) => element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
+                      element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
+                      element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor
+                  ) : 0,
+                  onCloseClick: () {
+                    Navigator.pop(context);
+                  },
+                  onEventCreate: (event) async {
+                    if (isEditing) {
+                      _editEvent(index, event);
+                    } else {
+                      _createEvent(event);
+                    }
+                    Navigator.pop(context);
+                  },
+                  onRemoveClick: () {
+                    _removeEvent(viewModel.eventList[index]);
+                    Navigator.pop(context);
+                  },
+                  isEditing: isEditing
               );
             },
           );
@@ -98,13 +102,13 @@ class HomeScreenState extends State<HomeScreen> {
           return StatefulBuilder(
             builder: (mContext, setState) {
               return AppCategoryDialog(
-                onCloseClick: () {
-                  Navigator.pop(context);
-                },
-                onCategoryCreate: (category) async {
-                  _createCategory(category);
-                  Navigator.pop(context);
-                }
+                  onCloseClick: () {
+                    Navigator.pop(context);
+                  },
+                  onCategoryCreate: (category) async {
+                    _createCategory(category);
+                    Navigator.pop(context);
+                  }
               );
             },
           );
@@ -192,6 +196,10 @@ class HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  void _openSettings() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -245,78 +253,110 @@ class HomeScreenState extends State<HomeScreen> {
                     }
                   },
                 ),
-                body: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: CustomScrollView(
-                        physics: const BouncingScrollPhysics(),
-                        slivers: [
-                          SliverAppBar(
-                            elevation: 0,
-                            automaticallyImplyLeading: false,
-                            backgroundColor: Colors.transparent,
-                            flexibleSpace: FlexibleSpaceBar(
-                              collapseMode: CollapseMode.parallax,
-                              centerTitle: false,
-                              titlePadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 16),
-                              title: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "События",
-                                    style: TextStyle(
-                                        fontSize: 22,
-                                        fontWeight: FontWeight.w500
-                                    ),
-                                  ),
-                                  Text(
-                                    _displayDateText,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Theme.of(context).hintColor.withOpacity(0.65),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SliverFillRemaining(
-                              child: FutureBuilder(
-                                  future: _loadEvents,
-                                  builder: (fContext, snapshot) {
-                                    if (snapshot.data != null) {
-                                      if (snapshot.data!.isSuccess && viewModel.eventList.isNotEmpty) {
-                                        return ListView.builder(
-                                            physics: const BouncingScrollPhysics(),
-                                            itemCount: viewModel.eventList.length,
-                                            itemBuilder: (lContext, index) {
-                                              return AppCard(
-                                                  title: viewModel.eventList[index].title,
-                                                  destination: DateTime.parse(viewModel.eventList[index].datetime),
-                                                  icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
-                                                  color: Color(viewModel.eventList[index].eventCategory.categoryColor),
-                                                  onClick: () {
-                                                      _createDialog(index: index, isEditing: true);
-                                                  }
-                                              );
-                                            }
-                                        );
-                                      } else {
-                                        return ErrorContainer(
-                                            icon: Icons.note,
-                                            label: snapshot.data!.message
-                                        );
-                                      }
-                                    } else {
-                                      return const Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
-                                  }
+                body: CustomScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    slivers: [
+                      SliverAppBar(
+                        pinned: true,
+                        floating: false,
+                        elevation: 0,
+                        automaticallyImplyLeading: false,
+                        backgroundColor: Colors.transparent,
+                        flexibleSpace: FlexibleSpaceBar(
+                          collapseMode: CollapseMode.parallax,
+                          background: ConstrainedBox(
+                              constraints: const BoxConstraints.expand(),
+                              child: BackdropFilter(
+                                filter: ImageFilter.blur(sigmaX: 5.0,sigmaY: 5.0),
+                                child: Container(
+                                  decoration: BoxDecoration(color: Theme.of(context).colorScheme.background.withOpacity(0.65)),
+                                ),
                               )
                           )
-                        ]
-                    )
+                          ,
+                          centerTitle: false,
+                          titlePadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                                child: Text(
+                                  "События",
+                                  style: TextStyle(
+                                      fontSize: 22,
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).hintColor
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                                    child: Text(
+                                        _displayDateText,
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Theme.of(context).hintColor.withOpacity(0.65),
+                                        )
+                                    ),
+                                  ),
+                                  Container(
+                                      padding: const EdgeInsets.only(right: 20),
+                                      child: AppIconButton(
+                                        icon: Icons.settings_rounded,
+                                        onPressed: _openSettings,
+                                      )
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      SliverList(
+                          delegate: SliverChildListDelegate([
+                            FutureBuilder(
+                                future: _loadEvents,
+                                builder: (fContext, snapshot) {
+                                  if (snapshot.data != null) {
+                                    if (snapshot.data!.isSuccess && viewModel.eventList.isNotEmpty) {
+                                      return ListView.builder(
+                                          padding: const EdgeInsets.only(left: 20, right: 20),
+                                          shrinkWrap: true,
+                                          physics: const BouncingScrollPhysics(),
+                                          itemCount: viewModel.eventList.length,
+                                          itemBuilder: (lContext, index) {
+                                            return AppCard(
+                                                title: viewModel.eventList[index].title,
+                                                destination: DateTime.parse(viewModel.eventList[index].datetime),
+                                                icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
+                                                color: Color(viewModel.eventList[index].eventCategory.categoryColor),
+                                                onClick: () {
+                                                  _createDialog(index: index, isEditing: true);
+                                                }
+                                            );
+                                          }
+                                      );
+                                    } else {
+                                      return ErrorContainer(
+                                          icon: Icons.notes_rounded,
+                                          label: snapshot.data!.message
+                                      );
+                                    }
+                                  } else {
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  }
+                                }
+                            )
+                          ])
+                      )
+                    ]
                 )
             )
         )

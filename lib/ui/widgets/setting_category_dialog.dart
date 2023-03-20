@@ -1,34 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/model/app_event.dart';
-import 'package:todo_app/model/event_category.dart';
-import 'package:todo_app/ui/colors.dart';
-import 'package:todo_app/ui/icons.dart';
-import 'package:todo_app/ui/shapes.dart';
-import 'package:todo_app/ui/widgets/color_circle.dart';
-import 'package:todo_app/ui/widgets/app_dropdown.dart';
-import 'package:todo_app/ui/widgets/app_text_field.dart';
-import 'package:todo_app/ui/widgets/icon_circle.dart';
 
+import '../../model/event_category.dart';
 import '../../viewmodel/home_viewmodel.dart';
+import '../colors.dart';
+import '../icons.dart';
+import '../shapes.dart';
+import 'app_button.dart';
+import 'app_dropdown.dart';
+import 'app_text_field.dart';
+import 'color_circle.dart';
+import 'icon_circle.dart';
 
-class AppCategoryDialog extends StatefulWidget {
+class SettingCategoryDialog extends StatefulWidget {
   final Function() onCloseClick;
-  final Function(EventCategory) onCategoryCreate;
+  final Function(EventCategory, int) onCategoryChange;
 
-  const AppCategoryDialog({
+  const SettingCategoryDialog({
     super.key,
     required this.onCloseClick,
-    required this.onCategoryCreate,
+    required this.onCategoryChange,
   });
 
   @override
-  State<StatefulWidget> createState() => AppCategoryDialogState();
+  State<StatefulWidget> createState() => SettingCategoryDialogState();
 }
 
-class AppCategoryDialogState extends State<AppCategoryDialog> {
+class SettingCategoryDialogState extends State<SettingCategoryDialog> {
   late HomeViewModel viewModel;
+
+  late EventCategory _category = viewModel.categoryList[0];
+
+  final TextEditingController _titleController = TextEditingController();
 
   @override
   void initState() {
@@ -37,28 +41,34 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
     viewModel = Provider.of<HomeViewModel>(context, listen: false);
   }
 
-  late String _eventTitle = "";
+  late String _categoryTitle = "";
   String? _titleError;
 
   late Color _selectedColor = AppColors().categoryColors[0];
   late int _selectedIcon = 0;
 
   void _saveCategory() {
-    if (_eventTitle.trim().isEmpty) {
+    if (_categoryTitle.trim().isEmpty) {
       setState(() {
         _titleError = "Поле должно быть заполнено.";
       });
     }
 
     if (_titleError == null) {
-      widget.onCategoryCreate(
-          EventCategory(
-            categoryIconID: _selectedIcon,
-            categoryColor: _selectedColor.value,
-            categoryTitle: _eventTitle,
-          )
+      widget.onCategoryChange(
+        EventCategory(
+          categoryIconID: _selectedIcon,
+          categoryColor: _selectedColor.value,
+          categoryTitle: _categoryTitle,
+        ),
+        viewModel.categoryList.indexOf(_category)
       );
     }
+  }
+
+  void _removeCategory() async {
+    Navigator.pop(context);
+    await viewModel.removeCategory(_category);
   }
 
   @override
@@ -78,7 +88,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Создание категории",
+                        "Настройка категории",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w500,
@@ -105,8 +115,22 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                     ],
                   ),
                   const SizedBox(height: 13),
+                  CategoryDropdown(
+                      value: _category,
+                      items: viewModel.categoryList,
+                      margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                      onChanged: (eventCategory) {
+                        setState(() {
+                          _category = eventCategory;
+                          _titleController.text = _category.categoryTitle;
+                          _categoryTitle = _category.categoryTitle;
+                        });
+                      }
+                  ),
+                  SizedBox(height: 8),
                   AppTextField(
                     hint: "Название",
+                    controller: _titleController,
                     margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
                     onChanged: (value) {
                       if (_titleError != null) {
@@ -114,11 +138,11 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                           _titleError = null;
                         });
                       }
-                      _eventTitle = value;
+                      _categoryTitle = value;
                     },
                     errorText: _titleError,
                   ),
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8),
                   Card(
                     elevation: 0,
                     color: Theme.of(context).cardColor,
@@ -209,11 +233,16 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                   ),
                   const SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      viewModel.categoryList.length > 1 ? AppTextButton(
+                        label: "Удалить категорию",
+                        onPressed: _removeCategory,
+                      ) : SizedBox(),
                       FloatingActionButton(
                         onPressed: _saveCategory,
-                        tooltip: "Добавить категорию",
+                        tooltip: "Сохранить категорию",
                         heroTag: "fab",
                         child: const Icon(Icons.check_rounded),
                       )

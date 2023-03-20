@@ -130,6 +130,23 @@ class HomeViewModel extends ChangeNotifier {
     return response;
   }
 
+  Future<Response> editCategory(int index, EventCategory category) async {
+    categoryList.removeAt(index);
+    categoryList.insert(index, category);
+
+    Response response = await saveCategories(categoryList);
+
+    return response;
+  }
+
+  Future<Response> removeCategory(EventCategory category) async {
+    categoryList.remove(category);
+
+    Response response = await saveCategories(categoryList);
+
+    return response;
+  }
+
   Future<Response> saveCategories(List<EventCategory> catList) async {
     try {
       final prefs = await SharedPreferences.getInstance();

@@ -103,7 +103,7 @@ class AppCardState extends State<AppCard> {
                           SvgPicture.asset(
                             widget.icon,
                             color: widget.color,
-                            width: 30, height: 30,
+                            width: 30.0, height: 30.0,
                           ),
                           const SizedBox(width: 10),
                           Container(
