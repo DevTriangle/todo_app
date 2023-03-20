@@ -197,7 +197,7 @@ class AppDialogState extends State<AppDialog> {
                     const Text(
                       "Создание события",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),
                       textAlign: TextAlign.center,
@@ -269,7 +269,7 @@ class AppDialogState extends State<AppDialog> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     widget.isEditing ? AppTextButton(
-                      label: "Удалить событие",
+                      label: "Удалить",
                       onPressed: widget.onRemoveClick,
                     ) : const SizedBox(),
                     FloatingActionButton(

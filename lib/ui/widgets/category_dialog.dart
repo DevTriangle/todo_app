@@ -80,7 +80,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                       const Text(
                         "Создание категории",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                         textAlign: TextAlign.center,

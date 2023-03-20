@@ -32,19 +32,19 @@ String getCurrentDate() {
   }
 
   switch(currentDate.weekday) {
-    case 1: currentWeekday = "Понедельник";
+    case 1: currentWeekday = "Пн";
     break;
-    case 2: currentWeekday = "Вторник";
+    case 2: currentWeekday = "Вт";
     break;
-    case 3: currentWeekday = "Среда";
+    case 3: currentWeekday = "Ср";
     break;
-    case 4: currentWeekday = "Четверг";
+    case 4: currentWeekday = "Чт";
     break;
-    case 5: currentWeekday = "Пятница";
+    case 5: currentWeekday = "Пт";
     break;
-    case 6: currentWeekday = "Суббота";
+    case 6: currentWeekday = "Сб";
     break;
-    case 7: currentWeekday = "Воскресенье";
+    case 7: currentWeekday = "Вс";
     break;
   }
 

@@ -90,7 +90,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                       const Text(
                         "Настройка категории",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 16,
                           fontWeight: FontWeight.w500,
                         ),
                         textAlign: TextAlign.center,
@@ -237,9 +237,9 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       viewModel.categoryList.length > 1 ? AppTextButton(
-                        label: "Удалить категорию",
+                        label: "Удалить",
                         onPressed: _removeCategory,
-                      ) : SizedBox(),
+                      ) : const SizedBox(),
                       FloatingActionButton(
                         onPressed: _saveCategory,
                         tooltip: "Сохранить категорию",

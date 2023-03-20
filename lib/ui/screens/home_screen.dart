@@ -272,8 +272,7 @@ class HomeScreenState extends State<HomeScreen> {
                                   decoration: BoxDecoration(color: Theme.of(context).colorScheme.background.withOpacity(0.65)),
                                 ),
                               )
-                          )
-                          ,
+                          ),
                           centerTitle: false,
                           titlePadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
                           title: Row(
@@ -305,7 +304,7 @@ class HomeScreenState extends State<HomeScreen> {
                                     ),
                                   ),
                                   Container(
-                                      padding: const EdgeInsets.only(right: 20),
+                                      padding: const EdgeInsets.only(right: 10),
                                       child: AppIconButton(
                                         icon: Icons.settings_rounded,
                                         onPressed: _openSettings,
@@ -342,9 +341,11 @@ class HomeScreenState extends State<HomeScreen> {
                                           }
                                       );
                                     } else {
-                                      return ErrorContainer(
-                                          icon: Icons.notes_rounded,
-                                          label: snapshot.data!.message
+                                      return  Center(
+                                        child: ErrorContainer(
+                                            icon: Icons.notes_rounded,
+                                            label: snapshot.data!.message
+                                        ),
                                       );
                                     }
                                   } else {
