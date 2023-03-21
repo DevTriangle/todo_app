@@ -41,13 +41,14 @@ class AppColors {
 
   List<Color> categoryColors = <Color>[
     Colors.blueAccent,
+    Colors.lightBlueAccent,
     Colors.purple,
     Colors.purpleAccent,
+    Colors.red,
     Colors.redAccent,
     Colors.orangeAccent,
     Colors.amber,
-    Colors.lightGreenAccent,
     Colors.green,
-    Colors.lightBlueAccent,
+    Colors.lightGreenAccent.shade700,
   ];
 }

@@ -348,7 +348,8 @@ class HomeScreenState extends State<HomeScreen> {
                                           }
                                       );
                                     } else {
-                                      return  Center(
+                                      return Container(
+                                        padding: EdgeInsets.only(top: 10),
                                         child: ErrorContainer(
                                             icon: Icons.notes_rounded,
                                             label: snapshot.data!.message

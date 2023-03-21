@@ -136,27 +136,31 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          Container(
-                              constraints: const BoxConstraints(maxHeight: 170),
-                              child: GridView.builder(
-                                  shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
-                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: AppColors().categoryColors.length,
-                                  itemBuilder: (rowContext, index) {
-                                    Color color = AppColors().categoryColors[index];
-                                    return ColorCircle(
-                                        color: color,
-                                        isSelected: color == _selectedColor,
-                                        onSelect: (c) {
-                                          setState(() {
-                                            _selectedColor = c;
-                                          });
-                                        }
-                                    );
-                                  }
-                              )
+                          Scrollbar(
+                            thumbVisibility: true,
+                            child: Container(
+                                padding: const EdgeInsets.all(6),
+                                constraints: const BoxConstraints(maxHeight: 128),
+                                child: GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: AppColors().categoryColors.length,
+                                    itemBuilder: (rowContext, index) {
+                                      Color color = AppColors().categoryColors[index];
+                                      return ColorCircle(
+                                          color: color,
+                                          isSelected: color == _selectedColor,
+                                          onSelect: (c) {
+                                            setState(() {
+                                              _selectedColor = c;
+                                            });
+                                          }
+                                      );
+                                    }
+                                )
+                            ),
                           ),
                         ],
                       ),
@@ -180,27 +184,30 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          Container(
-                              constraints: const BoxConstraints(maxHeight: 170),
-                              child:
-                              GridView.builder(
-                                  shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
-                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: AppIcons().iconsList.length,
-                                  itemBuilder: (rowContext, index) {
-                                    return IconCircle(
-                                      iconID: index,
-                                      isSelected: _selectedIcon == index,
-                                      onSelect: (id) {
-                                        setState(() {
-                                          _selectedIcon = id;
-                                        });
-                                      },
-                                      selectedColor: _selectedColor,
-                                    );
-                                  }
+                          Scrollbar(
+                              thumbVisibility: true,
+                              child: Container(
+                                padding: EdgeInsets.all(6),
+                              constraints: const BoxConstraints(maxHeight: 128),
+                              child: GridView.builder(
+                                      shrinkWrap: true,
+                                      physics: const BouncingScrollPhysics(),
+                                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: AppIcons().iconsList.length,
+                                      itemBuilder: (rowContext, index) {
+                                        return IconCircle(
+                                          iconID: index,
+                                          isSelected: _selectedIcon == index,
+                                          onSelect: (id) {
+                                            setState(() {
+                                              _selectedIcon = id;
+                                            });
+                                          },
+                                          selectedColor: _selectedColor,
+                                        );
+                                      }
+                                  )
                               )
                           ),
                         ],

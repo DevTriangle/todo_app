@@ -138,17 +138,17 @@ class AppCardState extends State<AppCard> {
                       ),
                       Container(
                           constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * 0.2
+                              maxWidth: MediaQuery.of(context).size.width * 0.3
                           ),
                           child: Text(
-                            displayLeft,
-                            style: const TextStyle(
+                              displayLeft,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14
+                              ),
+                              textAlign: TextAlign.right,
                             ),
-                            textAlign: TextAlign.right,
                           )
-                      )
                     ]
                 ),
               ),
