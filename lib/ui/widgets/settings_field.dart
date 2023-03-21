@@ -38,15 +38,16 @@ class SettingsField extends StatelessWidget {
                             Text(
                               title,
                               style: const TextStyle(
-                                  fontSize: 16
+                                  fontSize: 18
                               ),
                             ),
                             const SizedBox(height: 2),
                             Text(
                               description,
                               style: TextStyle(
-                                  fontSize: 12,
-                                  color: Theme.of(context).hintColor.withOpacity(0.6)
+                                  fontSize: 14,
+                                  color: Theme.of(context).hintColor.withOpacity(0.6),
+                                fontWeight: FontWeight.w300
                               ),
                             ),
                           ],

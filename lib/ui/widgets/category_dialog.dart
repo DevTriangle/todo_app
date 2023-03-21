@@ -26,6 +26,8 @@ class AppCategoryDialog extends StatefulWidget {
 
 class AppCategoryDialogState extends State<AppCategoryDialog> {
   late HomeViewModel viewModel;
+  final ScrollController colorController = ScrollController();
+  final ScrollController iconController = ScrollController();
 
   @override
   void initState() {
@@ -134,12 +136,14 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                           ),
                           const SizedBox(height: 5),
                           Scrollbar(
+                            controller: colorController,
                             thumbVisibility: true,
                             child: Container(
                                 padding: const EdgeInsets.all(6),
                                 constraints: const BoxConstraints(maxHeight: 130),
                                 child: GridView.builder(
                                     shrinkWrap: true,
+                                    controller: colorController,
                                     physics: const BouncingScrollPhysics(),
                                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
                                     scrollDirection: Axis.vertical,
@@ -182,30 +186,32 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                           ),
                           const SizedBox(height: 5),
                           Scrollbar(
-                              thumbVisibility: true,
-                              child: Container(
-                                  padding: const EdgeInsets.all(6),
-                                  constraints: const BoxConstraints(maxHeight: 128),
-                                  child: GridView.builder(
-                                      shrinkWrap: true,
-                                      physics: const BouncingScrollPhysics(),
-                                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: AppIcons().iconsList.length,
-                                      itemBuilder: (rowContext, index) {
-                                        return IconCircle(
-                                          iconID: index,
-                                          isSelected: _selectedIcon == index,
-                                          onSelect: (id) {
-                                            setState(() {
-                                              _selectedIcon = id;
-                                            });
-                                          },
-                                          selectedColor: _selectedColor,
-                                        );
-                                      }
-                                  )
-                              )
+                            controller: iconController,
+                            thumbVisibility: true,
+                            child: Container(
+                                padding: const EdgeInsets.all(6),
+                                constraints: const BoxConstraints(maxHeight: 128),
+                                child: GridView.builder(
+                                    shrinkWrap: true,
+                                    controller: iconController,
+                                    physics: const BouncingScrollPhysics(),
+                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
+                                    scrollDirection: Axis.vertical,
+                                    itemCount: AppIcons().iconsList.length,
+                                    itemBuilder: (rowContext, index) {
+                                      return IconCircle(
+                                        iconID: index,
+                                        isSelected: _selectedIcon == index,
+                                        onSelect: (id) {
+                                          setState(() {
+                                            _selectedIcon = id;
+                                          });
+                                        },
+                                        selectedColor: _selectedColor,
+                                      );
+                                    }
+                                )
+                            )
                           ),
                         ],
                       ),

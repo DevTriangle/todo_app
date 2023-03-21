@@ -5,8 +5,13 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/ui/widgets/setting_category_dialog.dart';
 import 'package:todo_app/ui/widgets/settings_field.dart';
 
+import '../../model/event_category.dart';
+import '../../model/response.dart';
 import '../../viewmodel/home_viewmodel.dart';
+import '../shapes.dart';
 import '../widgets/app_button.dart';
+import '../widgets/app_snackbar_content.dart';
+import '../widgets/category_dialog.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -44,6 +49,49 @@ class SettingsScreenState extends State<SettingsScreen> {
           );
         }
     );
+  }
+
+  void _createCategoryDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return StatefulBuilder(
+            builder: (mContext, setState) {
+              return AppCategoryDialog(
+                  onCloseClick: () {
+                    Navigator.pop(context);
+                  },
+                  onCategoryCreate: (category) async {
+                    Navigator.pop(context);
+                    _createCategory(category);
+                  }
+              );
+            },
+          );
+        }
+    );
+  }
+
+  void _createCategory(EventCategory category) async {
+    Response categoryResponse = await viewModel.createCategory(category);
+
+    if (categoryResponse.isSuccess) {
+      final snackBar = SnackBar(
+          shape: AppShapes.roundedRectangleShape,
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          behavior: SnackBarBehavior.floating,
+          content: const AppSnackBarContent(
+              label: "Категория создана!",
+              icon: Icons.info_rounded
+          )
+      );
+      _showSnackbar(snackBar);
+    }
+  }
+
+  void _showSnackbar(SnackBar snackBar) {
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   @override
@@ -109,14 +157,26 @@ class SettingsScreenState extends State<SettingsScreen> {
                       SliverList(
                           delegate: SliverChildListDelegate([
                             SettingsField(
+                                title: "Создать категорию",
+                                description: "Создать новую категорию",
+                                trailingWidget: Icon(
+                                  Icons.add_rounded,
+                                  color: Theme.of(context).hintColor,
+                                ),
+                                onPressed: _createCategoryDialog
+                            ),
+                            SettingsField(
                                 title: "Настройка категорий",
                                 description: "Настройка добавленных категорий",
-                                trailingWidget: const SizedBox(),
+                                trailingWidget: Icon(
+                                  Icons.edit_rounded,
+                                  color: Theme.of(context).hintColor,
+                                ),
                                 onPressed: _settingCategories
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              "Версия приложения: 1.0 (1)",
+                              "Версия приложения: 1.0",
                               style: TextStyle(
                                 color: Theme.of(context).hintColor.withOpacity(0.5),
                                 fontSize: 12

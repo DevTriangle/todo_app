@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/ui/colors.dart';
 import 'package:todo_app/ui/screens/home_screen.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   runApp(
@@ -50,6 +51,14 @@ class MyApp extends StatelessWidget {
         fontFamily: "Rubik",
       ),
       themeMode: ThemeMode.system,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('ru'),
+      ],
       home: const HomeScreen(),
       builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
     );

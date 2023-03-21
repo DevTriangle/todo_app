@@ -67,24 +67,11 @@ class AppDialogState extends State<AppDialog> {
   final TextEditingController _dateTimeController = TextEditingController();
   final TextEditingController _titleController = TextEditingController();
 
-  List<Color> colors = <Color>[
-    Colors.redAccent,
-    Colors.pink,
-    Colors.amber,
-    Colors.blueAccent,
-    Colors.purple,
-    Colors.indigo,
-    Colors.lightGreen,
-    Colors.deepOrange,
-    Colors.deepOrange,
-    Colors.deepOrange,
-    Colors.deepOrange,
-  ];
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
+      locale: const Locale("ru", "RU"),
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 1000)),
       builder: (BuildContext mContext, Widget? child) {
@@ -179,9 +166,9 @@ class AppDialogState extends State<AppDialog> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
-                      "Создание события",
-                      style: TextStyle(
+                    Text(
+                      widget.isEditing ? "Изменение события" : "Создание события",
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                       ),

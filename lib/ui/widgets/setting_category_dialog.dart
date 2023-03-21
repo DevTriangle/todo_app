@@ -29,6 +29,9 @@ class SettingCategoryDialog extends StatefulWidget {
 class SettingCategoryDialogState extends State<SettingCategoryDialog> {
   late HomeViewModel viewModel;
 
+  final ScrollController colorController = ScrollController();
+  final ScrollController iconController = ScrollController();
+
   late EventCategory _category = viewModel.categoryList[0];
 
   final TextEditingController _titleController = TextEditingController();
@@ -164,28 +167,30 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                           ),
                           const SizedBox(height: 5),
                           Scrollbar(
+                            controller: colorController,
                             thumbVisibility: true,
                             child: Container(
                                 padding: const EdgeInsets.all(6),
                                 constraints: const BoxConstraints(maxHeight: 130),
                                 child: GridView.builder(
-                                    shrinkWrap: true,
-                                    physics: const BouncingScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: AppColors().categoryColors.length,
-                                    itemBuilder: (rowContext, index) {
-                                      Color color = AppColors().categoryColors[index];
-                                      return ColorCircle(
-                                          color: color,
-                                          isSelected: Color(color.value) == _selectedColor,
-                                          onSelect: (c) {
-                                            setState(() {
-                                              _selectedColor = c;
-                                            });
-                                          }
-                                      );
-                                    }
+                                  controller: colorController,
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: AppColors().categoryColors.length,
+                                  itemBuilder: (rowContext, index) {
+                                    Color color = AppColors().categoryColors[index];
+                                    return ColorCircle(
+                                        color: color,
+                                        isSelected: Color(color.value) == _selectedColor,
+                                        onSelect: (c) {
+                                          setState(() {
+                                            _selectedColor = c;
+                                          });
+                                        }
+                                    );
+                                  },
                                 )
                             ),
                           )
@@ -212,28 +217,30 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                           ),
                           const SizedBox(height: 5),
                           Scrollbar(
+                            controller: iconController,
                             thumbVisibility: true,
                             child: Container(
                                 padding: const EdgeInsets.all(6),
                                 constraints: const BoxConstraints(maxHeight: 128),
                                 child: GridView.builder(
-                                    shrinkWrap: true,
-                                    physics: const BouncingScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: AppIcons().iconsList.length,
-                                    itemBuilder: (rowContext, index) {
-                                      return IconCircle(
-                                        iconID: index,
-                                        isSelected: _selectedIcon == index,
-                                        onSelect: (id) {
-                                          setState(() {
-                                            _selectedIcon = id;
-                                          });
-                                        },
-                                        selectedColor: _selectedColor,
-                                      );
-                                    }
+                                  controller: iconController,
+                                  shrinkWrap: true,
+                                  physics: const BouncingScrollPhysics(),
+                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
+                                  scrollDirection: Axis.vertical,
+                                  itemCount: AppIcons().iconsList.length,
+                                  itemBuilder: (rowContext, index) {
+                                    return IconCircle(
+                                      iconID: index,
+                                      isSelected: _selectedIcon == index,
+                                      onSelect: (id) {
+                                        setState(() {
+                                          _selectedIcon = id;
+                                        });
+                                      },
+                                      selectedColor: _selectedColor,
+                                    );
+                                  },
                                 )
                             ),
                           )
