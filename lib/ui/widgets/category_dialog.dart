@@ -129,7 +129,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             "Цвет",
                             style: TextStyle(
                               color: Theme.of(context).hintColor,
-                              fontSize: 18,
+                              fontSize: 16,
                             ),
                           ),
                           const SizedBox(height: 5),
@@ -137,7 +137,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             thumbVisibility: true,
                             child: Container(
                                 padding: const EdgeInsets.all(6),
-                                constraints: const BoxConstraints(maxHeight: 128),
+                                constraints: const BoxConstraints(maxHeight: 130),
                                 child: GridView.builder(
                                     shrinkWrap: true,
                                     physics: const BouncingScrollPhysics(),
@@ -177,16 +177,16 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             "Иконка",
                             style: TextStyle(
                               color: Theme.of(context).hintColor,
-                              fontSize: 18,
+                              fontSize: 16,
                             ),
                           ),
                           const SizedBox(height: 5),
                           Scrollbar(
                               thumbVisibility: true,
                               child: Container(
-                                padding: const EdgeInsets.all(6),
-                              constraints: const BoxConstraints(maxHeight: 128),
-                              child: GridView.builder(
+                                  padding: const EdgeInsets.all(6),
+                                  constraints: const BoxConstraints(maxHeight: 128),
+                                  child: GridView.builder(
                                       shrinkWrap: true,
                                       physics: const BouncingScrollPhysics(),
                                       gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
