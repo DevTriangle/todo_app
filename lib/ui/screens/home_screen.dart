@@ -121,20 +121,45 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void _createEvent(AppEvent event) async {
-    Response createResponse = await viewModel.createEvent(event);
+    await viewModel.createEvent(event);
 
-    final snackBar = SnackBar(
-        shape: AppShapes.roundedRectangleShape,
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        behavior: SnackBarBehavior.floating,
-        content: AppSnackBarContent(
-            label: createResponse.message,
-            icon: Icons.info_rounded
-        )
-    );
+    setState(() {
+      _loadEvents = _getEvents();
+    });
+  }
 
-    _showSnackbar(snackBar);
+  void _createCategory(EventCategory category) async {
+    await viewModel.createCategory(category);
+
+    setState(() {
+      _loadEvents = _getEvents();
+    });
+  }
+
+  void _editEvent(int index, AppEvent newEvent) async {
+    await viewModel.editEvent(index, newEvent);
+
+    setState(() {
+      _loadEvents = _getEvents();
+    });
+  }
+
+  void _removeEvent(AppEvent event) async {
+    Response removeResponse = await viewModel.removeEvent(event);
+
+    if (removeResponse.isSuccess) {
+      final snackBar = SnackBar(
+          shape: AppShapes.roundedRectangleShape,
+          margin: const EdgeInsets.all(10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+          behavior: SnackBarBehavior.floating,
+          content: const AppSnackBarContent(
+              label: "Событие удалено!",
+              icon: Icons.delete
+          )
+      );
+      _showSnackbar(snackBar);
+    }
 
     setState(() {
       _loadEvents = _getEvents();
@@ -143,66 +168,6 @@ class HomeScreenState extends State<HomeScreen> {
 
   void _showSnackbar(SnackBar snackBar) {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  }
-
-  void _createCategory(EventCategory category) async {
-    Response createResponse = await viewModel.createCategory(category);
-
-    final snackBar = SnackBar(
-        shape: AppShapes.roundedRectangleShape,
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        behavior: SnackBarBehavior.floating,
-        content: AppSnackBarContent(
-            label: createResponse.message,
-            icon: Icons.info_rounded
-        )
-    );
-    _showSnackbar(snackBar);
-
-    setState(() {
-      _loadEvents = _getEvents();
-    });
-  }
-
-  void _editEvent(int index, AppEvent newEvent) async {
-    Response createResponse = await viewModel.editEvent(index, newEvent);
-
-    final snackBar = SnackBar(
-        shape: AppShapes.roundedRectangleShape,
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        behavior: SnackBarBehavior.floating,
-        content: AppSnackBarContent(
-            label: createResponse.message,
-            icon: Icons.info_rounded
-        )
-    );
-    _showSnackbar(snackBar);
-
-    setState(() {
-      _loadEvents = _getEvents();
-    });
-  }
-
-  void _removeEvent(AppEvent event) async {
-    Response createResponse = await viewModel.removeEvent(event);
-
-    final snackBar = SnackBar(
-        shape: AppShapes.roundedRectangleShape,
-        margin: const EdgeInsets.all(10),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-        behavior: SnackBarBehavior.floating,
-        content: AppSnackBarContent(
-            label: createResponse.message,
-            icon: Icons.info_rounded
-        )
-    );
-    _showSnackbar(snackBar);
-
-    setState(() {
-      _loadEvents = _getEvents();
-    });
   }
 
   void _openSettings() {
