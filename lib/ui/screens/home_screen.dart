@@ -65,10 +65,14 @@ class HomeScreenState extends State<HomeScreen> {
         builder: (BuildContext dialogContext) {
           return StatefulBuilder(
             builder: (mContext, setState) {
-              int i = viewModel.categoryList.indexWhere((element) => element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
-                  element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
-                  element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor
-              );
+              int i = index;
+
+              if (isEditing) {
+                i = viewModel.categoryList.indexWhere((element) => element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
+                    element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
+                    element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor
+                );
+              }
 
               return AppDialog(
                   title: isEditing ? viewModel.eventList[index].title : "",
@@ -214,6 +218,7 @@ class HomeScreenState extends State<HomeScreen> {
                     if (snapshot.data != null) {
                       if (snapshot.data!.isSuccess) {
                         return FloatingActionButton(
+                          elevation: 0,
                           onPressed: () {
                             showModalBottomSheet(
                                 context: context,
@@ -282,13 +287,13 @@ class HomeScreenState extends State<HomeScreen> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
                                 child: Text(
                                   "События",
                                   style: TextStyle(
-                                      fontSize: 22,
+                                      fontSize: 21,
                                       fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).hintColor
+                                      color: Theme.of(context).hintColor,
                                   ),
                                 ),
                               ),
@@ -296,7 +301,7 @@ class HomeScreenState extends State<HomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
+                                    padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
                                     child: Text(
                                         _displayDateText,
                                         style: TextStyle(

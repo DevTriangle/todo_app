@@ -40,6 +40,9 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
 
     viewModel = Provider.of<HomeViewModel>(context, listen: false);
     _titleController.text = _category.categoryTitle;
+
+    _selectedIcon = _category.categoryIconID;
+    _selectedColor = Color(_category.categoryColor);
   }
 
   late String _categoryTitle = _category.categoryTitle;
@@ -166,14 +169,14 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                               child: GridView.builder(
                                   shrinkWrap: true,
                                   physics: const BouncingScrollPhysics(),
-                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 48),
+                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 58),
                                   scrollDirection: Axis.vertical,
                                   itemCount: AppColors().categoryColors.length,
                                   itemBuilder: (rowContext, index) {
                                     Color color = AppColors().categoryColors[index];
                                     return ColorCircle(
                                         color: color,
-                                        isSelected: color == _selectedColor,
+                                        isSelected: Color(color.value) == _selectedColor,
                                         onSelect: (c) {
                                           setState(() {
                                             _selectedColor = c;
@@ -211,7 +214,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                               GridView.builder(
                                   shrinkWrap: true,
                                   physics: const BouncingScrollPhysics(),
-                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 58),
+                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
                                   scrollDirection: Axis.vertical,
                                   itemCount: AppIcons().iconsList.length,
                                   itemBuilder: (rowContext, index) {
@@ -242,6 +245,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                         onPressed: _removeCategory,
                       ) : const SizedBox(),
                       FloatingActionButton(
+                        elevation: 0,
                         onPressed: _saveCategory,
                         tooltip: "Сохранить категорию",
                         heroTag: "fab",

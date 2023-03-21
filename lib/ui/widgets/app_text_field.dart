@@ -65,7 +65,7 @@ class _AppTextFieldState extends State<AppTextField> {
               style: TextStyle(
                 color: Theme.of(context).hintColor,
                 fontWeight: FontWeight.w400,
-                fontSize: 14
+                fontSize: 16
               ),
               textInputAction: widget.textInputAction,
               obscureText: widget.obscureText,
@@ -86,7 +86,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   labelStyle: TextStyle(
                       color: Theme.of(context).hintColor,
                       fontWeight: FontWeight.w400,
-                      fontSize: 14.0
+                      fontSize: 16.0
                   ),
                   enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(color: Theme.of(context).cardColor, width: 1.5),
@@ -105,7 +105,7 @@ class _AppTextFieldState extends State<AppTextField> {
                       borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
                       borderRadius: AppShapes.borderRadius
                   ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
                   labelText: widget.hint,
                   suffixIcon: widget.icon != null ? Stack(
                     alignment: AlignmentDirectional.center,

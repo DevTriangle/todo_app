@@ -116,41 +116,39 @@ class AppDialogState extends State<AppDialog> {
     if (picked != null) {
       _selectedDate = picked;
 
-      if (_selectedDate != null) {
-        final TimeOfDay? timePicked = await showTimePicker(
-          context: context,
-          initialTime: TimeOfDay.now(),
-          builder: (BuildContext mContext, Widget? child) {
-            return Theme(
-              data: ThemeData.from(colorScheme: Theme.of(context).colorScheme, useMaterial3: true).copyWith(
-                colorScheme: Theme.of(context).colorScheme.copyWith(
-                  surface: Theme.of(context).colorScheme.surface,
-                  onSurface: Theme.of(context).hintColor,
-                ),
+      final TimeOfDay? timePicked = await showTimePicker(
+        context: context,
+        initialTime: TimeOfDay.now(),
+        builder: (BuildContext mContext, Widget? child) {
+          return Theme(
+            data: ThemeData.from(colorScheme: Theme.of(context).colorScheme, useMaterial3: true).copyWith(
+              colorScheme: Theme.of(context).colorScheme.copyWith(
+                surface: Theme.of(context).colorScheme.surface,
+                onSurface: Theme.of(context).hintColor,
               ),
-              child: child!,
-            );
-          },
-        );
+            ),
+            child: child!,
+          );
+        },
+      );
 
-        if (timePicked != null) {
-          _selectedTime = timePicked;
+      if (timePicked != null) {
+        _selectedTime = timePicked;
 
-          String month = _selectedDate!.month.toString();
-          String day = _selectedDate!.day.toString();
+        String month = _selectedDate.month.toString();
+        String day = _selectedDate.day.toString();
 
-          String hours = _selectedTime!.hour.toString();
-          String minutes = _selectedTime!.minute.toString();
+        String hours = _selectedTime!.hour.toString();
+        String minutes = _selectedTime!.minute.toString();
 
-          if (_selectedDate!.month < 10) month = "0$month";
-          if (_selectedDate!.day < 10) day = "0$day";
-          if (_selectedTime!.hour < 10) hours = "0$hours";
-          if (_selectedTime!.minute < 10) minutes = "0$minutes";
+        if (_selectedDate.month < 10) month = "0$month";
+        if (_selectedDate.day < 10) day = "0$day";
+        if (_selectedTime!.hour < 10) hours = "0$hours";
+        if (_selectedTime!.minute < 10) minutes = "0$minutes";
 
-          setState(() {
-            _dateTimeController.text = "$day.$month.${_selectedDate!.year} $hours:$minutes";
-          });
-        }
+        setState(() {
+          _dateTimeController.text = "$day.$month.${_selectedDate.year} $hours:$minutes";
+        });
       }
     }
   }
@@ -162,7 +160,7 @@ class AppDialogState extends State<AppDialog> {
       });
     }
 
-    if (_selectedDate == null || _selectedTime == null) {
+    if (_selectedTime == null) {
       setState(() {
         _dateError = "Выбреите дату.";
       });
@@ -173,7 +171,7 @@ class AppDialogState extends State<AppDialog> {
           AppEvent(
               title: _eventTitle,
               eventCategory: _category,
-              datetime: DateTime(_selectedDate!.year, _selectedDate!.month, _selectedDate!.day, _selectedTime!.hour, _selectedTime!.minute).toString(),
+              datetime: DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _selectedTime!.hour, _selectedTime!.minute).toString(),
           )
       );
     }
@@ -236,7 +234,7 @@ class AppDialogState extends State<AppDialog> {
                   },
                   errorText: _titleError,
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 9),
                 CategoryDropdown(
                     value: _category,
                     items: viewModel.categoryList,
@@ -246,7 +244,7 @@ class AppDialogState extends State<AppDialog> {
                       });
                     }
                 ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 9),
                 AppTextField(
                   hint: "Дата начала события",
                   margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
@@ -273,6 +271,7 @@ class AppDialogState extends State<AppDialog> {
                       onPressed: widget.onRemoveClick,
                     ) : const SizedBox(),
                     FloatingActionButton(
+                      elevation: 0,
                       onPressed: _saveEvent,
                       tooltip: "Добавить событие",
                       heroTag: "fab",

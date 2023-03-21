@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/ui/colors.dart';
@@ -22,20 +24,23 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'DateTo',
-      theme: ThemeData.light(useMaterial3: true).copyWith(
-        brightness: Brightness.light,
+      theme: ThemeData(
+        useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch).copyWith(
-          background: AppColors.lightBackgroundColor,
-          surface: AppColors.lightCardColor
+            brightness: Brightness.light,
+            background: AppColors.lightBackgroundColor,
+            surface: AppColors.lightCardColor
         ),
         canvasColor: AppColors.lightBackgroundColor,
         scaffoldBackgroundColor: AppColors.lightBackgroundColor,
         hintColor: AppColors.lightTextColor,
         cardColor: AppColors.lightTertiaryColor,
+        fontFamily: "Rubik",
       ),
-      darkTheme: ThemeData.dark(useMaterial3: true).copyWith(
-        brightness: Brightness.dark,
+      darkTheme: ThemeData(
+        useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch).copyWith(
+            brightness: Brightness.dark,
             background: AppColors.darkBackgroundColor,
             surface: AppColors.darkCardColor
         ),
@@ -43,6 +48,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: AppColors.darkBackgroundColor,
         hintColor: AppColors.darkTextColor,
         cardColor: AppColors.darkTertiaryColor,
+        fontFamily: "Rubik",
       ),
       themeMode: ThemeMode.system,
       home: HomeScreen(),

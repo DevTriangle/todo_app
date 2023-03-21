@@ -6,7 +6,7 @@ import '../viewmodel/home_viewmodel.dart';
 class AppIcons {
   List<String> iconsList = <String>[
     "assets/icons/ic_celebration.svg",
-    "assets/icons/ic_birthday-cake.svg",
+    "assets/icons/ic_cake.svg",
     "assets/icons/ic_other.svg",
     "assets/icons/ic_asteroid.svg",
     "assets/icons/ic_basketball.svg",

@@ -16,7 +16,7 @@ class CategoryDropdown extends StatelessWidget {
     super.key,
     required this.value,
     required this.items,
-    this.padding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
     this.margin = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 2.5),
     required this.onChanged
   });
@@ -55,8 +55,10 @@ class CategoryDropdown extends StatelessWidget {
               }).toList(),
               value: value,
               style: TextStyle(
-                  color: Theme.of(context).hintColor,
-                  fontWeight: FontWeight.w500
+                color: Theme.of(context).hintColor,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                fontFamily: "Rubik",
               ),
               onChanged: onChanged != null ? (item) => onChanged!(item!) : null
           ),
@@ -76,7 +78,7 @@ class AppDropdown extends StatelessWidget {
     super.key,
     required this.value,
     required this.items,
-    this.padding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 0.0),
+    this.padding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
     this.margin = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 2.5),
     required this.onChanged
   });
@@ -103,8 +105,10 @@ class AppDropdown extends StatelessWidget {
               }).toList(),
               value: value,
               style: TextStyle(
-                  color: Theme.of(context).hintColor,
-                  fontWeight: FontWeight.w500
+                color: Theme.of(context).hintColor,
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                fontFamily: "Rubik",
               ),
               onChanged: onChanged != null ? (item) => onChanged!(item!) : null
           ),

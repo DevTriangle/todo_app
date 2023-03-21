@@ -42,7 +42,7 @@ class IconCircle extends StatelessWidget {
             ) : null,
             elevation: 0,
             child: Container(
-              width: 50, height: 50,
+              width: 60, height: 60,
               child: Padding(
                 padding: EdgeInsets.all(10),
                 child: SvgPicture.asset(

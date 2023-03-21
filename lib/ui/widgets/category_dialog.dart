@@ -132,7 +132,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             "Цвет",
                             style: TextStyle(
                               color: Theme.of(context).hintColor,
-                              fontSize: 16,
+                              fontSize: 18,
                             ),
                           ),
                           const SizedBox(height: 5),
@@ -141,7 +141,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                               child: GridView.builder(
                                   shrinkWrap: true,
                                   physics: const BouncingScrollPhysics(),
-                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 48),
+                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
                                   scrollDirection: Axis.vertical,
                                   itemCount: AppColors().categoryColors.length,
                                   itemBuilder: (rowContext, index) {
@@ -176,7 +176,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             "Иконка",
                             style: TextStyle(
                               color: Theme.of(context).hintColor,
-                              fontSize: 16,
+                              fontSize: 18,
                             ),
                           ),
                           const SizedBox(height: 5),
@@ -186,7 +186,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                               GridView.builder(
                                   shrinkWrap: true,
                                   physics: const BouncingScrollPhysics(),
-                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 58),
+                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
                                   scrollDirection: Axis.vertical,
                                   itemCount: AppIcons().iconsList.length,
                                   itemBuilder: (rowContext, index) {
@@ -212,6 +212,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       FloatingActionButton(
+                        elevation: 0,
                         onPressed: _saveCategory,
                         tooltip: "Добавить категорию",
                         heroTag: "fab",

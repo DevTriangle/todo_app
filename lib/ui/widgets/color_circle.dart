@@ -29,6 +29,7 @@ class ColorCircle extends StatelessWidget {
           child: Card(
             margin: EdgeInsets.all(2),
             color: Colors.transparent,
+            elevation: 0,
             shape: isSelected == true ? CircleBorder(
               side: BorderSide(
                   width: 2,
@@ -36,11 +37,11 @@ class ColorCircle extends StatelessWidget {
                   strokeAlign: StrokeAlign.outside
               ),
             ) : null,
-            elevation: 0,
             child: Container(
-              width: 40, height: 40,
+              width: 50, height: 50,
               child: Card(
                 shape: AppShapes.circleShape,
+                elevation: 0,
                 margin: const EdgeInsets.all(2),
                 color: color,
               ),
