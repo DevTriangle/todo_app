@@ -1,14 +1,10 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/icons.dart';
-import 'package:todo_app/ui/screens/manage_event_screen.dart';
 import 'package:todo_app/ui/screens/settings_screen.dart';
 import 'package:todo_app/ui/widgets/app_card.dart';
 import 'package:todo_app/ui/widgets/app_dialog.dart';
@@ -341,7 +337,7 @@ class HomeScreenState extends State<HomeScreen> {
                                                 destination: DateTime.parse(viewModel.eventList[index].datetime),
                                                 icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
                                                 color: Color(viewModel.eventList[index].eventCategory.categoryColor),
-                                                onClick: () {
+                                                onClick:  () {
                                                   _createDialog(index: index, isEditing: true);
                                                 }
                                             );

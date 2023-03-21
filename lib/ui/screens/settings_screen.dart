@@ -1,15 +1,12 @@
 import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/ui/widgets/setting_category_dialog.dart';
 import 'package:todo_app/ui/widgets/settings_field.dart';
 
 import '../../viewmodel/home_viewmodel.dart';
 import '../widgets/app_button.dart';
-import '../widgets/category_dialog.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});

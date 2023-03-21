@@ -1,10 +1,8 @@
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/shapes.dart';
 import 'package:todo_app/utils/format_time.dart';
 import 'package:todo_app/utils/get_date.dart';

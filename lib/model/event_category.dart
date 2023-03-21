@@ -1,5 +1,3 @@
-import 'package:flutter/cupertino.dart';
-
 class EventCategory {
   final String categoryTitle;
   final int categoryIconID;

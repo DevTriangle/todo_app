@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/model/app_event.dart';
@@ -23,14 +22,11 @@ class HomeViewModel extends ChangeNotifier {
 
       final eventJson = prefs.getString("events");
 
-      print(eventJson.toString());
-
       if (eventJson == null || eventJson == "[]") {
         throw "list-null";
       } else {
         Iterable l = json.decode(eventJson);
         List<AppEvent> events = List.from(l.map((e) => AppEvent.fromJson(e)));
-        print(events);
 
         eventList.addAll(events.where((event) => DateTime.parse(event.datetime).add(const Duration(days: 3)).isAfter(DateTime.now())));
         eventList.sort((a, b) => DateTime.parse(a.datetime).compareTo(DateTime.parse(b.datetime)));
@@ -86,8 +82,6 @@ class HomeViewModel extends ChangeNotifier {
   Future<Response> loadCategories() async {
     final prefs = await SharedPreferences.getInstance();
     bool isFirstLoad  = prefs.getBool("isFirstLoad") ?? true;
-
-    print(isFirstLoad);
 
     if (!isFirstLoad) {
       categoryList.clear();

@@ -1,8 +1,3 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-import '../viewmodel/home_viewmodel.dart';
-
 class AppIcons {
   List<String> iconsList = <String>[
     "assets/icons/ic_celebration.svg",

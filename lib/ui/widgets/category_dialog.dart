@@ -1,13 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/colors.dart';
 import 'package:todo_app/ui/icons.dart';
 import 'package:todo_app/ui/shapes.dart';
 import 'package:todo_app/ui/widgets/color_circle.dart';
-import 'package:todo_app/ui/widgets/app_dropdown.dart';
 import 'package:todo_app/ui/widgets/app_text_field.dart';
 import 'package:todo_app/ui/widgets/icon_circle.dart';
 
