@@ -121,7 +121,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                     color: Theme.of(context).cardColor,
                     margin: EdgeInsets.zero,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -184,7 +184,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                           Scrollbar(
                               thumbVisibility: true,
                               child: Container(
-                                padding: EdgeInsets.all(6),
+                                padding: const EdgeInsets.all(6),
                               constraints: const BoxConstraints(maxHeight: 128),
                               child: GridView.builder(
                                       shrinkWrap: true,

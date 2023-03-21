@@ -130,7 +130,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                         });
                       }
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   AppTextField(
                     hint: "Название",
                     controller: _titleController,
@@ -145,13 +145,13 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                     },
                     errorText: _titleError,
                   ),
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
                   Card(
                     elevation: 0,
                     color: Theme.of(context).cardColor,
                     margin: EdgeInsets.zero,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

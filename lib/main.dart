@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         fontFamily: "Rubik",
       ),
       themeMode: ThemeMode.system,
-      home: HomeScreen(),
+      home: const HomeScreen(),
       builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
     );
   }

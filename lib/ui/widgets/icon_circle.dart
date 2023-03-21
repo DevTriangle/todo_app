@@ -24,13 +24,13 @@ class IconCircle extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         color: Colors.transparent,
         elevation: 0,
-        margin: EdgeInsets.all(2),
+        margin: const EdgeInsets.all(2),
         child: InkWell(
           onTap: () {
             onSelect(iconID);
           },
           child: Card(
-            margin: EdgeInsets.all(2),
+            margin: const EdgeInsets.all(2),
             color: Colors.transparent,
             shape: isSelected == true ? CircleBorder(
               side: BorderSide(
@@ -40,10 +40,10 @@ class IconCircle extends StatelessWidget {
               ),
             ) : null,
             elevation: 0,
-            child: Container(
+            child: SizedBox(
               width: 60, height: 60,
               child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: SvgPicture.asset(
                   AppIcons().iconsList[iconID],
                   width: 18.0, height: 18.0,

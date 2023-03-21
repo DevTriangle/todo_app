@@ -20,13 +20,13 @@ class ColorCircle extends StatelessWidget {
         clipBehavior: Clip.antiAlias,
         color: Colors.transparent,
         elevation: 0,
-        margin: EdgeInsets.all(2),
+        margin: const EdgeInsets.all(2),
         child: InkWell(
           onTap: () {
             onSelect(color);
           },
           child: Card(
-            margin: EdgeInsets.all(2),
+            margin: const EdgeInsets.all(2),
             color: Colors.transparent,
             elevation: 0,
             shape: isSelected == true ? CircleBorder(
@@ -36,7 +36,7 @@ class ColorCircle extends StatelessWidget {
                   strokeAlign: StrokeAlign.outside
               ),
             ) : null,
-            child: Container(
+            child: SizedBox(
               width: 50, height: 50,
               child: Card(
                 shape: AppShapes.circleShape,

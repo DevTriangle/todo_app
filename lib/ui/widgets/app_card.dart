@@ -30,7 +30,7 @@ class AppCard extends StatefulWidget {
 class AppCardState extends State<AppCard> {
   DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
 
-  Duration timeLeft = Duration();
+  Duration timeLeft = const Duration();
 
   int secondsLeft = 0;
   int minutesLeft = 0;
@@ -50,7 +50,7 @@ class AppCardState extends State<AppCard> {
   }
 
   void displayDate() async {
-    final periodicTimer = Timer.periodic(
+    Timer.periodic(
       const Duration(seconds: 1),
           (timer) {
         timeLeft = widget.destination.difference(DateTime.now());

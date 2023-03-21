@@ -44,7 +44,6 @@ class AppDialogState extends State<AppDialog> {
 
   late EventCategory _category = viewModel.categoryList[0];
   late String _eventTitle = "";
-  late String _selectedRepeat = _repeatList[0];
 
   @override
   void initState() {
@@ -61,14 +60,6 @@ class AppDialogState extends State<AppDialog> {
     _selectedDate = widget.destination;
     _selectedTime = TimeOfDay(hour: widget.destination.hour, minute: widget.destination.minute);
   }
-
-  final List<String> _repeatList = <String>[
-    "Не повторять",
-    "Повторять каждый день",
-    "Повторять каждую неделю",
-    "Повторять каждый месяц",
-    "Повторять каждый год"
-  ];
 
   String? _titleError;
   String? _dateError;
@@ -90,14 +81,12 @@ class AppDialogState extends State<AppDialog> {
     Colors.deepOrange,
   ];
 
-  bool _allDayChecked = false;
-
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 1000)),
+      lastDate: DateTime.now().add(const Duration(days: 1000)),
       builder: (BuildContext mContext, Widget? child) {
         return Theme(
           data: ThemeData.from(colorScheme: Theme.of(context).colorScheme, useMaterial3: true).copyWith(
@@ -273,7 +262,7 @@ class AppDialogState extends State<AppDialog> {
                       onPressed: _saveEvent,
                       tooltip: "Добавить событие",
                       heroTag: "fab",
-                      child: Icon(Icons.check_rounded),
+                      child: const Icon(Icons.check_rounded),
                     )
                   ],
                 )

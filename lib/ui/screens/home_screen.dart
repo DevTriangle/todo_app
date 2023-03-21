@@ -21,6 +21,8 @@ import '../widgets/bottom_sheet_button.dart';
 import '../widgets/bottom_sheet_card.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<StatefulWidget> createState() => HomeScreenState();
 }
@@ -131,11 +133,16 @@ class HomeScreenState extends State<HomeScreen> {
             icon: Icons.info_rounded
         )
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+    _showSnackbar(snackBar);
 
     setState(() {
       _loadEvents = _getEvents();
     });
+  }
+
+  void _showSnackbar(SnackBar snackBar) {
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   void _createCategory(EventCategory category) async {
@@ -151,7 +158,7 @@ class HomeScreenState extends State<HomeScreen> {
             icon: Icons.info_rounded
         )
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    _showSnackbar(snackBar);
 
     setState(() {
       _loadEvents = _getEvents();
@@ -171,7 +178,7 @@ class HomeScreenState extends State<HomeScreen> {
             icon: Icons.info_rounded
         )
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    _showSnackbar(snackBar);
 
     setState(() {
       _loadEvents = _getEvents();
@@ -191,7 +198,7 @@ class HomeScreenState extends State<HomeScreen> {
             icon: Icons.info_rounded
         )
     );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    _showSnackbar(snackBar);
 
     setState(() {
       _loadEvents = _getEvents();
@@ -345,7 +352,7 @@ class HomeScreenState extends State<HomeScreen> {
                                       );
                                     } else {
                                       return Container(
-                                        padding: EdgeInsets.only(top: 10),
+                                        padding: const EdgeInsets.only(top: 10),
                                         child: ErrorContainer(
                                             icon: Icons.notes_rounded,
                                             label: snapshot.data!.message

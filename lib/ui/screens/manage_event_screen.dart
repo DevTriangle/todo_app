@@ -103,7 +103,7 @@ class ManageEventScreenState extends State<ManageEventScreen> {
                       });
                     }
                 ),
-                Container(
+                SizedBox(
                   height: 33,
                   child: ListView.builder(
                       scrollDirection: Axis.horizontal,

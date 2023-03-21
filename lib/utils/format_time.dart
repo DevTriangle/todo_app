@@ -12,10 +12,10 @@ String formatTime(int years, int months, int days, int hours, int minutes, int s
   if (hours > 0 && (months == 0 && years == 0)) {
     time.add("$hours ${getPluralForm(hours, 'час', 'часа', 'часов')}");
   }
-  if (minutes > 0 && days == 0) {
+  if (((minutes > 0 && (days == 0 && hours == 0)) || (minutes > 0 && (days != 0 && hours == 0))) && months == 0 && years == 0) {
     time.add("$minutes ${getPluralForm(minutes, 'минута', 'минуты', 'минут')}");
   }
-  if (seconds > 0 && hours == 0) {
+  if (seconds > 0 && hours == 0 && days == 0) {
     time.add("$seconds ${getPluralForm(seconds, 'секунда', 'секунды', 'секунд')}");
   }
   return time.join(' ');
