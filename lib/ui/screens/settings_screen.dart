@@ -183,6 +183,15 @@ class SettingsScreenState extends State<SettingsScreen> {
                               ),
                               textAlign: TextAlign.center,
                             ),
+                            const SizedBox(height: 2),
+                            Text(
+                              "Icons made by Freepik from www.flaticon.com",
+                              style: TextStyle(
+                                  color: Theme.of(context).hintColor.withOpacity(0.2),
+                                  fontSize: 12
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
                           ])
                       )
                     ]
