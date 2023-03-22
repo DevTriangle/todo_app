@@ -6,6 +6,7 @@ import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/icons.dart';
 import 'package:todo_app/ui/screens/settings_screen.dart';
+import 'package:todo_app/ui/widgets/app_alert_dialog.dart';
 import 'package:todo_app/ui/widgets/app_card.dart';
 import 'package:todo_app/ui/widgets/app_dialog.dart';
 import 'package:todo_app/ui/widgets/error_container.dart';
@@ -142,6 +143,30 @@ class HomeScreenState extends State<HomeScreen> {
     setState(() {
       _loadEvents = _getEvents();
     });
+  }
+
+  Future<bool?> confirmRemove(DismissDirection direction) async {
+    bool result = false;
+    await showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return AppAlertDialog(
+              title: "Удалить событие?",
+              description: "Вы действительно хотите удалить выбранное событие?",
+              confirmTitle: "Подтвердить",
+              onConfirmPressed: () {
+                Navigator.pop(context);
+                result = true;
+              },
+              dismissTitle: "Отменить",
+              onDismissPressed: () {
+                Navigator.pop(context);
+                result = false;
+              }
+          );
+        }
+    );
+    return result;
   }
 
   void _removeEvent(AppEvent event) async {
@@ -304,14 +329,78 @@ class HomeScreenState extends State<HomeScreen> {
                                           physics: const BouncingScrollPhysics(),
                                           itemCount: viewModel.eventList.length,
                                           itemBuilder: (lContext, index) {
-                                            return AppCard(
-                                                title: viewModel.eventList[index].title,
-                                                destination: DateTime.parse(viewModel.eventList[index].datetime),
-                                                icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
-                                                color: Color(viewModel.eventList[index].eventCategory.categoryColor),
-                                                onClick:  () {
-                                                  _createDialog(index: index, isEditing: true);
-                                                }
+                                            return Column(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius: AppShapes.borderRadius,
+                                                  child: Dismissible(
+                                                    key: Key(viewModel.eventList[index].toString()),
+                                                    dismissThresholds: const {
+                                                      DismissDirection.endToStart: 0.3,
+                                                      DismissDirection.startToEnd: 2,
+                                                    },
+                                                    background: Card(
+                                                      elevation: 0,
+                                                      shape: AppShapes.roundedRectangleShape,
+                                                      color: Color(viewModel.eventList[index].eventCategory.categoryColor),
+                                                      margin: const EdgeInsets.all(0),
+                                                      child: Container(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                                        child: Row(
+                                                          children: [
+                                                            Text(
+                                                              viewModel.eventList[index].eventCategory.categoryTitle,
+                                                              style: const TextStyle(
+                                                                  fontSize: 18,
+                                                                  fontWeight: FontWeight.w500
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    secondaryBackground: Card(
+                                                      elevation: 0,
+                                                      shape: AppShapes.roundedRectangleShape,
+                                                      color: Theme.of(context).errorColor,
+                                                      margin: const EdgeInsets.all(0),
+                                                      child: Container(
+                                                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                                                        child: Row(
+                                                          mainAxisAlignment: MainAxisAlignment.end,
+                                                          children: const [
+                                                            Text(
+                                                              "Удалить",
+                                                              style: TextStyle(
+                                                                fontSize: 16,
+                                                              ),
+                                                            ),
+                                                            SizedBox(width: 5),
+                                                            Icon(
+                                                              Icons.delete_rounded,
+                                                              size: 20,
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    confirmDismiss: confirmRemove,
+                                                    onDismissed: (direction) {
+                                                      _removeEvent(viewModel.eventList[index]);
+                                                    },
+                                                    child: AppCard(
+                                                        title: viewModel.eventList[index].title,
+                                                        destination: DateTime.parse(viewModel.eventList[index].datetime),
+                                                        icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
+                                                        color: Color(viewModel.eventList[index].eventCategory.categoryColor),
+                                                        onClick:  () {
+                                                          _createDialog(index: index, isEditing: true);
+                                                        }
+                                                    ),
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10)
+                                              ],
                                             );
                                           }
                                       );

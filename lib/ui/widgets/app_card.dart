@@ -79,9 +79,9 @@ class AppCardState extends State<AppCard> {
   Widget build(BuildContext context) {
     return Card(
         elevation: 0,
-        margin: const EdgeInsets.only(bottom: 10),
+        margin: const EdgeInsets.all(0),
         color: Theme.of(context).colorScheme.surface,
-        shape: RoundedRectangleBorder(borderRadius: AppShapes.borderRadius),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
             onTap: widget.onClick,
@@ -92,7 +92,7 @@ class AppCardState extends State<AppCard> {
                   left: BorderSide(color: widget.color, width: 6, strokeAlign: StrokeAlign.inside)
               ),
               child: Container(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

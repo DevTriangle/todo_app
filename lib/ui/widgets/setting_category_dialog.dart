@@ -6,6 +6,7 @@ import '../../viewmodel/home_viewmodel.dart';
 import '../colors.dart';
 import '../icons.dart';
 import '../shapes.dart';
+import 'app_alert_dialog.dart';
 import 'app_button.dart';
 import 'app_dropdown.dart';
 import 'app_text_field.dart';
@@ -72,9 +73,37 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
     }
   }
 
+  Future<bool?> confirmRemove() async {
+    bool result = false;
+    await showDialog(
+        context: context,
+        builder: (BuildContext dialogContext) {
+          return AppAlertDialog(
+              title: "Удалить категорию?",
+              description: "Вы действительно хотите удалить выбранную категорию?",
+              confirmTitle: "Подтвердить",
+              onConfirmPressed: () {
+                Navigator.pop(context);
+                result = true;
+              },
+              dismissTitle: "Отменить",
+              onDismissPressed: () {
+                Navigator.pop(context);
+                result = false;
+              }
+          );
+        }
+    );
+    return result;
+  }
+
   void _removeCategory() async {
-    Navigator.pop(context);
-    await viewModel.removeCategory(_category);
+    bool? result = await confirmRemove();
+
+    if (result == true) {
+      Navigator.pop(context);
+      await viewModel.removeCategory(_category);
+    }
   }
 
   @override
@@ -256,6 +285,9 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                       viewModel.categoryList.length > 1 ? AppTextButton(
                         label: "Удалить",
                         onPressed: _removeCategory,
+                        splashColor: Theme.of(context).errorColor.withOpacity(0.2),
+                        hoverColor: Theme.of(context).errorColor.withOpacity(0.1),
+                        textStyle: TextStyle(color: Theme.of(context).errorColor),
                       ) : const SizedBox(),
                       FloatingActionButton(
                         elevation: 0,

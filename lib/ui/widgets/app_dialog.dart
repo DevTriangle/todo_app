@@ -243,6 +243,9 @@ class AppDialogState extends State<AppDialog> {
                     widget.isEditing ? AppTextButton(
                       label: "Удалить",
                       onPressed: widget.onRemoveClick,
+                      splashColor: Theme.of(context).errorColor.withOpacity(0.2),
+                      hoverColor: Theme.of(context).errorColor.withOpacity(0.1),
+                      textStyle: TextStyle(color: Theme.of(context).errorColor),
                     ) : const SizedBox(),
                     FloatingActionButton(
                       elevation: 0,

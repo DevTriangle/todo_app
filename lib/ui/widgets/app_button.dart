@@ -5,11 +5,17 @@ import '../shapes.dart';
 class AppTextButton extends StatelessWidget {
   final String label;
   final Function() onPressed;
+  final Color? hoverColor;
+  final Color? splashColor;
+  final TextStyle? textStyle;
 
   const AppTextButton({
     super.key,
     required this.label,
     required this.onPressed,
+    this.hoverColor,
+    this.splashColor,
+    this.textStyle,
   });
 
   @override
@@ -17,19 +23,19 @@ class AppTextButton extends StatelessWidget {
     return MaterialButton(
       onPressed: onPressed,
       color: Colors.transparent,
-      hoverColor: Theme.of(context).errorColor.withOpacity(0.1),
+      hoverColor: hoverColor,
       highlightColor: Colors.transparent,
       elevation: 0,
       hoverElevation: 0,
       highlightElevation: 0,
       focusElevation: 0,
       shape: AppShapes.circleShape,
-      splashColor: Theme.of(context).errorColor.withOpacity(0.2),
+      splashColor: splashColor,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         child: Text(
           label,
-          style: TextStyle(color: Theme.of(context).errorColor),
+          style: textStyle,
         ),
       ) ,
     );
