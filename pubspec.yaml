@@ -1,5 +1,5 @@
 name: todo_app
-description: ToDo Simple Project
+description: Данное приложение покажет сколько времени осталось до нужного вам события.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
