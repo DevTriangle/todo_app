@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
 
    <application
-        android:label="Осталось до"
+        android:label="@string/appName"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_app_new"
         android:roundIcon="@mipmap/ic_app_new_round"

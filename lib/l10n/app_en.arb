@@ -1,4 +1,6 @@
 {
+    "app_name": "Remains until",
+
     "events_loaded": "Events successfully loaded!",
     "events_empty": "There are no events!",
     "categories_loaded": "Categories successfully loaded!",
@@ -37,7 +39,7 @@
     "settings_category_creation_title": "Create new category",
     "settings_category_creation_description": "Create and add new categories to the app",
     "settings_category_manage_title": "Manage categories",
-    "settings_category_manage_description": "Edit and deleted existing categories",
+    "settings_category_manage_description": "Edit and delete existing categories",
 
     "app_version": "App version: ",
 

@@ -1,4 +1,6 @@
 {
+    "app_name": "Осталось до",
+
     "events_loaded": "События загружены!",
     "events_empty": "События отсутсвуют!",
     "categories_loaded": "Категории загружены!",
@@ -32,7 +34,7 @@
     "name": "Название",
     "color": "Цвет",
     "icon": "Иконка",
-    "settings": "Settings",
+    "settings": "Настройки",
 
     "settings_category_creation_title": "Создание категории",
     "settings_category_creation_description": "Создавайте и добавляйте новые категории",
