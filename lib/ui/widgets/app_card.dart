@@ -14,14 +14,13 @@ class AppCard extends StatefulWidget {
   final Color color;
   final Function() onClick;
 
-  const AppCard({
-    super.key,
-    required this.title,
-    required this.destination,
-    required this.icon,
-    required this.color,
-    required this.onClick
-  });
+  const AppCard(
+      {super.key,
+      required this.title,
+      required this.destination,
+      required this.icon,
+      required this.color,
+      required this.onClick});
 
   @override
   State<StatefulWidget> createState() => AppCardState();
@@ -52,7 +51,7 @@ class AppCardState extends State<AppCard> {
   void displayDate() async {
     Timer.periodic(
       const Duration(seconds: 1),
-          (timer) {
+      (timer) {
         timeLeft = widget.destination.difference(DateTime.now());
 
         timeLeftMap = calculateRemainingTime(widget.destination);
@@ -67,8 +66,7 @@ class AppCardState extends State<AppCard> {
                 timeLeftMap['days']!,
                 timeLeftMap['hours']!,
                 timeLeftMap['minutes']!,
-                timeLeftMap['seconds']!
-            );
+                timeLeftMap['seconds']!);
           }
         });
       },
@@ -89,10 +87,13 @@ class AppCardState extends State<AppCard> {
               elevation: 0,
               margin: EdgeInsets.zero,
               shape: Border(
-                  left: BorderSide(color: widget.color, width: 6, strokeAlign: BorderSide.strokeAlignInside)
-              ),
+                  left: BorderSide(
+                      color: widget.color,
+                      width: 6,
+                      strokeAlign: BorderSide.strokeAlignInside)),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -101,32 +102,34 @@ class AppCardState extends State<AppCard> {
                           SvgPicture.asset(
                             widget.icon,
                             color: widget.color,
-                            width: 30.0, height: 30.0,
+                            width: 30.0,
+                            height: 30.0,
                           ),
                           const SizedBox(width: 10),
                           Container(
                             constraints: BoxConstraints(
-                                maxWidth: MediaQuery.of(context).size.width * 0.45
-                            ),
+                                maxWidth:
+                                    MediaQuery.of(context).size.width * 0.45),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   widget.title,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
-                                      height: 1.1
-                                  ),
+                                      height: 1.1,
+                                      color: Theme.of(context).hintColor),
                                   softWrap: true,
                                 ),
-
                                 Text(
                                   date.format(widget.destination),
                                   style: TextStyle(
-                                      fontSize: 12,
-                                      color: Theme.of(context).hintColor.withOpacity(0.65),
-                                      fontWeight: FontWeight.w300
+                                    fontSize: 12,
+                                    color: Theme.of(context)
+                                        .hintColor
+                                        .withOpacity(0.65),
+                                    fontWeight: FontWeight.w300,
                                   ),
                                 )
                               ],
@@ -135,23 +138,19 @@ class AppCardState extends State<AppCard> {
                         ],
                       ),
                       Container(
-                          constraints: BoxConstraints(
-                              maxWidth: MediaQuery.of(context).size.width * 0.3
-                          ),
-                          child: Text(
-                              displayLeft,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14
-                              ),
-                              textAlign: TextAlign.right,
-                            ),
-                          )
-                    ]
-                ),
+                        constraints: BoxConstraints(
+                            maxWidth: MediaQuery.of(context).size.width * 0.3),
+                        child: Text(
+                          displayLeft,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              color: Theme.of(context).hintColor),
+                          textAlign: TextAlign.right,
+                        ),
+                      )
+                    ]),
               ),
-            )
-        )
-    );
+            )));
   }
 }

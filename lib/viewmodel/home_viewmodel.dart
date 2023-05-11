@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/model/response.dart';
+import 'package:todo_app/utils/notification_service.dart';
 
 class HomeViewModel extends ChangeNotifier {
   List<AppEvent> eventList = <AppEvent>[];
@@ -64,6 +66,9 @@ class HomeViewModel extends ChangeNotifier {
     eventList.add(event);
 
     Response response = await saveEvents(eventList);
+
+    DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
+    NotificationService().scheduleNotifications(event.title, date.format(DateTime.parse(event.datetime)), false, DateTime.parse(event.datetime));
 
     return response;
   }
