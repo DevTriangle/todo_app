@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:js';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -68,7 +69,11 @@ class HomeViewModel extends ChangeNotifier {
     Response response = await saveEvents(eventList);
 
     DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
-    NotificationService().scheduleNotifications(event.title, date.format(DateTime.parse(event.datetime)), false, DateTime.parse(event.datetime));
+    NotificationService().scheduleNotifications(
+        event.title,
+        date.format(DateTime.parse(event.datetime)),
+        false,
+        DateTime.parse(event.datetime));
 
     return response;
   }
