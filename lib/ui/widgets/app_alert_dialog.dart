@@ -30,9 +30,10 @@ class AppAlertDialog extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.surface,
       title: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
             fontSize: 18,
-            fontWeight: FontWeight.w500
+            fontWeight: FontWeight.w500,
+            color: Theme.of(context).hintColor
         ),
       ),
       content:  Text(

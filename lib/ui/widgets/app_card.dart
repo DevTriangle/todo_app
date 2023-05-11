@@ -118,7 +118,7 @@ class AppCardState extends State<AppCard> {
                               children: [
                                 Text(
                                   widget.title,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
                                       height: 1.1),
@@ -143,8 +143,10 @@ class AppCardState extends State<AppCard> {
                             maxWidth: MediaQuery.of(context).size.width * 0.3),
                         child: Text(
                           displayLeft,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w500, fontSize: 14),
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 14,
+                              color: Theme.of(context).hintColor),
                           textAlign: TextAlign.right,
                         ),
                       )
