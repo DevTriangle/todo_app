@@ -6,6 +6,8 @@ import 'package:todo_app/ui/screens/home_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class NotificationService {
   static final NotificationService _notificationService =
       NotificationService._internal();
@@ -23,7 +25,7 @@ class NotificationService {
     flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!.requestPermission();
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('launch_background');
+        AndroidInitializationSettings('ic_notifications');
 
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
@@ -50,10 +52,10 @@ class NotificationService {
   }
 
   Future<void> scheduleNotifications(
-      String title, String body, bool playSound, DateTime dateTime) async {
+      String title, String body, bool playSound, DateTime dateTime, BuildContext context) async {
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
-            "0", "Reminders", channelDescription: "Напоминания о начале событий",
+            "0", AppLocalizations.of(context).channel_name, channelDescription: AppLocalizations.of(context).channel_description,
             playSound: playSound,
             priority: Priority.high,
             importance: Importance.high);

@@ -64,7 +64,7 @@ class HomeViewModel extends ChangeNotifier {
     Response response = await saveEvents(eventList);
 
     DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
-    NotificationService().scheduleNotifications(event.title, date.format(DateTime.parse(event.datetime)), false, DateTime.parse(event.datetime));
+    NotificationService().scheduleNotifications(event.title, date.format(DateTime.parse(event.datetime)), true, DateTime.parse(event.datetime), _context);
 
     return response;
   }

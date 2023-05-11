@@ -47,6 +47,9 @@
     "empty_error": "The field should not be empty",
     "empty_date_error": "The field should not be empty",
 
+    "channel_name": "Events",
+    "channel_description": "Event notifications",
+
     "years_one": "year",
     "years_few": "years",
     "years_many": "years",

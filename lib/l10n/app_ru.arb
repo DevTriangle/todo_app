@@ -47,6 +47,9 @@
     "empty_error": "Поле должно быть заполнено",
     "empty_date_error": "Укажите дату события",
 
+    "channel_name": "События",
+    "channel_description": "Уведомления о событиях",
+
     "years_one": "год",
     "years_few": "года",
     "years_many": "лет",
