@@ -11,7 +11,6 @@ import 'package:todo_app/ui/widgets/app_alert_dialog.dart';
 import 'package:todo_app/ui/widgets/app_card.dart';
 import 'package:todo_app/ui/widgets/app_dialog.dart';
 import 'package:todo_app/ui/widgets/error_container.dart';
-import 'package:todo_app/utils/notification_service.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
 
 import '../widgets/app_button.dart';

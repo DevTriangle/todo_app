@@ -11,6 +11,7 @@ class AppTextField extends StatefulWidget {
   final EdgeInsets margin;
   final IconData? icon;
   final void Function()? onIconPressed;
+  final void Function()? onTap;
   final String? errorText;
   final int maxLines;
   final String? Function(String?)? validator;
@@ -40,7 +41,8 @@ class AppTextField extends StatefulWidget {
     this.readOnly = false,
     this.controller,
     this.inputFormatter,
-    this.textCapitalization = TextCapitalization.sentences
+    this.textCapitalization = TextCapitalization.sentences,
+    this.onTap
   });
 
   @override
@@ -58,6 +60,7 @@ class _AppTextFieldState extends State<AppTextField> {
             margin: widget.margin,
             child: TextFormField(
               key: _formKey,
+              onTap: widget.onTap,
               textCapitalization: widget.textCapitalization,
               controller: widget.controller,
               inputFormatters: widget.inputFormatter,

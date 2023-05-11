@@ -240,6 +240,14 @@ class AppDialogState extends State<AppDialog> {
                   margin:
                       const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
                   onChanged: (value) {},
+                  onTap: () {
+                    if (_dateError != null) {
+                      setState(() {
+                        _dateError = null;
+                      });
+                    }
+                    _selectDate(context);
+                  },
                   icon: Icons.calendar_month_rounded,
                   controller: _dateTimeController,
                   onIconPressed: () {

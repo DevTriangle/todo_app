@@ -14,7 +14,6 @@ dependencies:
   flutter_localizations:
       sdk: flutter
 
-
   flutter_svg: ^2.0.5
   shared_preferences: ^2.0.18
   provider: ^6.0.5
@@ -22,7 +21,6 @@ dependencies:
   package_info_plus: ^3.0.3
   jiffy: ^5.0.0
   flutter_local_notifications: ^14.0.0+1
-
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
@@ -39,6 +37,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/fonts/
+    - assets/sounds/
 
   fonts:
     - family: Rubik
