@@ -37,8 +37,9 @@ class SettingsField extends StatelessWidget {
                           children: [
                             Text(
                               title,
-                              style: const TextStyle(
-                                  fontSize: 18
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: Theme.of(context).hintColor
                               ),
                             ),
                             const SizedBox(height: 2),

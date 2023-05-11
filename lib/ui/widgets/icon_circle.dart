@@ -36,7 +36,7 @@ class IconCircle extends StatelessWidget {
               side: BorderSide(
                   width: 2,
                   color: Theme.of(context).colorScheme.primary,
-                  strokeAlign: StrokeAlign.outside
+                  strokeAlign: BorderSide.strokeAlignOutside
               ),
             ) : null,
             elevation: 0,

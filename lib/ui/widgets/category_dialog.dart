@@ -50,13 +50,11 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
     }
 
     if (_titleError == null) {
-      widget.onCategoryCreate(
-          EventCategory(
-            categoryIconID: _selectedIcon,
-            categoryColor: _selectedColor.value,
-            categoryTitle: _eventTitle,
-          )
-      );
+      widget.onCategoryCreate(EventCategory(
+        categoryIconID: _selectedIcon,
+        categoryColor: _selectedColor.value,
+        categoryTitle: _eventTitle,
+      ));
     }
   }
 
@@ -67,7 +65,8 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
+          padding:
+              const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
           child: Wrap(
             children: [
               Column(
@@ -76,12 +75,12 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         "Создание категории",
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).hintColor),
                         textAlign: TextAlign.center,
                       ),
                       Card(
@@ -96,7 +95,8 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             padding: const EdgeInsets.all(4),
                             child: Icon(
                               Icons.close_rounded,
-                              color: Theme.of(context).hintColor.withOpacity(0.65),
+                              color:
+                                  Theme.of(context).hintColor.withOpacity(0.65),
                             ),
                           ),
                         ),
@@ -106,7 +106,8 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                   const SizedBox(height: 13),
                   AppTextField(
                     hint: "Название",
-                    margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 0),
                     onChanged: (value) {
                       if (_titleError != null) {
                         setState(() {
@@ -123,7 +124,8 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                     color: Theme.of(context).cardColor,
                     margin: EdgeInsets.zero,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -140,16 +142,21 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             thumbVisibility: true,
                             child: Container(
                                 padding: const EdgeInsets.all(6),
-                                constraints: const BoxConstraints(maxHeight: 130),
+                                constraints:
+                                    const BoxConstraints(maxHeight: 130),
                                 child: GridView.builder(
                                     shrinkWrap: true,
                                     controller: colorController,
                                     physics: const BouncingScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
+                                    gridDelegate:
+                                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                                            maxCrossAxisExtent: 68),
                                     scrollDirection: Axis.vertical,
-                                    itemCount: AppColors().categoryColors.length,
+                                    itemCount:
+                                        AppColors().categoryColors.length,
                                     itemBuilder: (rowContext, index) {
-                                      Color color = AppColors().categoryColors[index];
+                                      Color color =
+                                          AppColors().categoryColors[index];
                                       return ColorCircle(
                                           color: color,
                                           isSelected: color == _selectedColor,
@@ -157,11 +164,8 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                                             setState(() {
                                               _selectedColor = c;
                                             });
-                                          }
-                                      );
-                                    }
-                                )
-                            ),
+                                          });
+                                    })),
                           ),
                         ],
                       ),
@@ -173,7 +177,8 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                     color: Theme.of(context).cardColor,
                     margin: EdgeInsets.zero,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -186,33 +191,33 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                           ),
                           const SizedBox(height: 5),
                           Scrollbar(
-                            controller: iconController,
-                            thumbVisibility: true,
-                            child: Container(
-                                padding: const EdgeInsets.all(6),
-                                constraints: const BoxConstraints(maxHeight: 128),
-                                child: GridView.builder(
-                                    shrinkWrap: true,
-                                    controller: iconController,
-                                    physics: const BouncingScrollPhysics(),
-                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: AppIcons().iconsList.length,
-                                    itemBuilder: (rowContext, index) {
-                                      return IconCircle(
-                                        iconID: index,
-                                        isSelected: _selectedIcon == index,
-                                        onSelect: (id) {
-                                          setState(() {
-                                            _selectedIcon = id;
-                                          });
-                                        },
-                                        selectedColor: _selectedColor,
-                                      );
-                                    }
-                                )
-                            )
-                          ),
+                              controller: iconController,
+                              thumbVisibility: true,
+                              child: Container(
+                                  padding: const EdgeInsets.all(6),
+                                  constraints:
+                                      const BoxConstraints(maxHeight: 128),
+                                  child: GridView.builder(
+                                      shrinkWrap: true,
+                                      controller: iconController,
+                                      physics: const BouncingScrollPhysics(),
+                                      gridDelegate:
+                                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                                              maxCrossAxisExtent: 68),
+                                      scrollDirection: Axis.vertical,
+                                      itemCount: AppIcons().iconsList.length,
+                                      itemBuilder: (rowContext, index) {
+                                        return IconCircle(
+                                          iconID: index,
+                                          isSelected: _selectedIcon == index,
+                                          onSelect: (id) {
+                                            setState(() {
+                                              _selectedIcon = id;
+                                            });
+                                          },
+                                          selectedColor: _selectedColor,
+                                        );
+                                      }))),
                         ],
                       ),
                     ),

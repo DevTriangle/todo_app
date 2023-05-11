@@ -33,7 +33,7 @@ class ColorCircle extends StatelessWidget {
               side: BorderSide(
                   width: 2,
                   color: Theme.of(context).colorScheme.primary,
-                  strokeAlign: StrokeAlign.outside
+                  strokeAlign: BorderSide.strokeAlignOutside
               ),
             ) : null,
             child: SizedBox(

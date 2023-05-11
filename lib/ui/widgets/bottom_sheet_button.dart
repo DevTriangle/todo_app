@@ -7,13 +7,12 @@ class BottomSheetButton extends StatelessWidget {
   final Color? color;
   final Function()? onPressed;
 
-  const BottomSheetButton({
-    super.key,
-    required this.icon,
-    required this.label,
-    this.color,
-    this.onPressed
-  });
+  const BottomSheetButton(
+      {super.key,
+      required this.icon,
+      required this.label,
+      this.color,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -30,20 +29,17 @@ class BottomSheetButton extends StatelessWidget {
               child: Row(
                 children: [
                   Icon(
-                      icon,
-                      color: color ?? Theme.of(context).hintColor,
+                    icon,
+                    color: color ?? Theme.of(context).hintColor,
                   ),
                   const SizedBox(width: 10),
                   Text(
-                      label,
-                      style: const TextStyle(
-                        fontSize: 16
-                      ),
+                    label,
+                    style: TextStyle(
+                        fontSize: 16, color: Theme.of(context).hintColor),
                   )
                 ],
-              )
-          )
-      ),
+              ))),
     );
   }
 }

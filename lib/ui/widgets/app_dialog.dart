@@ -168,9 +168,10 @@ class AppDialogState extends State<AppDialog> {
                   children: [
                     Text(
                       widget.isEditing ? "Изменение события" : "Создание события",
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
+                        color: Theme.of(context).hintColor
                       ),
                       textAlign: TextAlign.center,
                     ),

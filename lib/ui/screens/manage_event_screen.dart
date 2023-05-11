@@ -57,11 +57,12 @@ class ManageEventScreenState extends State<ManageEventScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       "Создание события",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w500,
+                        color: Theme.of(context).hintColor
                       ),
                       textAlign: TextAlign.center,
                     ),

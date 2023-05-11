@@ -9,9 +9,18 @@ import 'package:todo_app/model/response.dart';
 class HomeViewModel extends ChangeNotifier {
   List<AppEvent> eventList = <AppEvent>[];
   List<EventCategory> categoryList = <EventCategory>[
-    EventCategory(categoryTitle: "Праздники", categoryIconID: 0, categoryColor: Colors.amber.value),
-    EventCategory(categoryTitle: "Дни рождения", categoryIconID: 1, categoryColor: Colors.redAccent.value),
-    EventCategory(categoryTitle: "Другое", categoryIconID: 2, categoryColor: Colors.grey.value),
+    EventCategory(
+        categoryTitle: "Праздники",
+        categoryIconID: 0,
+        categoryColor: Colors.amber.value),
+    EventCategory(
+        categoryTitle: "Дни рождения",
+        categoryIconID: 1,
+        categoryColor: Colors.redAccent.value),
+    EventCategory(
+        categoryTitle: "Другое",
+        categoryIconID: 2,
+        categoryColor: Colors.grey.value),
   ];
 
   Future<Response> loadEvents() async {
@@ -28,14 +37,23 @@ class HomeViewModel extends ChangeNotifier {
         Iterable l = json.decode(eventJson);
         List<AppEvent> events = List.from(l.map((e) => AppEvent.fromJson(e)));
 
-        eventList.addAll(events.where((event) => DateTime.parse(event.datetime).add(const Duration(days: 3)).isAfter(DateTime.now())));
-        eventList.sort((a, b) => DateTime.parse(a.datetime).compareTo(DateTime.parse(b.datetime)));
+        eventList.addAll(events.where((event) => DateTime.parse(event.datetime)
+            .add(const Duration(days: 3))
+            .isAfter(DateTime.now())));
+        eventList.sort((a, b) =>
+            DateTime.parse(a.datetime).compareTo(DateTime.parse(b.datetime)));
       }
 
-      return Response(isSuccess: true, message: "События загружены!", code: 0);
+      if (eventList.isNotEmpty) {
+        return Response(
+            isSuccess: true, message: "События загружены!", code: 0);
+      } else {
+        throw "list-null";
+      }
     } catch (e) {
       if (e.toString() == "list-null") {
-        return Response(isSuccess: false, message: "События отсутсвуют!", code: 1);
+        return Response(
+            isSuccess: false, message: "События отсутсвуют!", code: 1);
       } else {
         return Response(isSuccess: false, message: e.toString(), code: -1);
       }
@@ -54,9 +72,11 @@ class HomeViewModel extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      prefs.setString("events", jsonEncode(eList.map((e) => e.toJson()).toList()));
+      prefs.setString(
+          "events", jsonEncode(eList.map((e) => e.toJson()).toList()));
 
-      return Response(isSuccess: true, message: "Изменения сохранены!", code: 0);
+      return Response(
+          isSuccess: true, message: "Изменения сохранены!", code: 0);
     } catch (e) {
       return Response(isSuccess: false, message: e.toString(), code: -1);
     }
@@ -81,7 +101,7 @@ class HomeViewModel extends ChangeNotifier {
 
   Future<Response> loadCategories() async {
     final prefs = await SharedPreferences.getInstance();
-    bool isFirstLoad  = prefs.getBool("isFirstLoad") ?? true;
+    bool isFirstLoad = prefs.getBool("isFirstLoad") ?? true;
 
     if (!isFirstLoad) {
       categoryList.clear();
@@ -89,7 +109,8 @@ class HomeViewModel extends ChangeNotifier {
       saveCategories(categoryList);
       await prefs.setBool("isFirstLoad", false);
 
-      return Response(isSuccess: true, message: "Категории загружены!", code: 0);
+      return Response(
+          isSuccess: true, message: "Категории загружены!", code: 0);
     }
 
     try {
@@ -101,15 +122,18 @@ class HomeViewModel extends ChangeNotifier {
         throw "list-null";
       } else {
         Iterable l = json.decode(eventJson);
-        List<EventCategory> categories = List.from(l.map((e) => EventCategory.fromJson(e)));
+        List<EventCategory> categories =
+            List.from(l.map((e) => EventCategory.fromJson(e)));
 
         categoryList.addAll(categories);
       }
 
-      return Response(isSuccess: true, message: "Категории загружены!", code: 0);
+      return Response(
+          isSuccess: true, message: "Категории загружены!", code: 0);
     } catch (e) {
       if (e.toString() == "list-null") {
-        return Response(isSuccess: true, message: "Категории отсутсвуют!", code: 1);
+        return Response(
+            isSuccess: true, message: "Категории отсутсвуют!", code: 1);
       } else {
         return Response(isSuccess: false, message: e.toString(), code: -1);
       }
@@ -145,9 +169,11 @@ class HomeViewModel extends ChangeNotifier {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      prefs.setString("categories", jsonEncode(catList.map((e) => e.toJson()).toList()));
+      prefs.setString(
+          "categories", jsonEncode(catList.map((e) => e.toJson()).toList()));
 
-      return Response(isSuccess: true, message: "Изменения сохранены!", code: 0);
+      return Response(
+          isSuccess: true, message: "Изменения сохранены!", code: 0);
     } catch (e) {
       return Response(isSuccess: false, message: e.toString(), code: -1);
     }

@@ -68,8 +68,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
             categoryColor: _selectedColor.value,
             categoryTitle: _categoryTitle,
           ),
-          viewModel.categoryList.indexOf(_category)
-      );
+          viewModel.categoryList.indexOf(_category));
     }
   }
 
@@ -80,7 +79,8 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
         builder: (BuildContext dialogContext) {
           return AppAlertDialog(
               title: "Удалить категорию?",
-              description: "Вы действительно хотите удалить выбранную категорию?",
+              description:
+                  "Вы действительно хотите удалить выбранную категорию?",
               confirmTitle: "Подтвердить",
               onConfirmPressed: () {
                 Navigator.pop(context);
@@ -90,10 +90,8 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
               onDismissPressed: () {
                 Navigator.pop(context);
                 result = false;
-              }
-          );
-        }
-    );
+              });
+        });
     return result;
   }
 
@@ -113,7 +111,8 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: SingleChildScrollView(
         child: Container(
-          padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
+          padding:
+              const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
           child: Wrap(
             children: [
               Column(
@@ -122,12 +121,12 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         "Настройка категории",
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                        ),
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Theme.of(context).hintColor),
                         textAlign: TextAlign.center,
                       ),
                       Card(
@@ -142,7 +141,8 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                             padding: const EdgeInsets.all(4),
                             child: Icon(
                               Icons.close_rounded,
-                              color: Theme.of(context).hintColor.withOpacity(0.65),
+                              color:
+                                  Theme.of(context).hintColor.withOpacity(0.65),
                             ),
                           ),
                         ),
@@ -153,20 +153,21 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                   CategoryDropdown(
                       value: _category,
                       items: viewModel.categoryList,
-                      margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 0.0, vertical: 0),
                       onChanged: (eventCategory) {
                         setState(() {
                           _category = eventCategory;
                           _titleController.text = _category.categoryTitle;
                           _categoryTitle = _category.categoryTitle;
                         });
-                      }
-                  ),
+                      }),
                   const SizedBox(height: 8),
                   AppTextField(
                     hint: "Название",
                     controller: _titleController,
-                    margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 0),
                     onChanged: (value) {
                       if (_titleError != null) {
                         setState(() {
@@ -183,7 +184,8 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                     color: Theme.of(context).cardColor,
                     margin: EdgeInsets.zero,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -200,28 +202,31 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                             thumbVisibility: true,
                             child: Container(
                                 padding: const EdgeInsets.all(6),
-                                constraints: const BoxConstraints(maxHeight: 130),
+                                constraints:
+                                    const BoxConstraints(maxHeight: 130),
                                 child: GridView.builder(
                                   controller: colorController,
                                   shrinkWrap: true,
                                   physics: const BouncingScrollPhysics(),
-                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                                          maxCrossAxisExtent: 68),
                                   scrollDirection: Axis.vertical,
                                   itemCount: AppColors().categoryColors.length,
                                   itemBuilder: (rowContext, index) {
-                                    Color color = AppColors().categoryColors[index];
+                                    Color color =
+                                        AppColors().categoryColors[index];
                                     return ColorCircle(
                                         color: color,
-                                        isSelected: Color(color.value) == _selectedColor,
+                                        isSelected: Color(color.value) ==
+                                            _selectedColor,
                                         onSelect: (c) {
                                           setState(() {
                                             _selectedColor = c;
                                           });
-                                        }
-                                    );
+                                        });
                                   },
-                                )
-                            ),
+                                )),
                           )
                         ],
                       ),
@@ -233,7 +238,8 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                     color: Theme.of(context).cardColor,
                     margin: EdgeInsets.zero,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -250,12 +256,15 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                             thumbVisibility: true,
                             child: Container(
                                 padding: const EdgeInsets.all(6),
-                                constraints: const BoxConstraints(maxHeight: 128),
+                                constraints:
+                                    const BoxConstraints(maxHeight: 128),
                                 child: GridView.builder(
                                   controller: iconController,
                                   shrinkWrap: true,
                                   physics: const BouncingScrollPhysics(),
-                                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithMaxCrossAxisExtent(
+                                          maxCrossAxisExtent: 68),
                                   scrollDirection: Axis.vertical,
                                   itemCount: AppIcons().iconsList.length,
                                   itemBuilder: (rowContext, index) {
@@ -270,8 +279,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                                       selectedColor: _selectedColor,
                                     );
                                   },
-                                )
-                            ),
+                                )),
                           )
                         ],
                       ),
@@ -282,13 +290,18 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      viewModel.categoryList.length > 1 ? AppTextButton(
-                        label: "Удалить",
-                        onPressed: _removeCategory,
-                        splashColor: Theme.of(context).errorColor.withOpacity(0.2),
-                        hoverColor: Theme.of(context).errorColor.withOpacity(0.1),
-                        textStyle: TextStyle(color: Theme.of(context).errorColor),
-                      ) : const SizedBox(),
+                      viewModel.categoryList.length > 1
+                          ? AppTextButton(
+                              label: "Удалить",
+                              onPressed: _removeCategory,
+                              splashColor:
+                                  Theme.of(context).errorColor.withOpacity(0.2),
+                              hoverColor:
+                                  Theme.of(context).errorColor.withOpacity(0.1),
+                              textStyle: TextStyle(
+                                  color: Theme.of(context).errorColor),
+                            )
+                          : const SizedBox(),
                       FloatingActionButton(
                         elevation: 0,
                         onPressed: _saveCategory,

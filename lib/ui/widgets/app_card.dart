@@ -89,7 +89,7 @@ class AppCardState extends State<AppCard> {
               elevation: 0,
               margin: EdgeInsets.zero,
               shape: Border(
-                  left: BorderSide(color: widget.color, width: 6, strokeAlign: StrokeAlign.inside)
+                  left: BorderSide(color: widget.color, width: 6, strokeAlign: BorderSide.strokeAlignInside)
               ),
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
