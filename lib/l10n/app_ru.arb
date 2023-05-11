@@ -1,0 +1,67 @@
+{
+    "delete_dialog_title": "Удалить это событие?",
+    "delete_dialog_description": "Вы действительно хотите удалить это событие?",
+    "delete_category_title": "Удалить эту категорию?",
+    "delete_category_description": "Вы действительно хотите удалить эту категорию?",
+
+    "dialog_confirm": "Подтвердить",
+    "dialog_cancel": "Отменить",
+
+    "event_delete": "Событие успешно удалено!",
+    "category_created": "Категория успешно создана!",
+
+    "event_add": "Добавить новое событие",
+    "category_add": "Добавить новую категорию",
+    "category_save": "Сохранить категорию",
+    
+    "event_creation_title": "Создание события",
+    "event_manage_title": "Изменение события",
+    "category_creation_title": "Создание категории",
+    "category_manage_title": "Изменение категории",
+
+    "event_start_date": "Дата начала события",
+    "event_in_progress": "В прогрессе",
+    
+    "events": "События",
+    "name": "Название",
+    "color": "Цвет",
+    "icon": "Иконка",
+    "settings": "Settings",
+
+    "settings_category_creation_title": "Создание категории",
+    "settings_category_creation_description": "Создавайте и добавляйте новые категории",
+    "settings_category_manage_title": "Управление категориями",
+    "settings_category_manage_description": "Изменяйте и удаляйте существующие категории",
+
+    "app_version": "Версия приложения: ",
+
+    "add": "Добавить",
+    "delete": "Удалить",
+
+    "empty_error": "Поле должно быть заполнено",
+    "empty_date_error": "Укажите дату события",
+
+    "years_one": "год",
+    "years_few": "года",
+    "years_many": "лет",
+
+    "months_one": "месяц",
+    "months_few": "месяца",
+    "months_many": "месяцев",
+
+    "days_one": "день",
+    "days_few": "дня",
+    "days_many": "дней",
+
+    "hours_one": "час",
+    "hours_few": "часа",
+    "hours_many": "часов",
+
+    "minutes_one": "минута",
+    "minutes_few": "минуты",
+    "minutes_many": "минут",
+
+    "seconds_one": "секунда",
+    "seconds_few": "секунды",
+    "seconds_many": "секунд"
+}

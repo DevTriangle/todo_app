@@ -1,7 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/ui/widgets/setting_category_dialog.dart';
 import 'package:todo_app/ui/widgets/settings_field.dart';
 
@@ -13,6 +15,8 @@ import '../widgets/app_button.dart';
 import '../widgets/app_snackbar_content.dart';
 import '../widgets/category_dialog.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
@@ -23,9 +27,16 @@ class SettingsScreen extends StatefulWidget {
 class SettingsScreenState extends State<SettingsScreen> {
   late HomeViewModel viewModel;
 
+  String appVersion = "";
+
   @override
   void initState() {
     super.initState();
+
+    PackageInfo.fromPlatform().then((value) {
+      appVersion = value.version;
+      setState(() {});
+    });
 
     viewModel = Provider.of<HomeViewModel>(context, listen: false);
   }
@@ -37,18 +48,17 @@ class SettingsScreenState extends State<SettingsScreen> {
           return StatefulBuilder(
             builder: (mContext, setState) {
               return SettingCategoryDialog(
-                  onCloseClick: () {
-                    Navigator.pop(context);
-                  },
-                  onCategoryChange: (eventCategory, index) {
-                    viewModel.editCategory(index, eventCategory);
-                    Navigator.pop(context);
-                  },
+                onCloseClick: () {
+                  Navigator.pop(context);
+                },
+                onCategoryChange: (eventCategory, index) {
+                  viewModel.editCategory(index, eventCategory);
+                  Navigator.pop(context);
+                },
               );
             },
           );
-        }
-    );
+        });
   }
 
   void _createCategoryDialog() {
@@ -57,19 +67,15 @@ class SettingsScreenState extends State<SettingsScreen> {
         builder: (BuildContext dialogContext) {
           return StatefulBuilder(
             builder: (mContext, setState) {
-              return AppCategoryDialog(
-                  onCloseClick: () {
-                    Navigator.pop(context);
-                  },
-                  onCategoryCreate: (category) async {
-                    Navigator.pop(context);
-                    _createCategory(category);
-                  }
-              );
+              return AppCategoryDialog(onCloseClick: () {
+                Navigator.pop(context);
+              }, onCategoryCreate: (category) async {
+                Navigator.pop(context);
+                _createCategory(category);
+              });
             },
           );
-        }
-    );
+        });
   }
 
   void _createCategory(EventCategory category) async {
@@ -81,11 +87,9 @@ class SettingsScreenState extends State<SettingsScreen> {
           margin: const EdgeInsets.all(10),
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           behavior: SnackBarBehavior.floating,
-          content: const AppSnackBarContent(
-              label: "Категория создана!",
-              icon: Icons.info_rounded
-          )
-      );
+          content: AppSnackBarContent(
+              label: AppLocalizations.of(context).category_created,
+              icon: Icons.info_rounded));
       _showSnackbar(snackBar);
     }
   }
@@ -103,101 +107,99 @@ class SettingsScreenState extends State<SettingsScreen> {
                 body: CustomScrollView(
                     physics: const BouncingScrollPhysics(),
                     slivers: [
-                      SliverAppBar(
-                        pinned: true,
-                        floating: false,
-                        elevation: 0,
-                        automaticallyImplyLeading: false,
-                        backgroundColor: Colors.transparent,
-                        flexibleSpace: FlexibleSpaceBar(
-                          collapseMode: CollapseMode.parallax,
-                          background: ConstrainedBox(
-                              constraints: const BoxConstraints.expand(),
-                              child: BackdropFilter(
-                                filter: ImageFilter.blur(sigmaX: 5.0,sigmaY: 5.0),
-                                child: Container(
-                                  decoration: BoxDecoration(color: Theme.of(context).colorScheme.background.withOpacity(0.65)),
-                                ),
-                              )
-                          ),
-                          centerTitle: false,
-                          titlePadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                          title: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Container(
-                                      padding: const EdgeInsets.only(left: 10),
-                                      child: AppIconButton(
-                                        icon: Icons.arrow_back_rounded,
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                      )
-                                  )
-                                ],
-                              ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 16),
-                                child: Text(
-                                  "Настройки",
-                                  style: TextStyle(
-                                    fontSize: 19,
-                                    fontWeight: FontWeight.w500,
-                                    color: Theme.of(context).hintColor
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+              SliverAppBar(
+                pinned: true,
+                floating: false,
+                elevation: 0,
+                automaticallyImplyLeading: false,
+                backgroundColor: Colors.transparent,
+                flexibleSpace: FlexibleSpaceBar(
+                  collapseMode: CollapseMode.parallax,
+                  background: ConstrainedBox(
+                      constraints: const BoxConstraints.expand(),
+                      child: BackdropFilter(
+                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .background
+                                  .withOpacity(0.65)),
+                        ),
+                      )),
+                  centerTitle: false,
+                  titlePadding:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  title: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                              padding: const EdgeInsets.only(left: 10),
+                              child: AppIconButton(
+                                icon: Icons.arrow_back_rounded,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ))
+                        ],
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 16),
+                        child: Text(
+                          AppLocalizations.of(context).settings,
+                          style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w500,
+                              color: Theme.of(context).hintColor),
                         ),
                       ),
-                      SliverList(
-                          delegate: SliverChildListDelegate([
-                            SettingsField(
-                                title: "Создать категорию",
-                                description: "Создать новую категорию",
-                                trailingWidget: Icon(
-                                  Icons.add_rounded,
-                                  color: Theme.of(context).hintColor,
-                                ),
-                                onPressed: _createCategoryDialog
-                            ),
-                            SettingsField(
-                                title: "Настройка категорий",
-                                description: "Настройка добавленных категорий",
-                                trailingWidget: Icon(
-                                  Icons.edit_rounded,
-                                  color: Theme.of(context).hintColor,
-                                ),
-                                onPressed: _settingCategories
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              "Версия приложения: 1.0",
-                              style: TextStyle(
-                                color: Theme.of(context).hintColor.withOpacity(0.5),
-                                fontSize: 12
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(height: 10),
-                            Text(
-                              "Icons made by Freepik from www.flaticon.com",
-                              style: TextStyle(
-                                  color: Theme.of(context).hintColor.withOpacity(0.2),
-                                  fontSize: 12
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ])
-                      )
-                    ]
-                )
-            )
-        )
-    );
+                    ],
+                  ),
+                ),
+              ),
+              SliverList(
+                  delegate: SliverChildListDelegate([
+                SettingsField(
+                    title: AppLocalizations.of(context)
+                        .settings_category_creation_title,
+                    description: AppLocalizations.of(context)
+                        .settings_category_creation_description,
+                    trailingWidget: Icon(
+                      Icons.add_rounded,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    onPressed: _createCategoryDialog),
+                SettingsField(
+                    title: AppLocalizations.of(context)
+                        .settings_category_manage_title,
+                    description: AppLocalizations.of(context)
+                        .settings_category_manage_description,
+                    trailingWidget: Icon(
+                      Icons.edit_rounded,
+                      color: Theme.of(context).hintColor,
+                    ),
+                    onPressed: _settingCategories),
+                const SizedBox(height: 10),
+                Text(
+                  "${AppLocalizations.of(context).app_version}$appVersion",
+                  style: TextStyle(
+                      color: Theme.of(context).hintColor.withOpacity(0.5),
+                      fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 10),
+                Text(
+                  "Icons made by Freepik from www.flaticon.com",
+                  style: TextStyle(
+                      color: Theme.of(context).hintColor.withOpacity(0.2),
+                      fontSize: 12),
+                  textAlign: TextAlign.center,
+                ),
+              ]))
+            ]))));
   }
 }

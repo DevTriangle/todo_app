@@ -11,6 +11,8 @@ import 'package:todo_app/viewmodel/home_viewmodel.dart';
 
 import 'app_button.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class AppDialog extends StatefulWidget {
   final String title;
   final DateTime destination;
@@ -20,16 +22,15 @@ class AppDialog extends StatefulWidget {
   final Function() onRemoveClick;
   final bool isEditing;
 
-  const AppDialog({
-    super.key,
-    this.title = "",
-    required this.destination,
-    required this.categoryIndex,
-    required this.onCloseClick,
-    required this.onEventCreate,
-    required this.onRemoveClick,
-    required this.isEditing
-  });
+  const AppDialog(
+      {super.key,
+      this.title = "",
+      required this.destination,
+      required this.categoryIndex,
+      required this.onCloseClick,
+      required this.onEventCreate,
+      required this.onRemoveClick,
+      required this.isEditing});
 
   @override
   State<StatefulWidget> createState() => AppDialogState();
@@ -58,7 +59,8 @@ class AppDialogState extends State<AppDialog> {
     _category = viewModel.categoryList[widget.categoryIndex];
 
     _selectedDate = widget.destination;
-    _selectedTime = TimeOfDay(hour: widget.destination.hour, minute: widget.destination.minute);
+    _selectedTime = TimeOfDay(
+        hour: widget.destination.hour, minute: widget.destination.minute);
   }
 
   String? _titleError;
@@ -76,11 +78,14 @@ class AppDialogState extends State<AppDialog> {
       lastDate: DateTime.now().add(const Duration(days: 1000)),
       builder: (BuildContext mContext, Widget? child) {
         return Theme(
-          data: ThemeData.from(colorScheme: Theme.of(context).colorScheme, useMaterial3: true).copyWith(
+          data: ThemeData.from(
+                  colorScheme: Theme.of(context).colorScheme,
+                  useMaterial3: true)
+              .copyWith(
             colorScheme: Theme.of(context).colorScheme.copyWith(
-              surface: AppColors.primarySwatch.shade900,
-              onSurface: Theme.of(context).hintColor,
-            ),
+                  surface: AppColors.primarySwatch.shade900,
+                  onSurface: Theme.of(context).hintColor,
+                ),
           ),
           child: child!,
         );
@@ -95,11 +100,14 @@ class AppDialogState extends State<AppDialog> {
         initialTime: TimeOfDay.now(),
         builder: (BuildContext mContext, Widget? child) {
           return Theme(
-            data: ThemeData.from(colorScheme: Theme.of(context).colorScheme, useMaterial3: true).copyWith(
+            data: ThemeData.from(
+                    colorScheme: Theme.of(context).colorScheme,
+                    useMaterial3: true)
+                .copyWith(
               colorScheme: Theme.of(context).colorScheme.copyWith(
-                surface: Theme.of(context).colorScheme.surface,
-                onSurface: Theme.of(context).hintColor,
-              ),
+                    surface: Theme.of(context).colorScheme.surface,
+                    onSurface: Theme.of(context).hintColor,
+                  ),
             ),
             child: child!,
           );
@@ -121,7 +129,8 @@ class AppDialogState extends State<AppDialog> {
         if (_selectedTime!.minute < 10) minutes = "0$minutes";
 
         setState(() {
-          _dateTimeController.text = "$day.$month.${_selectedDate.year} $hours:$minutes";
+          _dateTimeController.text =
+              "$day.$month.${_selectedDate.year} $hours:$minutes";
         });
       }
     }
@@ -130,24 +139,24 @@ class AppDialogState extends State<AppDialog> {
   void _saveEvent() {
     if (_eventTitle.trim().isEmpty) {
       setState(() {
-        _titleError = "Поле должно быть заполнено.";
+        _titleError = AppLocalizations.of(context).empty_error;
       });
     }
 
     if (_selectedTime == null) {
       setState(() {
-        _dateError = "Выбреите дату.";
+        _dateError = AppLocalizations.of(context).empty_date_error;
       });
     }
 
     if (_titleError == null && _dateError == null) {
-      widget.onEventCreate(
-          AppEvent(
-              title: _eventTitle,
-              eventCategory: _category,
-              datetime: DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _selectedTime!.hour, _selectedTime!.minute).toString(),
-          )
-      );
+      widget.onEventCreate(AppEvent(
+        title: _eventTitle,
+        eventCategory: _category,
+        datetime: DateTime(_selectedDate.year, _selectedDate.month,
+                _selectedDate.day, _selectedTime!.hour, _selectedTime!.minute)
+            .toString(),
+      ));
     }
   }
 
@@ -157,7 +166,8 @@ class AppDialogState extends State<AppDialog> {
       shape: AppShapes.roundedRectangleShape,
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: Container(
-        padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
+        padding:
+            const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
         child: Wrap(
           children: [
             Column(
@@ -167,12 +177,13 @@ class AppDialogState extends State<AppDialog> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      widget.isEditing ? "Изменение события" : "Создание события",
+                      widget.isEditing
+                          ? AppLocalizations.of(context).event_manage_title
+                          : AppLocalizations.of(context).event_creation_title,
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).hintColor
-                      ),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).hintColor),
                       textAlign: TextAlign.center,
                     ),
                     Card(
@@ -187,7 +198,8 @@ class AppDialogState extends State<AppDialog> {
                           padding: const EdgeInsets.all(4),
                           child: Icon(
                             Icons.close_rounded,
-                            color: Theme.of(context).hintColor.withOpacity(0.65),
+                            color:
+                                Theme.of(context).hintColor.withOpacity(0.65),
                           ),
                         ),
                       ),
@@ -196,8 +208,9 @@ class AppDialogState extends State<AppDialog> {
                 ),
                 const SizedBox(height: 13),
                 AppTextField(
-                  hint: "Название",
-                  margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                  hint: AppLocalizations.of(context).name,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
                   controller: _titleController,
                   onChanged: (value) {
                     if (_titleError != null) {
@@ -217,12 +230,12 @@ class AppDialogState extends State<AppDialog> {
                       setState(() {
                         _category = eventCategory;
                       });
-                    }
-                ),
+                    }),
                 const SizedBox(height: 9),
                 AppTextField(
-                  hint: "Дата начала события",
-                  margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
+                  hint: AppLocalizations.of(context).event_start_date,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
                   onChanged: (value) {},
                   icon: Icons.calendar_month_rounded,
                   controller: _dateTimeController,
@@ -241,17 +254,22 @@ class AppDialogState extends State<AppDialog> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    widget.isEditing ? AppTextButton(
-                      label: "Удалить",
-                      onPressed: widget.onRemoveClick,
-                      splashColor: Theme.of(context).errorColor.withOpacity(0.2),
-                      hoverColor: Theme.of(context).errorColor.withOpacity(0.1),
-                      textStyle: TextStyle(color: Theme.of(context).errorColor),
-                    ) : const SizedBox(),
+                    widget.isEditing
+                        ? AppTextButton(
+                            label: AppLocalizations.of(context).delete,
+                            onPressed: widget.onRemoveClick,
+                            splashColor:
+                                Theme.of(context).errorColor.withOpacity(0.2),
+                            hoverColor:
+                                Theme.of(context).errorColor.withOpacity(0.1),
+                            textStyle:
+                                TextStyle(color: Theme.of(context).errorColor),
+                          )
+                        : const SizedBox(),
                     FloatingActionButton(
                       elevation: 0,
                       onPressed: _saveEvent,
-                      tooltip: "Добавить событие",
+                      tooltip: AppLocalizations.of(context).event_add,
                       heroTag: "fab",
                       child: const Icon(Icons.check_rounded),
                     )

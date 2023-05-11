@@ -8,6 +8,8 @@ import 'package:todo_app/ui/widgets/app_text_field.dart';
 
 import '../../viewmodel/home_viewmodel.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class ManageEventScreen extends StatefulWidget {
   const ManageEventScreen({
     super.key,
@@ -58,12 +60,11 @@ class ManageEventScreenState extends State<ManageEventScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Создание события",
+                      AppLocalizations.of(context).event_creation_title,
                       style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500,
-                        color: Theme.of(context).hintColor
-                      ),
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context).hintColor),
                       textAlign: TextAlign.center,
                     ),
                     Card(
@@ -73,14 +74,15 @@ class ManageEventScreenState extends State<ManageEventScreen> {
                       elevation: 0,
                       shape: AppShapes.circleShape,
                       child: InkWell(
-                        onTap: (){
+                        onTap: () {
                           Navigator.pop(context);
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(4),
                           child: Icon(
                             Icons.close_rounded,
-                            color: Theme.of(context).hintColor.withOpacity(0.65),
+                            color:
+                                Theme.of(context).hintColor.withOpacity(0.65),
                           ),
                         ),
                       ),
@@ -89,12 +91,10 @@ class ManageEventScreenState extends State<ManageEventScreen> {
                 ),
                 const SizedBox(height: 13),
                 AppTextField(
-                    hint: "Название",
-                    margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 3),
-                    onChanged: (value) {
-
-                    }
-                ),
+                    hint: AppLocalizations.of(context).name,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 3),
+                    onChanged: (value) {}),
                 CategoryDropdown(
                     value: category,
                     items: viewModel.categoryList,
@@ -102,8 +102,7 @@ class ManageEventScreenState extends State<ManageEventScreen> {
                       setState(() {
                         category = eventCategory;
                       });
-                    }
-                ),
+                    }),
                 SizedBox(
                   height: 33,
                   child: ListView.builder(
@@ -118,10 +117,8 @@ class ManageEventScreenState extends State<ManageEventScreen> {
                               setState(() {
                                 selectedColor = c;
                               });
-                            }
-                        );
-                      }
-                  ),
+                            });
+                      }),
                 )
               ],
             )

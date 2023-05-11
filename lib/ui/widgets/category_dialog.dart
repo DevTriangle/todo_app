@@ -10,6 +10,8 @@ import 'package:todo_app/ui/widgets/icon_circle.dart';
 
 import '../../viewmodel/home_viewmodel.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class AppCategoryDialog extends StatefulWidget {
   final Function() onCloseClick;
   final Function(EventCategory) onCategoryCreate;
@@ -45,7 +47,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
   void _saveCategory() {
     if (_eventTitle.trim().isEmpty) {
       setState(() {
-        _titleError = "Поле должно быть заполнено.";
+        _titleError = AppLocalizations.of(context).empty_error;
       });
     }
 
@@ -76,7 +78,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Создание категории",
+                        AppLocalizations.of(context).category_creation_title,
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -105,7 +107,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                   ),
                   const SizedBox(height: 13),
                   AppTextField(
-                    hint: "Название",
+                    hint: AppLocalizations.of(context).name,
                     margin: const EdgeInsets.symmetric(
                         horizontal: 0.0, vertical: 0),
                     onChanged: (value) {
@@ -130,7 +132,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Цвет",
+                            AppLocalizations.of(context).color,
                             style: TextStyle(
                               color: Theme.of(context).hintColor,
                               fontSize: 16,
@@ -183,7 +185,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Иконка",
+                            AppLocalizations.of(context).icon,
                             style: TextStyle(
                               color: Theme.of(context).hintColor,
                               fontSize: 16,
@@ -229,7 +231,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                       FloatingActionButton(
                         elevation: 0,
                         onPressed: _saveCategory,
-                        tooltip: "Добавить категорию",
+                        tooltip: AppLocalizations.of(context).category_add,
                         heroTag: "fab",
                         child: const Icon(Icons.check_rounded),
                       )

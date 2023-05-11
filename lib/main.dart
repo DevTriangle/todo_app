@@ -5,15 +5,13 @@ import 'package:todo_app/ui/screens/home_screen.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 Future<void> main() async {
-  runApp(
-      MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => HomeViewModel())
-          ],
-        child: const MyApp(),
-      )
-  );
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider(create: (_) => HomeViewModel())],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,11 +24,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch).copyWith(
-            brightness: Brightness.light,
-            background: AppColors.lightBackgroundColor,
-            surface: AppColors.lightCardColor
-        ),
+        colorScheme:
+            ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch)
+                .copyWith(
+                    brightness: Brightness.light,
+                    background: AppColors.lightBackgroundColor,
+                    surface: AppColors.lightCardColor),
         canvasColor: AppColors.lightBackgroundColor,
         scaffoldBackgroundColor: AppColors.lightBackgroundColor,
         hintColor: AppColors.lightTextColor,
@@ -39,11 +38,12 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch).copyWith(
-            brightness: Brightness.dark,
-            background: AppColors.darkBackgroundColor,
-            surface: AppColors.darkCardColor
-        ),
+        colorScheme:
+            ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch)
+                .copyWith(
+                    brightness: Brightness.dark,
+                    background: AppColors.darkBackgroundColor,
+                    surface: AppColors.darkCardColor),
         canvasColor: AppColors.darkBackgroundColor,
         scaffoldBackgroundColor: AppColors.darkBackgroundColor,
         hintColor: AppColors.darkTextColor,
@@ -51,16 +51,12 @@ class MyApp extends StatelessWidget {
         fontFamily: "Rubik",
       ),
       themeMode: ThemeMode.system,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('ru'),
-      ],
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       home: const HomeScreen(),
-      builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
+      builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!),
     );
   }
 }

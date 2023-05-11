@@ -13,6 +13,8 @@ import 'app_text_field.dart';
 import 'color_circle.dart';
 import 'icon_circle.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class SettingCategoryDialog extends StatefulWidget {
   final Function() onCloseClick;
   final Function(EventCategory, int) onCategoryChange;
@@ -57,7 +59,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
   void _saveCategory() {
     if (_categoryTitle.trim().isEmpty) {
       setState(() {
-        _titleError = "Поле должно быть заполнено.";
+        _titleError = AppLocalizations.of(context).empty_error;
       });
     }
 
@@ -78,15 +80,15 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
         context: context,
         builder: (BuildContext dialogContext) {
           return AppAlertDialog(
-              title: "Удалить категорию?",
+              title: AppLocalizations.of(context).delete_category_title,
               description:
-                  "Вы действительно хотите удалить выбранную категорию?",
-              confirmTitle: "Подтвердить",
+                  AppLocalizations.of(context).delete_category_description,
+              confirmTitle: AppLocalizations.of(context).dialog_confirm,
               onConfirmPressed: () {
                 Navigator.pop(context);
                 result = true;
               },
-              dismissTitle: "Отменить",
+              dismissTitle: AppLocalizations.of(context).dialog_cancel,
               onDismissPressed: () {
                 Navigator.pop(context);
                 result = false;
@@ -122,7 +124,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Настройка категории",
+                        AppLocalizations.of(context).category_manage_title,
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w500,
@@ -164,7 +166,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                       }),
                   const SizedBox(height: 8),
                   AppTextField(
-                    hint: "Название",
+                    hint: AppLocalizations.of(context).name,
                     controller: _titleController,
                     margin: const EdgeInsets.symmetric(
                         horizontal: 0.0, vertical: 0),
@@ -190,7 +192,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Цвет",
+                            AppLocalizations.of(context).color,
                             style: TextStyle(
                               color: Theme.of(context).hintColor,
                               fontSize: 16,
@@ -244,7 +246,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Иконка",
+                            AppLocalizations.of(context).icon,
                             style: TextStyle(
                               color: Theme.of(context).hintColor,
                               fontSize: 16,
@@ -292,7 +294,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                     children: [
                       viewModel.categoryList.length > 1
                           ? AppTextButton(
-                              label: "Удалить",
+                              label: AppLocalizations.of(context).delete,
                               onPressed: _removeCategory,
                               splashColor:
                                   Theme.of(context).errorColor.withOpacity(0.2),
@@ -305,7 +307,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                       FloatingActionButton(
                         elevation: 0,
                         onPressed: _saveCategory,
-                        tooltip: "Сохранить категорию",
+                        tooltip: AppLocalizations.of(context).category_save,
                         heroTag: "fab",
                         child: const Icon(Icons.check_rounded),
                       )
