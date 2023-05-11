@@ -27,7 +27,7 @@ class AppAlertDialog extends StatelessWidget {
       titlePadding: const EdgeInsets.only(left: 20, right: 20, bottom: 20, top: 20),
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
       actionsPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      surfaceTintColor: Theme.of(context).cardColor,
       title: Text(
         title,
         style: TextStyle(

@@ -1,52 +1,55 @@
+import 'package:flutter/material.dart';
 import 'package:jiffy/jiffy.dart';
 
-String getCurrentDate() {
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+String getCurrentDate(BuildContext context) {
   DateTime currentDate = DateTime.now();
 
   String currentWeekday = "";
   String currentMonth = "";
 
   switch(currentDate.month) {
-    case 1: currentMonth = "Января";
+    case 1: currentMonth = AppLocalizations.of(context).january;
     break;
-    case 2: currentMonth = "Февраля";
+    case 2: currentMonth = AppLocalizations.of(context).february;
     break;
-    case 3: currentMonth = "Марта";
+    case 3: currentMonth = AppLocalizations.of(context).march;
     break;
-    case 4: currentMonth = "Апреля";
+    case 4: currentMonth = AppLocalizations.of(context).april;
     break;
-    case 5: currentMonth = "Мая";
+    case 5: currentMonth = AppLocalizations.of(context).may;
     break;
-    case 6: currentMonth = "Июня";
+    case 6: currentMonth = AppLocalizations.of(context).june;
     break;
-    case 7: currentMonth = "Июля";
+    case 7: currentMonth = AppLocalizations.of(context).july;
     break;
-    case 8: currentMonth = "Августа";
+    case 8: currentMonth = AppLocalizations.of(context).august;
     break;
-    case 9: currentMonth = "Сентября";
+    case 9: currentMonth = AppLocalizations.of(context).september;
     break;
-    case 10: currentMonth = "Октября";
+    case 10: currentMonth = AppLocalizations.of(context).october;
     break;
-    case 11: currentMonth = "Ноября";
+    case 11: currentMonth = AppLocalizations.of(context).november;
     break;
-    case 12: currentMonth = "Декабря";
+    case 12: currentMonth = AppLocalizations.of(context).december;
     break;
   }
 
   switch(currentDate.weekday) {
-    case 1: currentWeekday = "Пн";
+    case 1: currentWeekday = AppLocalizations.of(context).monday;
     break;
-    case 2: currentWeekday = "Вт";
+    case 2: currentWeekday = AppLocalizations.of(context).tuesday;
     break;
-    case 3: currentWeekday = "Ср";
+    case 3: currentWeekday = AppLocalizations.of(context).wednesday;
     break;
-    case 4: currentWeekday = "Чт";
+    case 4: currentWeekday = AppLocalizations.of(context).thursday;
     break;
-    case 5: currentWeekday = "Пт";
+    case 5: currentWeekday = AppLocalizations.of(context).friday;
     break;
-    case 6: currentWeekday = "Сб";
+    case 6: currentWeekday = AppLocalizations.of(context).saturday;
     break;
-    case 7: currentWeekday = "Вс";
+    case 7: currentWeekday = AppLocalizations.of(context).sunday;
     break;
   }
 

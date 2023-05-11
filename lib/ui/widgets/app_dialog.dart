@@ -73,7 +73,7 @@ class AppDialogState extends State<AppDialog> {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: _selectedDate,
-      locale: const Locale("ru", "RU"),
+      locale: Locale(AppLocalizations.of(context).localeName),
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 1000)),
       builder: (BuildContext mContext, Widget? child) {
@@ -85,6 +85,9 @@ class AppDialogState extends State<AppDialog> {
             colorScheme: Theme.of(context).colorScheme.copyWith(
                   surface: AppColors.primarySwatch.shade900,
                   onSurface: Theme.of(context).hintColor,
+                  onPrimaryContainer: Theme.of(context).hintColor,
+                  onSecondaryContainer: Theme.of(context).hintColor,
+                  onTertiaryContainer: Theme.of(context).hintColor
                 ),
           ),
           child: child!,
@@ -164,7 +167,7 @@ class AppDialogState extends State<AppDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: AppShapes.roundedRectangleShape,
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      surfaceTintColor: Theme.of(context).cardColor,
       child: Container(
         padding:
             const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),

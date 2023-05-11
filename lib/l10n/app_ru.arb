@@ -1,4 +1,10 @@
 {
+    "events_loaded": "События загружены!",
+    "events_empty": "События отсутсвуют!",
+    "categories_loaded": "Категории загружены!",
+    "categories_empty": "Категории отсутсвуют!",
+    "saved": "Изменения сохранены!",
+
     "delete_dialog_title": "Удалить это событие?",
     "delete_dialog_description": "Вы действительно хотите удалить это событие?",
     "delete_category_title": "Удалить эту категорию?",
@@ -63,5 +69,30 @@
 
     "seconds_one": "секунда",
     "seconds_few": "секунды",
-    "seconds_many": "секунд"
+    "seconds_many": "секунд",
+
+    "category_1": "Праздники",
+    "category_2": "Дни рождения",
+    "category_3": "Другое",
+
+    "january": "Января",
+    "february": "Февраля",
+    "march": "Марта",
+    "april": "Апреля",
+    "may": "Мая",
+    "june": "Июня",
+    "july": "Июля",
+    "august": "Августа",
+    "september": "Сентября",
+    "october": "Октября",
+    "november": "Ноября",
+    "december": "Декабря",
+
+    "monday": "Пн",
+    "tuesday": "Вт",
+    "wednesday": "Ср",
+    "thursday": "Чт",
+    "friday": "Пт",
+    "saturday": "Сб",
+    "sunday": "Вс"
 }

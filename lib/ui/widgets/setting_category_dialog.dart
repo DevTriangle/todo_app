@@ -110,7 +110,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       shape: AppShapes.roundedRectangleShape,
-      backgroundColor: Theme.of(context).colorScheme.surface,
+      surfaceTintColor: Theme.of(context).cardColor,
       child: SingleChildScrollView(
         child: Container(
           padding:

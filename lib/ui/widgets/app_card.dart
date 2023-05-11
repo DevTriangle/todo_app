@@ -96,7 +96,7 @@ class AppCardState extends State<AppCard> {
                       strokeAlign: BorderSide.strokeAlignInside)),
               child: Container(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 26),
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
                 child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -121,6 +121,7 @@ class AppCardState extends State<AppCard> {
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w500,
+                                      color: Theme.of(context).hintColor,
                                       height: 1.1),
                                   softWrap: true,
                                 ),
