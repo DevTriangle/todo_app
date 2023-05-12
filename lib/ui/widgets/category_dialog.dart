@@ -67,8 +67,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
       surfaceTintColor: Theme.of(context).cardColor,
       child: SingleChildScrollView(
         child: Container(
-          padding:
-              const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 10),
           child: Wrap(
             children: [
               Column(
@@ -79,10 +78,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                     children: [
                       Text(
                         AppLocalizations.of(context).category_creation_title,
-                        style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w500,
-                            color: Theme.of(context).hintColor),
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Theme.of(context).hintColor),
                         textAlign: TextAlign.center,
                       ),
                       Card(
@@ -97,8 +93,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             padding: const EdgeInsets.all(4),
                             child: Icon(
                               Icons.close_rounded,
-                              color:
-                                  Theme.of(context).hintColor.withOpacity(0.65),
+                              color: Theme.of(context).hintColor.withOpacity(0.65),
                             ),
                           ),
                         ),
@@ -108,8 +103,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                   const SizedBox(height: 13),
                   AppTextField(
                     hint: AppLocalizations.of(context).name,
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 0.0, vertical: 0),
+                    margin: const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
                     onChanged: (value) {
                       if (_titleError != null) {
                         setState(() {
@@ -123,11 +117,10 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                   const SizedBox(height: 8),
                   Card(
                     elevation: 0,
-                    color: Theme.of(context).cardColor,
+                    color: Theme.of(context).colorScheme.surface,
                     margin: EdgeInsets.zero,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -144,21 +137,16 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                             thumbVisibility: true,
                             child: Container(
                                 padding: const EdgeInsets.all(6),
-                                constraints:
-                                    const BoxConstraints(maxHeight: 130),
+                                constraints: const BoxConstraints(maxHeight: 130),
                                 child: GridView.builder(
                                     shrinkWrap: true,
                                     controller: colorController,
                                     physics: const BouncingScrollPhysics(),
-                                    gridDelegate:
-                                        const SliverGridDelegateWithMaxCrossAxisExtent(
-                                            maxCrossAxisExtent: 68),
+                                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
                                     scrollDirection: Axis.vertical,
-                                    itemCount:
-                                        AppColors().categoryColors.length,
+                                    itemCount: AppColors().categoryColors.length,
                                     itemBuilder: (rowContext, index) {
-                                      Color color =
-                                          AppColors().categoryColors[index];
+                                      Color color = AppColors().categoryColors[index];
                                       return ColorCircle(
                                           color: color,
                                           isSelected: color == _selectedColor,
@@ -176,11 +164,10 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                   const SizedBox(height: 8),
                   Card(
                     elevation: 0,
-                    color: Theme.of(context).cardColor,
+                    color: Theme.of(context).colorScheme.surface,
                     margin: EdgeInsets.zero,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -197,15 +184,12 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                               thumbVisibility: true,
                               child: Container(
                                   padding: const EdgeInsets.all(6),
-                                  constraints:
-                                      const BoxConstraints(maxHeight: 128),
+                                  constraints: const BoxConstraints(maxHeight: 128),
                                   child: GridView.builder(
                                       shrinkWrap: true,
                                       controller: iconController,
                                       physics: const BouncingScrollPhysics(),
-                                      gridDelegate:
-                                          const SliverGridDelegateWithMaxCrossAxisExtent(
-                                              maxCrossAxisExtent: 68),
+                                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 68),
                                       scrollDirection: Axis.vertical,
                                       itemCount: AppIcons().iconsList.length,
                                       itemBuilder: (rowContext, index) {
