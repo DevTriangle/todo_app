@@ -164,6 +164,8 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                           _categoryTitle = _category.categoryTitle;
                           _selectedIcon = _category.categoryIconID;
                           _selectedColor = Color(_category.categoryColor);
+
+                          print(_selectedColor);
                         });
                       }),
                   const SizedBox(height: 8),
@@ -181,6 +183,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                       _categoryTitle = value;
                     },
                     errorText: _titleError,
+                    maxLength: 25,
                   ),
                   const SizedBox(height: 8),
                   Card(
@@ -218,11 +221,10 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                                   scrollDirection: Axis.vertical,
                                   itemCount: AppColors().categoryColors.length,
                                   itemBuilder: (rowContext, index) {
-                                    Color color =
-                                        AppColors().categoryColors[index];
+                                    Color color = AppColors().categoryColors[index];
                                     return ColorCircle(
                                         color: color,
-                                        isSelected: color == _selectedColor,
+                                        isSelected: color.value == _selectedColor.value,
                                         onSelect: (c) {
                                           setState(() {
                                             _selectedColor = c;
