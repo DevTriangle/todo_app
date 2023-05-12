@@ -107,104 +107,107 @@ class SettingsScreenState extends State<SettingsScreen> {
             systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
             statusBarIconBrightness: Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light,
             systemNavigationBarIconBrightness: Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light),
-        child: SafeArea(
-            child: Scaffold(
-                body: CustomScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    slivers: [
-              SliverAppBar(
-                pinned: true,
-                floating: false,
-                elevation: 0,
-                automaticallyImplyLeading: false,
-                backgroundColor: Colors.transparent,
-                flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.parallax,
-                  background: ConstrainedBox(
-                      constraints: const BoxConstraints.expand(),
-                      child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .background
-                                  .withOpacity(0.65)),
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: SafeArea(
+              child: Scaffold(
+                  body: CustomScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  floating: false,
+                  elevation: 0,
+                  automaticallyImplyLeading: false,
+                  backgroundColor: Colors.transparent,
+                  flexibleSpace: FlexibleSpaceBar(
+                    collapseMode: CollapseMode.parallax,
+                    background: ConstrainedBox(
+                        constraints: const BoxConstraints.expand(),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .background
+                                    .withOpacity(0.65)),
+                          ),
+                        )),
+                    centerTitle: false,
+                    titlePadding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                    title: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                                padding: const EdgeInsets.only(left: 10),
+                                child: AppIconButton(
+                                  icon: Icons.arrow_back_rounded,
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                ))
+                          ],
                         ),
-                      )),
-                  centerTitle: false,
-                  titlePadding:
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                  title: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                              padding: const EdgeInsets.only(left: 10),
-                              child: AppIconButton(
-                                icon: Icons.arrow_back_rounded,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                              ))
-                        ],
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 16),
-                        child: Text(
-                          AppLocalizations.of(context).settings,
-                          style: TextStyle(
-                              fontSize: 19,
-                              fontWeight: FontWeight.w500,
-                              color: Theme.of(context).hintColor),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 16),
+                          child: Text(
+                            AppLocalizations.of(context).settings,
+                            style: TextStyle(
+                                fontSize: 19,
+                                fontWeight: FontWeight.w500,
+                                color: Theme.of(context).hintColor),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              SliverList(
-                  delegate: SliverChildListDelegate([
-                SettingsField(
-                    title: AppLocalizations.of(context)
-                        .settings_category_creation_title,
-                    description: AppLocalizations.of(context)
-                        .settings_category_creation_description,
-                    trailingWidget: Icon(
-                      Icons.add_rounded,
-                      color: Theme.of(context).hintColor,
-                    ),
-                    onPressed: _createCategoryDialog),
-                SettingsField(
-                    title: AppLocalizations.of(context)
-                        .settings_category_manage_title,
-                    description: AppLocalizations.of(context)
-                        .settings_category_manage_description,
-                    trailingWidget: Icon(
-                      Icons.edit_rounded,
-                      color: Theme.of(context).hintColor,
-                    ),
-                    onPressed: _settingCategories),
-                const SizedBox(height: 10),
-                Text(
-                  "${AppLocalizations.of(context).app_version}$appVersion",
-                  style: TextStyle(
-                      color: Theme.of(context).hintColor.withOpacity(0.5),
-                      fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  "Icons made by Freepik from www.flaticon.com",
-                  style: TextStyle(
-                      color: Theme.of(context).hintColor.withOpacity(0.2),
-                      fontSize: 12),
-                  textAlign: TextAlign.center,
-                ),
-              ]))
-            ]))));
+                SliverList(
+                    delegate: SliverChildListDelegate([
+                  SettingsField(
+                      title: AppLocalizations.of(context)
+                          .settings_category_creation_title,
+                      description: AppLocalizations.of(context)
+                          .settings_category_creation_description,
+                      trailingWidget: Icon(
+                        Icons.add_rounded,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      onPressed: _createCategoryDialog),
+                  SettingsField(
+                      title: AppLocalizations.of(context)
+                          .settings_category_manage_title,
+                      description: AppLocalizations.of(context)
+                          .settings_category_manage_description,
+                      trailingWidget: Icon(
+                        Icons.edit_rounded,
+                        color: Theme.of(context).hintColor,
+                      ),
+                      onPressed: _settingCategories),
+                  const SizedBox(height: 10),
+                  Text(
+                    "${AppLocalizations.of(context).app_version}$appVersion",
+                    style: TextStyle(
+                        color: Theme.of(context).hintColor.withOpacity(0.5),
+                        fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    "Icons made by Freepik from www.flaticon.com",
+                    style: TextStyle(
+                        color: Theme.of(context).hintColor.withOpacity(0.2),
+                        fontSize: 12),
+                    textAlign: TextAlign.center,
+                  ),
+                ]))
+              ]))),
+        ));
   }
 }

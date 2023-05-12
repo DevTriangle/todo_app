@@ -209,205 +209,208 @@ class HomeScreenState extends State<HomeScreen> {
             systemNavigationBarColor: Theme.of(context).scaffoldBackgroundColor,
             statusBarIconBrightness: Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light,
             systemNavigationBarIconBrightness: Theme.of(context).brightness == Brightness.light ? Brightness.dark : Brightness.light),
-        child: SafeArea(
-            child: Scaffold(
-                floatingActionButton: FutureBuilder(
-                  future: _getCategories,
-                  builder: (fContext, snapshot) {
-                    if (snapshot.data != null) {
-                      if (snapshot.data!.isSuccess) {
-                        return FloatingActionButton(
-                          elevation: 0,
-                          onPressed: () {
-                            showModalBottomSheet(
-                                context: context,
-                                elevation: 0.0,
-                                backgroundColor: Colors.transparent,
-                                builder: (BuildContext context) {
-                                  return BottomSheetCard(children: [
-                                    BottomSheetButton(
-                                      icon: Icons.calendar_month_rounded,
-                                      label: AppLocalizations.of(context).event_add,
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        _createDialog();
-                                      },
-                                    ),
-                                    BottomSheetButton(
-                                      icon: Icons.category_rounded,
-                                      label: AppLocalizations.of(context).category_add,
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        _createCategoryDialog();
-                                      },
-                                    )
-                                  ]);
-                                });
-                          },
-                          tooltip: AppLocalizations.of(context).add,
-                          heroTag: "fab",
-                          child: const Icon(Icons.add_rounded),
-                        );
+        child: Container(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          child: SafeArea(
+              child: Scaffold(
+                  floatingActionButton: FutureBuilder(
+                    future: _getCategories,
+                    builder: (fContext, snapshot) {
+                      if (snapshot.data != null) {
+                        if (snapshot.data!.isSuccess) {
+                          return FloatingActionButton(
+                            elevation: 0,
+                            onPressed: () {
+                              showModalBottomSheet(
+                                  context: context,
+                                  elevation: 0.0,
+                                  backgroundColor: Colors.transparent,
+                                  builder: (BuildContext context) {
+                                    return BottomSheetCard(children: [
+                                      BottomSheetButton(
+                                        icon: Icons.calendar_month_rounded,
+                                        label: AppLocalizations.of(context).event_add,
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          _createDialog();
+                                        },
+                                      ),
+                                      BottomSheetButton(
+                                        icon: Icons.category_rounded,
+                                        label: AppLocalizations.of(context).category_add,
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                          _createCategoryDialog();
+                                        },
+                                      )
+                                    ]);
+                                  });
+                            },
+                            tooltip: AppLocalizations.of(context).add,
+                            heroTag: "fab",
+                            child: const Icon(Icons.add_rounded),
+                          );
+                        } else {
+                          return const SizedBox();
+                        }
                       } else {
                         return const SizedBox();
                       }
-                    } else {
-                      return const SizedBox();
-                    }
-                  },
-                ),
-                body: CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
-                  SliverAppBar(
-                    pinned: true,
-                    floating: false,
-                    elevation: 0,
-                    automaticallyImplyLeading: false,
-                    backgroundColor: Colors.transparent,
-                    flexibleSpace: FlexibleSpaceBar(
-                      collapseMode: CollapseMode.parallax,
-                      background: ConstrainedBox(
-                          constraints: const BoxConstraints.expand(),
-                          child: BackdropFilter(
-                            filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                            child: Container(
-                              decoration: BoxDecoration(color: Theme.of(context).colorScheme.background.withOpacity(0.65)),
-                            ),
-                          )),
-                      centerTitle: false,
-                      titlePadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                            child: Text(
-                              AppLocalizations.of(context).events,
-                              style: TextStyle(
-                                fontSize: 21,
-                                fontWeight: FontWeight.w500,
-                                color: Theme.of(context).hintColor,
+                    },
+                  ),
+                  body: CustomScrollView(physics: const BouncingScrollPhysics(), slivers: [
+                    SliverAppBar(
+                      pinned: true,
+                      floating: false,
+                      elevation: 0,
+                      automaticallyImplyLeading: false,
+                      backgroundColor: Colors.transparent,
+                      flexibleSpace: FlexibleSpaceBar(
+                        collapseMode: CollapseMode.parallax,
+                        background: ConstrainedBox(
+                            constraints: const BoxConstraints.expand(),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                              child: Container(
+                                decoration: BoxDecoration(color: Theme.of(context).colorScheme.background.withOpacity(0.65)),
+                              ),
+                            )),
+                        centerTitle: false,
+                        titlePadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
+                              child: Text(
+                                AppLocalizations.of(context).events,
+                                style: TextStyle(
+                                  fontSize: 21,
+                                  fontWeight: FontWeight.w500,
+                                  color: Theme.of(context).hintColor,
+                                ),
                               ),
                             ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
-                                child: Text(_displayDateText,
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: Theme.of(context).hintColor.withOpacity(0.65),
-                                    )),
-                              ),
-                              Container(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: AppIconButton(
-                                    icon: Icons.settings_rounded,
-                                    onPressed: _openSettings,
-                                  ))
-                            ],
-                          )
-                        ],
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 16),
+                                  child: Text(_displayDateText,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Theme.of(context).hintColor.withOpacity(0.65),
+                                      )),
+                                ),
+                                Container(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: AppIconButton(
+                                      icon: Icons.settings_rounded,
+                                      onPressed: _openSettings,
+                                    ))
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SliverList(
-                      delegate: SliverChildListDelegate([
-                    FutureBuilder(
-                        future: _loadEvents,
-                        builder: (fContext, snapshot) {
-                          if (snapshot.data != null) {
-                            if (snapshot.data!.isSuccess && viewModel.eventList.isNotEmpty) {
-                              return ListView.builder(
-                                  padding: const EdgeInsets.only(left: 20, right: 20),
-                                  shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: viewModel.eventList.length,
-                                  itemBuilder: (lContext, index) {
-                                    return Column(
-                                      children: [
-                                        ClipRRect(
-                                          borderRadius: AppShapes.borderRadius,
-                                          child: Dismissible(
-                                            key: Key(viewModel.eventList[index].toString()),
-                                            dismissThresholds: const {
-                                              DismissDirection.endToStart: 0.3,
-                                              DismissDirection.startToEnd: 2,
-                                            },
-                                            background: Card(
-                                              elevation: 0,
-                                              shape: AppShapes.roundedRectangleShape,
-                                              color: Color(viewModel.eventList[index].eventCategory.categoryColor),
-                                              margin: const EdgeInsets.all(0),
-                                              child: Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      viewModel.eventList[index].eventCategory.categoryTitle,
-                                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            secondaryBackground: Card(
-                                              elevation: 0,
-                                              shape: AppShapes.roundedRectangleShape,
-                                              color: Theme.of(context).errorColor,
-                                              margin: const EdgeInsets.all(0),
-                                              child: Container(
-                                                padding: const EdgeInsets.symmetric(horizontal: 16),
-                                                child: Row(
-                                                  mainAxisAlignment: MainAxisAlignment.end,
-                                                  children: [
-                                                    Text(
-                                                      AppLocalizations.of(context).delete,
-                                                      style: const TextStyle(fontSize: 16, color: Colors.white),
-                                                    ),
-                                                    const SizedBox(width: 5),
-                                                    const Icon(
-                                                      Icons.delete_rounded,
-                                                      size: 20,
-                                                      color: Colors.white,
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                            ),
-                                            confirmDismiss: confirmRemove,
-                                            onDismissed: (direction) {
-                                              _removeEvent(viewModel.eventList[index]);
-                                            },
-                                            child: AppCard(
-                                                title: viewModel.eventList[index].title,
-                                                destination: DateTime.parse(viewModel.eventList[index].datetime),
-                                                icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
+                    SliverList(
+                        delegate: SliverChildListDelegate([
+                      FutureBuilder(
+                          future: _loadEvents,
+                          builder: (fContext, snapshot) {
+                            if (snapshot.data != null) {
+                              if (snapshot.data!.isSuccess && viewModel.eventList.isNotEmpty) {
+                                return ListView.builder(
+                                    padding: const EdgeInsets.only(left: 20, right: 20),
+                                    shrinkWrap: true,
+                                    physics: const BouncingScrollPhysics(),
+                                    itemCount: viewModel.eventList.length,
+                                    itemBuilder: (lContext, index) {
+                                      return Column(
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius: AppShapes.borderRadius,
+                                            child: Dismissible(
+                                              key: Key(viewModel.eventList[index].toString()),
+                                              dismissThresholds: const {
+                                                DismissDirection.endToStart: 0.3,
+                                                DismissDirection.startToEnd: 2,
+                                              },
+                                              background: Card(
+                                                elevation: 0,
+                                                shape: AppShapes.roundedRectangleShape,
                                                 color: Color(viewModel.eventList[index].eventCategory.categoryColor),
-                                                onClick: () {
-                                                  _createDialog(index: index, isEditing: true);
-                                                }),
+                                                margin: const EdgeInsets.all(0),
+                                                child: Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                                  child: Row(
+                                                    children: [
+                                                      Text(
+                                                        viewModel.eventList[index].eventCategory.categoryTitle,
+                                                        style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.white),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              secondaryBackground: Card(
+                                                elevation: 0,
+                                                shape: AppShapes.roundedRectangleShape,
+                                                color: Theme.of(context).errorColor,
+                                                margin: const EdgeInsets.all(0),
+                                                child: Container(
+                                                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.end,
+                                                    children: [
+                                                      Text(
+                                                        AppLocalizations.of(context).delete,
+                                                        style: const TextStyle(fontSize: 16, color: Colors.white),
+                                                      ),
+                                                      const SizedBox(width: 5),
+                                                      const Icon(
+                                                        Icons.delete_rounded,
+                                                        size: 20,
+                                                        color: Colors.white,
+                                                      )
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              confirmDismiss: confirmRemove,
+                                              onDismissed: (direction) {
+                                                _removeEvent(viewModel.eventList[index]);
+                                              },
+                                              child: AppCard(
+                                                  title: viewModel.eventList[index].title,
+                                                  destination: DateTime.parse(viewModel.eventList[index].datetime),
+                                                  icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
+                                                  color: Color(viewModel.eventList[index].eventCategory.categoryColor),
+                                                  onClick: () {
+                                                    _createDialog(index: index, isEditing: true);
+                                                  }),
+                                            ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 10)
-                                      ],
-                                    );
-                                  });
+                                          const SizedBox(height: 10)
+                                        ],
+                                      );
+                                    });
+                              } else {
+                                return Container(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: ErrorContainer(icon: Icons.notes_rounded, label: snapshot.data!.message),
+                                );
+                              }
                             } else {
-                              return Container(
-                                padding: const EdgeInsets.only(top: 10),
-                                child: ErrorContainer(icon: Icons.notes_rounded, label: snapshot.data!.message),
+                              return const Center(
+                                child: CircularProgressIndicator(),
                               );
                             }
-                          } else {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        })
-                  ]))
-                ]))));
+                          })
+                    ]))
+                  ]))),
+        ));
   }
 }
