@@ -25,7 +25,7 @@ class CategoryDropdown extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-            color: Theme.of(context).cardColor,
+            color: Theme.of(context).colorScheme.surface,
             borderRadius: AppShapes.borderRadius
         ),
         width: double.infinity,
@@ -34,7 +34,7 @@ class CategoryDropdown extends StatelessWidget {
         child: DropdownButtonHideUnderline(
           child: DropdownButton<EventCategory>(
               borderRadius: AppShapes.borderRadius,
-              dropdownColor: Theme.of(context).cardColor,
+              dropdownColor: Theme.of(context).colorScheme.surface,
               items: items.map((EventCategory item) {
                 return DropdownMenuItem<EventCategory>(
                   value: item,

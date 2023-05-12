@@ -38,7 +38,7 @@ class MyAppState extends State<MyApp> {
     setState(() {
       _locale = Locale(locale);
     });
-    
+
     SharedPreferences shared = await SharedPreferences.getInstance();
     shared.setString("locale", locale);
   }
@@ -66,7 +66,7 @@ class MyAppState extends State<MyApp> {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch)
-            .copyWith(brightness: Brightness.light, background: AppColors.lightBackgroundColor, surface: AppColors.lightCardColor),
+            .copyWith(brightness: Brightness.light, background: AppColors.lightBackgroundColor, surface: AppColors.lightCardColor, outline: Colors.transparent),
         canvasColor: AppColors.lightBackgroundColor,
         scaffoldBackgroundColor: AppColors.lightBackgroundColor,
         hintColor: AppColors.lightTextColor,
@@ -76,7 +76,7 @@ class MyAppState extends State<MyApp> {
       darkTheme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch)
-            .copyWith(brightness: Brightness.dark, background: AppColors.darkBackgroundColor, surface: AppColors.darkCardColor),
+            .copyWith(brightness: Brightness.dark, background: AppColors.darkBackgroundColor, surface: AppColors.darkCardColor, outline: Colors.transparent),
         canvasColor: AppColors.darkBackgroundColor,
         scaffoldBackgroundColor: AppColors.darkBackgroundColor,
         hintColor: AppColors.darkTextColor,

@@ -85,14 +85,14 @@ class _AppTextFieldState extends State<AppTextField> {
               decoration: InputDecoration(
                   filled: true,
                   counterText: "",
-                  fillColor: Theme.of(context).cardColor,
+                  fillColor: Theme.of(context).colorScheme.surface,
                   labelStyle: TextStyle(
                       color: Theme.of(context).hintColor,
                       fontWeight: FontWeight.w400,
                       fontSize: 16.0
                   ),
                   enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).cardColor, width: 1.5),
+                      borderSide: BorderSide(color: Theme.of(context).colorScheme.surface, width: 1.5),
                       borderRadius: AppShapes.borderRadius
                   ),
                   errorBorder: OutlineInputBorder(
