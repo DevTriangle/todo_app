@@ -113,6 +113,7 @@ class AppCategoryDialogState extends State<AppCategoryDialog> {
                       _eventTitle = value;
                     },
                     errorText: _titleError,
+                    maxLength: 25,
                   ),
                   const SizedBox(height: 8),
                   Card(
