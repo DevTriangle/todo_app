@@ -162,6 +162,8 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                           _category = eventCategory;
                           _titleController.text = _category.categoryTitle;
                           _categoryTitle = _category.categoryTitle;
+                          _selectedIcon = _category.categoryIconID;
+                          _selectedColor = Color(_category.categoryColor);
                         });
                       }),
                   const SizedBox(height: 8),
@@ -220,8 +222,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                                         AppColors().categoryColors[index];
                                     return ColorCircle(
                                         color: color,
-                                        isSelected: Color(color.value) ==
-                                            _selectedColor,
+                                        isSelected: color == _selectedColor,
                                         onSelect: (c) {
                                           setState(() {
                                             _selectedColor = c;

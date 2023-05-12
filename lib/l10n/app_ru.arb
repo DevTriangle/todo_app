@@ -52,6 +52,8 @@
     "channel_name": "События",
     "channel_description": "Уведомления о событиях",
 
+    "language_title": "Язык",
+
     "years_one": "год",
     "years_few": "года",
     "years_many": "лет",

@@ -1,5 +1,9 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/ui/colors.dart';
 import 'package:todo_app/ui/screens/home_screen.dart';
 import 'package:todo_app/utils/notification_service.dart';
@@ -11,33 +15,58 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await NotificationService().init();
-  
-  runApp(
-      MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) => HomeViewModel())
-          ],
-        child: const MyApp(),
-      )
-  );
+
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider(create: (_) => HomeViewModel())],
+    child: MyApp(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<StatefulWidget> createState() => MyAppState();
+
+  static MyAppState of(BuildContext context) => context.findAncestorStateOfType<MyAppState>()!;
+}
+
+class MyAppState extends State<MyApp> {
+  late Locale _locale;
+
+  void setLocale(String locale) async {
+    setState(() {
+      _locale = Locale(locale);
+    });
+    
+    SharedPreferences shared = await SharedPreferences.getInstance();
+    shared.setString("locale", locale);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    setLocale(Platform.localeName);
+
+    SharedPreferences.getInstance().then((value) {
+      String? locale = value.getString("locale");
+      if (locale != null) {
+        setLocale(locale);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: _locale,
       title: "Remains Until",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch)
-                .copyWith(
-                    brightness: Brightness.light,
-                    background: AppColors.lightBackgroundColor,
-                    surface: AppColors.lightCardColor),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch)
+            .copyWith(brightness: Brightness.light, background: AppColors.lightBackgroundColor, surface: AppColors.lightCardColor),
         canvasColor: AppColors.lightBackgroundColor,
         scaffoldBackgroundColor: AppColors.lightBackgroundColor,
         hintColor: AppColors.lightTextColor,
@@ -46,12 +75,8 @@ class MyApp extends StatelessWidget {
       ),
       darkTheme: ThemeData(
         useMaterial3: true,
-        colorScheme:
-            ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch)
-                .copyWith(
-                    brightness: Brightness.dark,
-                    background: AppColors.darkBackgroundColor,
-                    surface: AppColors.darkCardColor),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch)
+            .copyWith(brightness: Brightness.dark, background: AppColors.darkBackgroundColor, surface: AppColors.darkCardColor),
         canvasColor: AppColors.darkBackgroundColor,
         scaffoldBackgroundColor: AppColors.darkBackgroundColor,
         hintColor: AppColors.darkTextColor,
@@ -62,9 +87,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       home: const HomeScreen(),
-      builder: (context, child) => MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child!),
+      builder: (context, child) => MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true), child: child!),
     );
   }
 }

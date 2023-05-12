@@ -52,6 +52,8 @@
     "channel_name": "Events",
     "channel_description": "Event notifications",
 
+    "language_title": "Language",
+
     "years_one": "year",
     "years_few": "years",
     "years_many": "years",
