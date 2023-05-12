@@ -9,8 +9,7 @@ import 'package:timezone/timezone.dart' as tz;
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationService {
-  static final NotificationService _notificationService =
-      NotificationService._internal();
+  static final NotificationService _notificationService = NotificationService._internal();
 
   factory NotificationService() {
     return _notificationService;
@@ -18,26 +17,20 @@ class NotificationService {
 
   NotificationService._internal();
 
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
   Future<void> init() async {
     flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()?.requestPermission();
 
-    const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('ic_notifications');
+    const AndroidInitializationSettings initializationSettingsAndroid = AndroidInitializationSettings('ic_notifications');
 
-    const DarwinInitializationSettings initializationSettingsIOS =
-        DarwinInitializationSettings(
+    const DarwinInitializationSettings initializationSettingsIOS = DarwinInitializationSettings(
       requestSoundPermission: true,
       requestBadgePermission: true,
       requestAlertPermission: true,
     );
 
-    const InitializationSettings initializationSettings =
-        InitializationSettings(
-            android: initializationSettingsAndroid,
-            iOS: initializationSettingsIOS);
+    const InitializationSettings initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
 
     tz.initializeTimeZones();
 
@@ -51,17 +44,11 @@ class NotificationService {
     // );
   }
 
-  Future<void> scheduleNotifications(
-      String title, String body, bool playSound, DateTime dateTime, BuildContext context) async {
-    AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
-            "0", AppLocalizations.of(context).channel_name, channelDescription: AppLocalizations.of(context).channel_description,
-            playSound: playSound,
-            priority: Priority.high,
-            importance: Importance.high);
+  Future<void> scheduleNotifications(String id, String title, String body, bool playSound, DateTime dateTime, BuildContext context) async {
+    AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(id, AppLocalizations.of(context).channel_name,
+        channelDescription: AppLocalizations.of(context).channel_description, playSound: playSound, priority: Priority.high, importance: Importance.high);
 
-    DarwinNotificationDetails iosNotificationDetails =
-        const DarwinNotificationDetails(
+    DarwinNotificationDetails iosNotificationDetails = const DarwinNotificationDetails(
       badgeNumber: 0,
       attachments: [],
     );
@@ -69,12 +56,7 @@ class NotificationService {
     tz.TZDateTime time = tz.TZDateTime.from(dateTime, tz.local);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        Random().nextInt(999),
-        title,
-        body,
-        time,
-        NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
-        uiLocalNotificationDateInterpretation:
-            UILocalNotificationDateInterpretation.absoluteTime);
+        Random().nextInt(999), title, body, time, NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
   }
 }

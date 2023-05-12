@@ -12,6 +12,7 @@
     "delete_category_title": "Delete this category?",
     "delete_category_description": "Are you sure you want to delete this category?",
 
+    "dialog_save": "Save",
     "dialog_confirm": "Confirm",
     "dialog_cancel": "Cancel",
 
@@ -101,5 +102,16 @@
     "thursday": "Thu",
     "friday": "Fri",
     "saturday": "Sat",
-    "sunday": "Sun"
+    "sunday": "Sun",
+
+    "disable_notifications": "Not remind",
+
+    "reminders": "Notifications",
+    "t5min": "5 minutes before",
+    "t10min": "10 minutes before",
+    "t15min": "15 minutes before",
+    "t30min": "30 minutes before",
+    "t1hour": "1 hour before",
+    "t4hours": "4 hours before",
+    "t1day": "1 day before"
 }

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -11,7 +13,9 @@ import 'package:todo_app/ui/widgets/bottom_sheet_button.dart';
 import 'package:todo_app/ui/widgets/bottom_sheet_card.dart';
 import 'package:todo_app/ui/widgets/bottom_sheet_checkbox.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
+import 'package:uuid/uuid.dart';
 
+import '../../utils/notification_service.dart';
 import 'app_button.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -144,6 +148,8 @@ class AppDialogState extends State<AppDialog> {
   }
 
   void _saveEvent() {
+    String uuid = const Uuid().v4();
+    DateTime dateTime = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _selectedTime!.hour, _selectedTime!.minute);
     if (_eventTitle.trim().isEmpty) {
       setState(() {
         _titleError = AppLocalizations.of(context).empty_error;
@@ -156,12 +162,25 @@ class AppDialogState extends State<AppDialog> {
       });
     }
 
+    DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
+    if (_fiveChecked)
+      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 5)), context);
+    if (_tenChecked)
+      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 10)), context);
+    if (_fifteenChecked)
+      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 15)), context);
+    if (_thirtyChecked)
+      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 30)), context);
+    if (_hourChecked)
+      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(hours: 1)), context);
+    if (_fourHChecked)
+      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(hours: 4)), context);
+    if (_dayChecked)
+      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(days: 1)), context);
+
     if (_titleError == null && _dateError == null) {
-      widget.onEventCreate(AppEvent(
-        title: _eventTitle,
-        eventCategory: _category,
-        datetime: DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _selectedTime!.hour, _selectedTime!.minute).toString(),
-      ));
+      widget.onEventCreate(
+          AppEvent(id: uuid, title: _eventTitle, eventCategory: _category, datetime: dateTime.toString(), disableNotifications: _disableNotification));
     }
   }
 
@@ -290,7 +309,7 @@ class AppDialogState extends State<AppDialog> {
                                       StatefulBuilder(
                                         builder: (b, setSheetState) {
                                           return BottomSheetCard(
-                                            label: "Напоминания",
+                                            label: AppLocalizations.of(context).reminders,
                                             children: [
                                               Card(
                                                 elevation: 0,
@@ -316,7 +335,7 @@ class AppDialogState extends State<AppDialog> {
                                                             ),
                                                             const SizedBox(width: 10),
                                                             Text(
-                                                              "Не напоминать",
+                                                              AppLocalizations.of(context).disable_notifications,
                                                               style: TextStyle(fontSize: 16, color: Theme.of(context).hintColor),
                                                             ),
                                                           ],
@@ -347,7 +366,7 @@ class AppDialogState extends State<AppDialog> {
                                               ),
                                               const SizedBox(height: 12),
                                               BottomSheetCheckbox(
-                                                label: "За 5 минут",
+                                                label: AppLocalizations.of(context).t5min,
                                                 checked: _fiveChecked,
                                                 enabled: !_disableNotification,
                                                 onPressed: (value) {
@@ -359,7 +378,7 @@ class AppDialogState extends State<AppDialog> {
                                                 },
                                               ),
                                               BottomSheetCheckbox(
-                                                label: "За 10 минут",
+                                                label: AppLocalizations.of(context).t10min,
                                                 checked: _tenChecked,
                                                 enabled: !_disableNotification,
                                                 onPressed: (value) {
@@ -371,7 +390,7 @@ class AppDialogState extends State<AppDialog> {
                                                 },
                                               ),
                                               BottomSheetCheckbox(
-                                                label: "За 15 минут",
+                                                label: AppLocalizations.of(context).t15min,
                                                 checked: _fifteenChecked,
                                                 enabled: !_disableNotification,
                                                 onPressed: (value) {
@@ -383,7 +402,7 @@ class AppDialogState extends State<AppDialog> {
                                                 },
                                               ),
                                               BottomSheetCheckbox(
-                                                label: "За 30 минут",
+                                                label: AppLocalizations.of(context).t30min,
                                                 checked: _thirtyChecked,
                                                 enabled: !_disableNotification,
                                                 onPressed: (value) {
@@ -395,7 +414,7 @@ class AppDialogState extends State<AppDialog> {
                                                 },
                                               ),
                                               BottomSheetCheckbox(
-                                                label: "За 1 час",
+                                                label: AppLocalizations.of(context).t1hour,
                                                 checked: _hourChecked,
                                                 enabled: !_disableNotification,
                                                 onPressed: (value) {
@@ -407,7 +426,7 @@ class AppDialogState extends State<AppDialog> {
                                                 },
                                               ),
                                               BottomSheetCheckbox(
-                                                label: "За 4 часа",
+                                                label: AppLocalizations.of(context).t4hours,
                                                 checked: _fourHChecked,
                                                 enabled: !_disableNotification,
                                                 onPressed: (value) {
@@ -419,7 +438,7 @@ class AppDialogState extends State<AppDialog> {
                                                 },
                                               ),
                                               BottomSheetCheckbox(
-                                                label: "За 1 день",
+                                                label: AppLocalizations.of(context).t1day,
                                                 checked: _dayChecked,
                                                 enabled: !_disableNotification,
                                                 onPressed: (value) {
@@ -443,7 +462,7 @@ class AppDialogState extends State<AppDialog> {
                                               const SizedBox(height: 8),
                                               BottomSheetButton(
                                                 icon: Icons.save_rounded,
-                                                label: "Сохранить",
+                                                label: AppLocalizations.of(context).dialog_save,
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 },
@@ -460,7 +479,7 @@ class AppDialogState extends State<AppDialog> {
                             child: Padding(
                               padding: EdgeInsets.all(16),
                               child: Text(
-                                "Напоминания",
+                                AppLocalizations.of(context).reminders,
                                 style: TextStyle(fontSize: 16, color: Theme.of(context).hintColor),
                               ),
                             ),

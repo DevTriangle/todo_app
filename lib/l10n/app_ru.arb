@@ -12,6 +12,7 @@
     "delete_category_title": "Удалить эту категорию?",
     "delete_category_description": "Вы действительно хотите удалить эту категорию?",
 
+    "dialog_save": "Сохранить",
     "dialog_confirm": "Подтвердить",
     "dialog_cancel": "Отменить",
 
@@ -101,5 +102,16 @@
     "thursday": "Чт",
     "friday": "Пт",
     "saturday": "Сб",
-    "sunday": "Вс"
+    "sunday": "Вс",
+
+    "disable_notifications": "Не напоминать",
+
+    "reminders": "Напоминания",
+    "t5min": "За 5 минут",
+    "t10min": "За 10 минут",
+    "t15min": "За 15 минут",
+    "t30min": "За 30 минут",
+    "t1hour": "За 1 час",
+    "t4hours": "За 4 часа",
+    "t1day": "За 1 день"
 }
