@@ -12,6 +12,8 @@ import 'package:todo_app/utils/notification_service.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeViewModel extends ChangeNotifier {
+  DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
+
   List<AppEvent> eventList = <AppEvent>[];
   List<EventCategory> categoryList = [];
 
@@ -65,7 +67,6 @@ class HomeViewModel extends ChangeNotifier {
     Response response = await saveEvents(eventList);
 
     if (!event.disableNotifications) {
-      DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
       NotificationService()
           .scheduleNotifications(event.id, event.title, date.format(DateTime.parse(event.datetime)), true, DateTime.parse(event.datetime), _context);
     }
@@ -89,56 +90,9 @@ class HomeViewModel extends ChangeNotifier {
     eventList.removeAt(index);
     eventList.insert(index, event);
 
-    for (var e in event.notifications) {
-      await NotificationService().cancelNotification(e.id);
-
-      Duration duration;
-      switch (e.time) {
-        case "5m":
-          {
-            duration = Duration(minutes: 5);
-          }
-          break;
-        case "10m":
-          {
-            duration = Duration(minutes: 10);
-          }
-          break;
-        case "15m":
-          {
-            duration = Duration(minutes: 15);
-          }
-          break;
-        case "30m":
-          {
-            duration = Duration(minutes: 30);
-          }
-          break;
-        case "1h":
-          {
-            duration = Duration(hours: 1);
-          }
-          break;
-        case "4h":
-          {
-            duration = Duration(hours: 4);
-          }
-          break;
-        case "1d":
-          {
-            duration = Duration(days: 1);
-          }
-          break;
-        default:
-          {
-            duration = Duration(minutes: 0);
-          }
-          break;
-      }
-      await NotificationService().scheduleNotifications(e.id, event.title, event.datetime, true, DateTime.parse(event.datetime).subtract(duration), _context);
-    }
     await NotificationService().cancelNotification(event.id);
-    await NotificationService().scheduleNotifications(event.id, event.title, event.datetime, true, DateTime.parse(event.datetime), _context);
+    await NotificationService()
+        .scheduleNotifications(event.id, event.title, date.format(DateTime.parse(event.datetime)), true, DateTime.parse(event.datetime), _context);
 
     Response response = await saveEvents(eventList);
     return response;

@@ -160,7 +160,7 @@ class AppDialogState extends State<AppDialog> {
     }
   }
 
-  void _saveEvent() {
+  void _saveEvent() async {
     String uuid = const Uuid().v4();
     DateTime dateTime = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _selectedTime!.hour, _selectedTime!.minute);
     if (_eventTitle.trim().isEmpty) {
@@ -173,6 +173,12 @@ class AppDialogState extends State<AppDialog> {
       setState(() {
         _dateError = AppLocalizations.of(context).empty_date_error;
       });
+    }
+
+    if (widget.isEditing) {
+      for (var n in widget.event!.notifications) {
+        await NotificationService().cancelNotification(n.id);
+      }
     }
 
     List<AppNotification> notifications = [];
@@ -217,9 +223,20 @@ class AppDialogState extends State<AppDialog> {
       notifications.add(AppNotification(id, "1d"));
     }
 
-    if (_titleError == null && _dateError == null) {
+    if (!widget.isEditing) {
+      if (_titleError == null && _dateError == null) {
+        widget.onEventCreate(AppEvent(
+            id: Random().nextInt(2147483647),
+            description: _eventDescription,
+            title: _eventTitle,
+            eventCategory: _category,
+            datetime: dateTime.toString(),
+            disableNotifications: _disableNotification,
+            notifications: notifications));
+      }
+    } else {
       widget.onEventCreate(AppEvent(
-          id: Random().nextInt(2147483647),
+          id: widget.event!.id,
           description: _eventDescription,
           title: _eventTitle,
           eventCategory: _category,
