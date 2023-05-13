@@ -22,28 +22,29 @@ class AppTextField extends StatefulWidget {
   final TextEditingController? controller;
   final List<TextInputFormatter>? inputFormatter;
   final TextCapitalization textCapitalization;
+  final ScrollController? scrollController;
 
-  const AppTextField({
-    super.key,
-    required this.hint,
-    required this.onChanged,
-    this.inputType = TextInputType.text,
-    this.obscureText = false,
-    this.margin = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 3),
-    this.icon,
-    this.onIconPressed,
-    this.errorText,
-    this.maxLines = 1,
-    this.minLines = 1,
-    this.maxLength,
-    this.validator,
-    this.textInputAction = TextInputAction.next,
-    this.readOnly = false,
-    this.controller,
-    this.inputFormatter,
-    this.textCapitalization = TextCapitalization.sentences,
-    this.onTap
-  });
+  const AppTextField(
+      {super.key,
+      required this.hint,
+      required this.onChanged,
+      this.inputType = TextInputType.text,
+      this.obscureText = false,
+      this.margin = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 3),
+      this.icon,
+      this.onIconPressed,
+      this.errorText,
+      this.maxLines = 1,
+      this.minLines = 1,
+      this.maxLength,
+      this.validator,
+      this.textInputAction = TextInputAction.next,
+      this.readOnly = false,
+      this.controller,
+      this.inputFormatter,
+      this.textCapitalization = TextCapitalization.sentences,
+      this.onTap,
+      this.scrollController});
 
   @override
   State<StatefulWidget> createState() => _AppTextFieldState();
@@ -61,15 +62,12 @@ class _AppTextFieldState extends State<AppTextField> {
             child: TextFormField(
               key: _formKey,
               onTap: widget.onTap,
+              scrollController: widget.scrollController,
               textCapitalization: widget.textCapitalization,
               controller: widget.controller,
               inputFormatters: widget.inputFormatter,
               readOnly: widget.readOnly,
-              style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontWeight: FontWeight.w400,
-                fontSize: 16
-              ),
+              style: TextStyle(color: Theme.of(context).hintColor, fontWeight: FontWeight.w400, fontSize: 16),
               textInputAction: widget.textInputAction,
               obscureText: widget.obscureText,
               onChanged: (text) {
@@ -83,55 +81,41 @@ class _AppTextFieldState extends State<AppTextField> {
               maxLength: widget.maxLength,
               textAlignVertical: TextAlignVertical.center,
               decoration: InputDecoration(
-                  filled: true,
-                  counterText: "",
-                  fillColor: Theme.of(context).colorScheme.surface,
-                  labelStyle: TextStyle(
-                      color: Theme.of(context).hintColor,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16.0
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).colorScheme.surface, width: 1.5),
-                      borderRadius: AppShapes.borderRadius
-                  ),
-                  errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).errorColor, width: 1.5),
-                      borderRadius: AppShapes.borderRadius
-                  ),
-                  errorText: widget.errorText,
-                  errorStyle: TextStyle(
-                      color: Theme.of(context).errorColor,
-                      height: 0.5
-                  ),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
-                      borderRadius: AppShapes.borderRadius
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  labelText: widget.hint,
-                  suffixIcon: widget.icon != null ? Stack(
-                    alignment: AlignmentDirectional.center,
-                    children: [
-                      Icon(
-                        widget.icon,
-                        color: Theme.of(context).hintColor,
-                      ),
-                      Positioned.fill(
-                        child: Material(
-                          color: Colors.transparent,
-                          clipBehavior: Clip.antiAlias,
-                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100))),
-                          child: InkWell(
-                            onTap: widget.onIconPressed,
+                filled: true,
+                counterText: "",
+                fillColor: Theme.of(context).colorScheme.surface,
+                labelStyle: TextStyle(color: Theme.of(context).hintColor, fontWeight: FontWeight.w400, fontSize: 16.0),
+                enabledBorder:
+                    OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).colorScheme.surface, width: 1.5), borderRadius: AppShapes.borderRadius),
+                errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).errorColor, width: 1.5), borderRadius: AppShapes.borderRadius),
+                errorText: widget.errorText,
+                errorStyle: TextStyle(color: Theme.of(context).errorColor, height: 0.5),
+                border: OutlineInputBorder(borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 1.5), borderRadius: AppShapes.borderRadius),
+                contentPadding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                labelText: widget.hint,
+                suffixIcon: widget.icon != null
+                    ? Stack(
+                        alignment: AlignmentDirectional.center,
+                        children: [
+                          Icon(
+                            widget.icon,
+                            color: Theme.of(context).hintColor,
                           ),
-                        ),
-                      ),
-                    ],
-                  ) : null,
+                          Positioned.fill(
+                            child: Material(
+                              color: Colors.transparent,
+                              clipBehavior: Clip.antiAlias,
+                              shape: const RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(100))),
+                              child: InkWell(
+                                onTap: widget.onIconPressed,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    : null,
               ),
-            )
-        )
+            ))
       ],
     );
   }

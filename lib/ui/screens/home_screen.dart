@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/icons.dart';
+import 'package:todo_app/ui/screens/info_bottom_sheet.dart';
 import 'package:todo_app/ui/screens/settings_screen.dart';
 import 'package:todo_app/ui/widgets/app_alert_dialog.dart';
 import 'package:todo_app/ui/widgets/app_card.dart';
@@ -84,29 +85,31 @@ class HomeScreenState extends State<HomeScreen> {
               }
 
               return AppDialog(
-                  title: isEditing ? viewModel.eventList[index].title : "",
-                  destination: isEditing ? DateTime.parse(viewModel.eventList[index].datetime) : DateTime.now(),
-                  categoryIndex: isEditing
-                      ? i != -1
-                          ? i
-                          : 0
-                      : 0,
-                  onCloseClick: () {
-                    Navigator.pop(context);
-                  },
-                  onEventCreate: (event) async {
-                    if (isEditing) {
-                      _editEvent(index, event);
-                    } else {
-                      _createEvent(event);
-                    }
-                    Navigator.pop(context);
-                  },
-                  onRemoveClick: () {
-                    _removeEvent(viewModel.eventList[index]);
-                    Navigator.pop(context);
-                  },
-                  isEditing: isEditing);
+                title: isEditing ? viewModel.eventList[index].title : "",
+                destination: isEditing ? DateTime.parse(viewModel.eventList[index].datetime) : DateTime.now(),
+                categoryIndex: isEditing
+                    ? i != -1
+                        ? i
+                        : 0
+                    : 0,
+                onCloseClick: () {
+                  Navigator.pop(context);
+                },
+                onEventCreate: (event) async {
+                  if (isEditing) {
+                    _editEvent(index, event);
+                  } else {
+                    _createEvent(event);
+                  }
+                  Navigator.pop(context);
+                },
+                onRemoveClick: () {
+                  _removeEvent(viewModel.eventList[index]);
+                  Navigator.pop(context);
+                },
+                isEditing: isEditing,
+                event: isEditing ? viewModel.eventList[index] : null,
+              );
             },
           );
         });
@@ -199,6 +202,45 @@ class HomeScreenState extends State<HomeScreen> {
 
   void _openSettings() {
     Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsScreen()));
+  }
+
+  void _openInfo(AppEvent event, int index) {
+    showModalBottomSheet(
+        context: context,
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Wrap(
+              children: [
+                BottomSheetCard(label: "Информация о событии", children: [
+                  InfoBottomSheet(
+                    event: event,
+                    onEditPressed: () {
+                      Navigator.pop(context);
+                      _createDialog(index: index, isEditing: true);
+                    },
+                    onSavePressed: (description) {
+                      viewModel.editEvent(
+                          index,
+                          AppEvent(
+                              id: event.id,
+                              title: event.title,
+                              description: description,
+                              eventCategory: event.eventCategory,
+                              datetime: event.datetime,
+                              disableNotifications: event.disableNotifications,
+                              notifications: event.notifications));
+                      Navigator.pop(context);
+                    },
+                  )
+                ]),
+              ],
+            ),
+          );
+        });
   }
 
   @override
@@ -389,7 +431,7 @@ class HomeScreenState extends State<HomeScreen> {
                                                   icon: AppIcons().iconsList[viewModel.eventList[index].eventCategory.categoryIconID],
                                                   color: Color(viewModel.eventList[index].eventCategory.categoryColor),
                                                   onClick: () {
-                                                    _createDialog(index: index, isEditing: true);
+                                                    _openInfo(viewModel.eventList[index], index);
                                                   }),
                                             ),
                                           ),

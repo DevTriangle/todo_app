@@ -28,6 +28,7 @@ class AppDialog extends StatefulWidget {
   final Function(AppEvent) onEventCreate;
   final Function() onRemoveClick;
   final bool isEditing;
+  final AppEvent? event;
 
   const AppDialog(
       {super.key,
@@ -37,7 +38,8 @@ class AppDialog extends StatefulWidget {
       required this.onCloseClick,
       required this.onEventCreate,
       required this.onRemoveClick,
-      required this.isEditing});
+      required this.isEditing,
+      this.event});
 
   @override
   State<StatefulWidget> createState() => AppDialogState();
@@ -62,6 +64,7 @@ class AppDialogState extends State<AppDialog> {
 
   late EventCategory _category = viewModel.categoryList[0];
   late String _eventTitle = "";
+  String? _eventDescription;
 
   @override
   void initState() {
@@ -77,6 +80,16 @@ class AppDialogState extends State<AppDialog> {
 
     _selectedDate = widget.destination;
     _selectedTime = TimeOfDay(hour: widget.destination.hour, minute: widget.destination.minute);
+
+    if (widget.isEditing) {
+      _fiveChecked = widget.event!.notifications.any((element) => element.time == "5m");
+      _tenChecked = widget.event!.notifications.any((element) => element.time == "10m");
+      _fifteenChecked = widget.event!.notifications.any((element) => element.time == "15m");
+      _thirtyChecked = widget.event!.notifications.any((element) => element.time == "30m");
+      _hourChecked = widget.event!.notifications.any((element) => element.time == "1h");
+      _fourHChecked = widget.event!.notifications.any((element) => element.time == "4h");
+      _dayChecked = widget.event!.notifications.any((element) => element.time == "1d");
+    }
   }
 
   String? _titleError;
@@ -162,25 +175,57 @@ class AppDialogState extends State<AppDialog> {
       });
     }
 
+    List<AppNotification> notifications = [];
+
     DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
-    if (_fiveChecked)
-      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 5)), context);
-    if (_tenChecked)
-      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 10)), context);
-    if (_fifteenChecked)
-      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 15)), context);
-    if (_thirtyChecked)
-      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 30)), context);
-    if (_hourChecked)
-      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(hours: 1)), context);
-    if (_fourHChecked)
-      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(hours: 4)), context);
-    if (_dayChecked)
-      NotificationService().scheduleNotifications(uuid, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(days: 1)), context);
+    if (_fiveChecked) {
+      int id = Random().nextInt(2147483647);
+      NotificationService().scheduleNotifications(id, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 5)), context);
+      notifications.add(AppNotification(id, "5m"));
+    }
+
+    if (_tenChecked) {
+      int id = Random().nextInt(2147483647);
+      NotificationService().scheduleNotifications(id, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 10)), context);
+      notifications.add(AppNotification(id, "10m"));
+    }
+    if (_fifteenChecked) {
+      int id = Random().nextInt(2147483647);
+      NotificationService().scheduleNotifications(id, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 15)), context);
+      notifications.add(AppNotification(id, "15m"));
+    }
+    if (_thirtyChecked) {
+      int id = Random().nextInt(2147483647);
+      NotificationService().scheduleNotifications(id, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(minutes: 30)), context);
+      notifications.add(AppNotification(id, "30m"));
+    }
+    if (_hourChecked) {
+      int id = Random().nextInt(2147483647);
+      NotificationService().scheduleNotifications(id, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(hours: 1)), context);
+      notifications.add(AppNotification(id, "1h"));
+    }
+
+    if (_fourHChecked) {
+      int id = Random().nextInt(2147483647);
+      NotificationService().scheduleNotifications(id, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(hours: 4)), context);
+      notifications.add(AppNotification(id, "4h"));
+    }
+
+    if (_dayChecked) {
+      int id = Random().nextInt(2147483647);
+      NotificationService().scheduleNotifications(id, _eventTitle, date.format(dateTime), true, dateTime.subtract(const Duration(days: 1)), context);
+      notifications.add(AppNotification(id, "1d"));
+    }
 
     if (_titleError == null && _dateError == null) {
-      widget.onEventCreate(
-          AppEvent(id: uuid, title: _eventTitle, eventCategory: _category, datetime: dateTime.toString(), disableNotifications: _disableNotification));
+      widget.onEventCreate(AppEvent(
+          id: Random().nextInt(2147483647),
+          description: _eventDescription,
+          title: _eventTitle,
+          eventCategory: _category,
+          datetime: dateTime.toString(),
+          disableNotifications: _disableNotification,
+          notifications: notifications));
     }
   }
 

@@ -44,8 +44,14 @@ class NotificationService {
     // );
   }
 
-  Future<void> scheduleNotifications(String id, String title, String body, bool playSound, DateTime dateTime, BuildContext context) async {
-    AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails(id, AppLocalizations.of(context).channel_name,
+  Future<bool> cancelNotification(int id) async {
+    await flutterLocalNotificationsPlugin.cancel(id);
+
+    return true;
+  }
+
+  Future<void> scheduleNotifications(int id, String title, String body, bool playSound, DateTime dateTime, BuildContext context) async {
+    AndroidNotificationDetails androidNotificationDetails = AndroidNotificationDetails("0", AppLocalizations.of(context).channel_name,
         channelDescription: AppLocalizations.of(context).channel_description, playSound: playSound, priority: Priority.high, importance: Importance.high);
 
     DarwinNotificationDetails iosNotificationDetails = const DarwinNotificationDetails(
@@ -56,7 +62,7 @@ class NotificationService {
     tz.TZDateTime time = tz.TZDateTime.from(dateTime, tz.local);
 
     await flutterLocalNotificationsPlugin.zonedSchedule(
-        Random().nextInt(999), title, body, time, NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
+        id, title, body, time, NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
         uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
   }
 }
