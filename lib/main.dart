@@ -36,7 +36,7 @@ class MyAppState extends State<MyApp> {
 
   void setLocale(String locale) async {
     setState(() {
-      _locale = Locale(locale);
+      _locale = Locale(locale.split("_")[0], locale.split("_")[1]);
     });
 
     SharedPreferences shared = await SharedPreferences.getInstance();
@@ -48,6 +48,7 @@ class MyAppState extends State<MyApp> {
     super.initState();
 
     setLocale(Platform.localeName);
+    print(Platform.localeName);
 
     SharedPreferences.getInstance().then((value) {
       String? locale = value.getString("locale");

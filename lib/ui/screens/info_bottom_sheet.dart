@@ -73,7 +73,9 @@ class InfoBottomSheetState extends State<InfoBottomSheet> {
               RichText(
                 text: TextSpan(
                   children: [
-                    TextSpan(text: "Дата начала: ", style: TextStyle(fontWeight: FontWeight.w500, color: Theme.of(context).hintColor.withOpacity(0.7))),
+                    TextSpan(
+                        text: "${AppLocalizations.of(context).event_start_date}: ",
+                        style: TextStyle(fontWeight: FontWeight.w500, color: Theme.of(context).hintColor.withOpacity(0.7))),
                     TextSpan(
                       text: date.format(DateTime.parse(widget.event.datetime)),
                       style: TextStyle(fontWeight: FontWeight.w500, color: Theme.of(context).hintColor),
@@ -83,7 +85,7 @@ class InfoBottomSheetState extends State<InfoBottomSheet> {
               ),
               const SizedBox(height: 8),
               Text(
-                "Заметка",
+                AppLocalizations.of(context).note,
                 style: TextStyle(fontSize: 14, color: Theme.of(context).hintColor),
               ),
               const SizedBox(height: 1),
@@ -121,13 +123,13 @@ class InfoBottomSheetState extends State<InfoBottomSheet> {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: AppButton(text: "Редактировать", onPressed: widget.onEditPressed),
+                    child: AppButton(text: AppLocalizations.of(context).edit, onPressed: widget.onEditPressed),
                   ),
                   const SizedBox(width: 8),
                   Expanded(
                     flex: 3,
                     child: AppButton(
-                      text: "Сохранить",
+                      text: AppLocalizations.of(context).dialog_save,
                       onPressed: () {
                         widget.onSavePressed(_eventDescription.trim());
                       },
