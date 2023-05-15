@@ -157,8 +157,6 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                           _categoryTitle = _category.categoryTitle;
                           _selectedIcon = _category.categoryIconID;
                           _selectedColor = Color(_category.categoryColor);
-
-                          print(_selectedColor);
                         });
                       }),
                   const SizedBox(height: 8),

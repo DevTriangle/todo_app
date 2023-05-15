@@ -2,7 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
@@ -12,7 +11,6 @@ import 'package:todo_app/ui/screens/manage_event_bottom_sheet.dart';
 import 'package:todo_app/ui/screens/settings_screen.dart';
 import 'package:todo_app/ui/widgets/app_alert_dialog.dart';
 import 'package:todo_app/ui/widgets/app_card.dart';
-import 'package:todo_app/ui/widgets/app_dialog.dart';
 import 'package:todo_app/ui/widgets/error_container.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
 
@@ -60,8 +58,6 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Future<Response> _getEvents() async {
-    DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
-
     Response eventResponse = await viewModel.loadEvents();
 
     return eventResponse;

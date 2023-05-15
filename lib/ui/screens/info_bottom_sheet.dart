@@ -113,7 +113,7 @@ class InfoBottomSheetState extends State<InfoBottomSheet> {
                 shape: AppShapes.roundedRectangleShape,
                 clipBehavior: Clip.antiAlias,
                 child: Container(
-                    constraints: BoxConstraints(maxHeight: 200),
+                    constraints: const BoxConstraints(maxHeight: 200),
                     child: Scrollbar(
                       controller: _scrollController,
                       thumbVisibility: true,

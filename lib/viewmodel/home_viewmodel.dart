@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -110,12 +109,6 @@ class HomeViewModel extends ChangeNotifier {
     eventList.add(event);
 
     Response response = await saveEvents(eventList);
-
-    if (!event.disableNotifications) {
-      // NotificationService()
-      //     .scheduleNotifications(event.title, date.format(DateTime.parse(event.datetime)), true, DateTime.parse(event.datetime), _context, event.repeat);
-      // TODO
-    }
 
     return response;
   }
@@ -249,54 +242,54 @@ class HomeViewModel extends ChangeNotifier {
     String eventTitle,
     DateTime dateTime,
     Repeat selectedRepeat,
-    bool _fiveChecked,
-    bool _tenChecked,
-    bool _fifteenChecked,
-    bool _thirtyChecked,
-    bool _hourChecked,
-    bool _fourHChecked,
-    bool _dayChecked,
+    bool fiveChecked,
+    bool tenChecked,
+    bool fifteenChecked,
+    bool thirtyChecked,
+    bool hourChecked,
+    bool fourHChecked,
+    bool dayChecked,
   ) async {
     List<AppNotification> notifications = [];
 
-    if (_fiveChecked) {
+    if (fiveChecked) {
       notifications.addAll(await NotificationService().scheduleNotifications(
           eventTitle, "${AppLocalizations.of(_context).start_5min} \"$eventTitle\"", dateTime.subtract(const Duration(minutes: 5)), _context, selectedRepeat));
     }
 
-    if (_tenChecked) {
+    if (tenChecked) {
       notifications.addAll(
         await NotificationService().scheduleNotifications(eventTitle, "${AppLocalizations.of(_context).start_10min} \"$eventTitle\"",
             dateTime.subtract(const Duration(minutes: 10)), _context, selectedRepeat),
       );
     }
-    if (_fifteenChecked) {
+    if (fifteenChecked) {
       notifications.addAll(
         await NotificationService().scheduleNotifications(eventTitle, "${AppLocalizations.of(_context).start_15min} \"$eventTitle\"",
             dateTime.subtract(const Duration(minutes: 15)), _context, selectedRepeat),
       );
     }
-    if (_thirtyChecked) {
+    if (thirtyChecked) {
       notifications.addAll(
         await NotificationService().scheduleNotifications(eventTitle, "${AppLocalizations.of(_context).start_30min} \"$eventTitle\"",
             dateTime.subtract(const Duration(minutes: 30)), _context, selectedRepeat),
       );
     }
-    if (_hourChecked) {
+    if (hourChecked) {
       notifications.addAll(
         await NotificationService().scheduleNotifications(
             eventTitle, "${AppLocalizations.of(_context).start_1h} \"$eventTitle\"", dateTime.subtract(const Duration(hours: 1)), _context, selectedRepeat),
       );
     }
 
-    if (_fourHChecked) {
+    if (fourHChecked) {
       notifications.addAll(
         await NotificationService().scheduleNotifications(
             eventTitle, "${AppLocalizations.of(_context).start_4h} \"$eventTitle\"", dateTime.subtract(const Duration(hours: 4)), _context, selectedRepeat),
       );
     }
 
-    if (_dayChecked) {
+    if (dayChecked) {
       notifications.addAll(
         await NotificationService().scheduleNotifications(
             eventTitle, "${AppLocalizations.of(_context).start_1d} \"$eventTitle\"", dateTime.subtract(const Duration(days: 1)), _context, selectedRepeat),

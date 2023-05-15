@@ -592,7 +592,7 @@ class ManageEventBottomSheetState extends State<ManageEventBottomSheet> {
                           );
                         },
                         child: Padding(
-                          padding: EdgeInsets.all(16),
+                          padding: const EdgeInsets.all(16),
                           child: Text(
                             AppLocalizations.of(context).reminders,
                             style: TextStyle(fontSize: 16, color: Theme.of(context).hintColor),

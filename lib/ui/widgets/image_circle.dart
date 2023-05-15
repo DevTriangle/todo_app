@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../shapes.dart';
 
@@ -30,27 +29,25 @@ class ImageCircle extends StatelessWidget {
           child: Card(
             margin: const EdgeInsets.all(2),
             color: Colors.transparent,
-            shape: isSelected == true ? CircleBorder(
-              side: BorderSide(
-                  width: 2,
-                  color: Theme.of(context).colorScheme.primary,
-                  strokeAlign: BorderSide.strokeAlignOutside
-              ),
-            ) : null,
+            shape: isSelected == true
+                ? CircleBorder(
+                    side: BorderSide(width: 2, color: Theme.of(context).colorScheme.primary, strokeAlign: BorderSide.strokeAlignOutside),
+                  )
+                : null,
             elevation: 0,
             child: SizedBox(
-              width: 50, height: 50,
-              child: Padding(
-                padding: const EdgeInsets.all(3),
-                child: Image.asset(
-                  image,
-                  width: 18.0, height: 18.0,
-                  fit: BoxFit.contain,
-                ),
-              ) 
-            ),
+                width: 50,
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Image.asset(
+                    image,
+                    width: 18.0,
+                    height: 18.0,
+                    fit: BoxFit.contain,
+                  ),
+                )),
           ),
-        )
-    );
+        ));
   }
 }

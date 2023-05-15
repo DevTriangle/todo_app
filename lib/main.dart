@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,7 +7,6 @@ import 'package:todo_app/ui/colors.dart';
 import 'package:todo_app/ui/screens/home_screen.dart';
 import 'package:todo_app/utils/notification_service.dart';
 import 'package:todo_app/viewmodel/home_viewmodel.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -18,7 +16,7 @@ Future<void> main() async {
 
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => HomeViewModel())],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
@@ -48,7 +46,6 @@ class MyAppState extends State<MyApp> {
     super.initState();
 
     setLocale(Platform.localeName);
-    print(Platform.localeName);
 
     SharedPreferences.getInstance().then((value) {
       String? locale = value.getString("locale");

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/ui/shapes.dart';
 import 'package:todo_app/ui/widgets/app_button.dart';
@@ -30,18 +29,11 @@ class AppAlertDialog extends StatelessWidget {
       surfaceTintColor: Theme.of(context).cardColor,
       title: Text(
         title,
-        style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: Theme.of(context).hintColor
-        ),
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Theme.of(context).hintColor),
       ),
-      content:  Text(
+      content: Text(
         description,
-        style: TextStyle(
-          fontSize: 16,
-          color: Theme.of(context).hintColor.withOpacity(0.7)
-        ),
+        style: TextStyle(fontSize: 16, color: Theme.of(context).hintColor.withOpacity(0.7)),
       ),
       shape: AppShapes.roundedRectangleShape,
       actions: [

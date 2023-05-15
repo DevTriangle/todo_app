@@ -2,10 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:todo_app/model/app_event.dart';
-import 'package:todo_app/ui/screens/home_screen.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -39,16 +37,13 @@ class NotificationService {
 
     tz.initializeTimeZones();
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings, onDidReceiveNotificationResponse: (n) {
-      print(n.payload);
-    });
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
   Future selectNotification(String? payload) async {}
 
   Future<bool> cancelNotification(int id) async {
     await flutterLocalNotificationsPlugin.cancel(id);
-    print(id);
 
     return true;
   }
@@ -114,8 +109,6 @@ class NotificationService {
           for (int i = 0; i < 12; i++) {
             int id = Random().nextInt(2147483647);
 
-            print("m" + DateTime.parse(time.toString()).toString());
-
             await flutterLocalNotificationsPlugin.zonedSchedule(
                 id, title, body, time, NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
                 uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
@@ -130,7 +123,6 @@ class NotificationService {
           tz.TZDateTime time = tz.TZDateTime.from(dateTime, tz.local);
           for (int i = 0; i < 3; i++) {
             int id = Random().nextInt(2147483647);
-            print("y" + DateTime.parse(time.toString()).toString());
 
             await flutterLocalNotificationsPlugin.zonedSchedule(
                 id, title, body, time, NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
