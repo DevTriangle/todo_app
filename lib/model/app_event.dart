@@ -8,7 +8,7 @@ class AppEvent {
   final EventCategory eventCategory;
   String datetime;
   final bool disableNotifications;
-  final List<AppNotification> notifications;
+  List<AppNotification> notifications;
   final List<String> reminders;
   final Repeat repeat;
 

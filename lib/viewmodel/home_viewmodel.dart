@@ -107,7 +107,7 @@ class HomeViewModel extends ChangeNotifier {
               (e.repeat.type != "no" || e.repeat.type != "1d" || e.repeat.type != "1w")) {
             print("1");
 
-            scheduleNotifications(
+            e.notifications = await scheduleNotifications(
               e.title,
               DateTime.parse(e.datetime),
               e.repeat,
