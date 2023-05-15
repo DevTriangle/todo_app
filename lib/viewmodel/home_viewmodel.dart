@@ -57,36 +57,68 @@ class HomeViewModel extends ChangeNotifier {
         Iterable l = json.decode(eventJson);
         List<AppEvent> events = List.from(l.map((e) => AppEvent.fromJson(e)));
 
-        eventList.addAll(events.where((event) => DateTime.parse(event.datetime).add(const Duration(days: 3)).isAfter(DateTime.now())));
+        eventList.addAll(events.where((event) {
+          if (event.repeat.type == "no") {
+            return DateTime.parse(event.datetime).add(const Duration(days: 3)).isAfter(DateTime.now());
+          } else {
+            return true;
+          }
+        }));
         eventList.sort((a, b) => DateTime.parse(a.datetime).compareTo(DateTime.parse(b.datetime)));
       }
 
       if (eventList.isNotEmpty) {
         for (var e in eventList) {
-          DateTime time = DateTime.parse(e.datetime);
-          if (time.isBefore(DateTime.now()) && e.repeat.type != "") {
-            switch (e.repeat.type) {
-              case "1d":
-                {
-                  e.datetime = Jiffy(time).add(days: 1).dateTime.toString();
-                }
-                break;
-              case "1w":
-                {
-                  e.datetime = Jiffy(time).add(weeks: 1).dateTime.toString();
-                }
-                break;
-              case "1m":
-                {
-                  e.datetime = Jiffy(time).add(months: 1).dateTime.toString();
-                }
-                break;
-              case "1y":
-                {
-                  e.datetime = Jiffy(time).add(years: 1).dateTime.toString();
-                }
-                break;
+          DateTime dt = DateTime.parse(e.datetime);
+          while (DateTime.parse(e.datetime).isBefore(DateTime.now())) {
+            DateTime time = DateTime.parse(e.datetime);
+            if (time.isBefore(DateTime.now()) && e.repeat.type != "") {
+              switch (e.repeat.type) {
+                case "1d":
+                  {
+                    e.datetime = Jiffy(time).add(days: 1).dateTime.toString();
+                  }
+                  break;
+                case "1w":
+                  {
+                    e.datetime = Jiffy(time).add(weeks: 1).dateTime.toString();
+                  }
+                  break;
+                case "1m":
+                  {
+                    e.datetime = Jiffy(time).add(months: 1).dateTime.toString();
+                    print(e.datetime);
+                  }
+                  break;
+                case "1y":
+                  {
+                    e.datetime = Jiffy(time).add(years: 1).dateTime.toString();
+                  }
+                  break;
+              }
             }
+          }
+        }
+
+        for (var e in eventList) {
+          print(e.notifications.last.time);
+          if (e.notifications.isNotEmpty &&
+              DateTime.parse(e.notifications.last.time).isBefore(DateTime.now()) &&
+              (e.repeat.type != "no" || e.repeat.type != "1d" || e.repeat.type != "1w")) {
+            print("1");
+
+            scheduleNotifications(
+              e.title,
+              DateTime.parse(e.datetime),
+              e.repeat,
+              e.reminders.contains("5m"),
+              e.reminders.contains("10m"),
+              e.reminders.contains("15m"),
+              e.reminders.contains("30m"),
+              e.reminders.contains("1h"),
+              e.reminders.contains("4h"),
+              e.reminders.contains("1d"),
+            );
           }
         }
 
