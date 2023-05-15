@@ -104,11 +104,22 @@ class HomeViewModel extends ChangeNotifier {
     eventList.removeAt(index);
     eventList.insert(index, event);
 
-    // await NotificationService().cancelNotification(event.id);
-    // await NotificationService()
-    //     .scheduleNotifications(event.title, date.format(DateTime.parse(event.datetime)), true, DateTime.parse(event.datetime), _context, event.repeat);
+    for (var e in event.notifications) {
+      await NotificationService().cancelNotification(e.id);
+    }
 
-    // TODO
+    scheduleNotifications(
+      event.title,
+      DateTime.parse(event.datetime),
+      event.repeat,
+      event.reminders.contains("5m"),
+      event.reminders.contains("10m"),
+      event.reminders.contains("15m"),
+      event.reminders.contains("30m"),
+      event.reminders.contains("1h"),
+      event.reminders.contains("4h"),
+      event.reminders.contains("1d"),
+    );
 
     Response response = await saveEvents(eventList);
     return response;

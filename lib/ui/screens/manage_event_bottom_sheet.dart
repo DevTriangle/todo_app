@@ -200,6 +200,12 @@ class ManageEventBottomSheetState extends State<ManageEventBottomSheet> {
       });
     } else {
       dateTime = DateTime(_selectedDate.year, _selectedDate.month, _selectedDate.day, _selectedTime!.hour, _selectedTime!.minute);
+
+      if (dateTime.isBefore(DateTime.now())) {
+        setState(() {
+          _dateError = "Дата должна быть больше текущей";
+        });
+      }
     }
 
     if (widget.isEditing) {

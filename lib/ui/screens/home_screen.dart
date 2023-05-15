@@ -64,13 +64,6 @@ class HomeScreenState extends State<HomeScreen> {
 
     Response eventResponse = await viewModel.loadEvents();
 
-    for (var e in viewModel.eventList) {
-      if (DateTime.parse(e.datetime).isBefore(DateTime.now())) {
-        e.datetime = DateTime.parse(e.datetime).add(Duration(days: 6)).toString();
-        print("ENDED");
-      }
-    }
-
     return eventResponse;
   }
 
