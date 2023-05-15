@@ -75,18 +75,36 @@ class InfoBottomSheetState extends State<InfoBottomSheet> {
                   children: [
                     TextSpan(
                         text: "${AppLocalizations.of(context).event_start_date}: ",
-                        style: TextStyle(fontWeight: FontWeight.w500, color: Theme.of(context).hintColor.withOpacity(0.7))),
+                        style: TextStyle(fontWeight: FontWeight.w500, color: Theme.of(context).hintColor)),
                     TextSpan(
                       text: date.format(DateTime.parse(widget.event.datetime)),
-                      style: TextStyle(fontWeight: FontWeight.w500, color: Theme.of(context).hintColor),
+                      style: TextStyle(color: Theme.of(context).hintColor.withOpacity(0.7)),
                     ),
                   ],
                 ),
               ),
               const SizedBox(height: 8),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.restart_alt_rounded,
+                    size: 18,
+                    color: Theme.of(context).hintColor,
+                  ),
+                  const SizedBox(width: 4),
+                  Text(
+                    widget.event.repeat.name,
+                    style: TextStyle(
+                      color: Theme.of(context).hintColor.withOpacity(0.7),
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 8),
               Text(
                 AppLocalizations.of(context).note,
-                style: TextStyle(fontSize: 14, color: Theme.of(context).hintColor),
+                style: TextStyle(color: Theme.of(context).hintColor, fontWeight: FontWeight.w500),
               ),
               const SizedBox(height: 1),
               Card(

@@ -63,6 +63,36 @@ class HomeViewModel extends ChangeNotifier {
       }
 
       if (eventList.isNotEmpty) {
+        for (var e in eventList) {
+          DateTime time = DateTime.parse(e.datetime);
+          if (time.isBefore(DateTime.now()) && e.repeat.type != "") {
+            switch (e.repeat.type) {
+              case "1d":
+                {
+                  e.datetime = Jiffy(time).add(days: 1).dateTime.toString();
+                }
+                break;
+              case "1w":
+                {
+                  e.datetime = Jiffy(time).add(weeks: 1).dateTime.toString();
+                }
+                break;
+              case "1m":
+                {
+                  e.datetime = Jiffy(time).add(months: 1).dateTime.toString();
+                }
+                break;
+              case "1y":
+                {
+                  e.datetime = Jiffy(time).add(years: 1).dateTime.toString();
+                }
+                break;
+            }
+          }
+        }
+
+        await saveEvents(eventList);
+
         return Response(isSuccess: true, message: AppLocalizations.of(_context).events_loaded, code: 0);
       } else {
         throw "list-null";
