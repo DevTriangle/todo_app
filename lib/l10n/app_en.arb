@@ -31,6 +31,8 @@
 
     "note": "Note",
 
+    "event_description": "Event description",
+
     "event_start_date": "Event start date",
     "event_in_progress": "In progress",
     
@@ -116,5 +118,11 @@
     "t30min": "30 minutes before",
     "t1hour": "1 hour before",
     "t4hours": "4 hours before",
-    "t1day": "1 day before"
+    "t1day": "1 day before",
+
+    "repeat_no": "No repeat",
+    "repeat1d": "Every day",
+    "repeat1w": "Every week",
+    "repeat1m": "Every month",
+    "repeat1y": "Every year"
 }

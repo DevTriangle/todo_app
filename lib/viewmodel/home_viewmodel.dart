@@ -3,9 +3,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
+import 'package:todo_app/model/repeat.dart';
 import 'package:todo_app/model/response.dart';
 import 'package:todo_app/utils/notification_service.dart';
 
@@ -16,11 +18,22 @@ class HomeViewModel extends ChangeNotifier {
 
   List<AppEvent> eventList = <AppEvent>[];
   List<EventCategory> categoryList = [];
+  List<Repeat> repeatList = [
+    Repeat("Не повторяется", "no"),
+  ];
 
   late BuildContext _context;
 
   set context(BuildContext value) {
     _context = value;
+
+    repeatList = [
+      Repeat(AppLocalizations.of(_context).repeat_no, "no"),
+      Repeat(AppLocalizations.of(_context).repeat1d, "1d"),
+      Repeat(AppLocalizations.of(_context).repeat1w, "1w"),
+      Repeat(AppLocalizations.of(_context).repeat1m, "1m"),
+      Repeat(AppLocalizations.of(_context).repeat1y, "1y"),
+    ];
 
     categoryList = <EventCategory>[
       EventCategory(categoryTitle: AppLocalizations.of(_context).category_1, categoryIconID: 0, categoryColor: Colors.amber.value),
@@ -67,8 +80,9 @@ class HomeViewModel extends ChangeNotifier {
     Response response = await saveEvents(eventList);
 
     if (!event.disableNotifications) {
-      NotificationService()
-          .scheduleNotifications(event.id, event.title, date.format(DateTime.parse(event.datetime)), true, DateTime.parse(event.datetime), _context);
+      // NotificationService()
+      //     .scheduleNotifications(event.title, date.format(DateTime.parse(event.datetime)), true, DateTime.parse(event.datetime), _context, event.repeat);
+      // TODO
     }
 
     return response;
@@ -90,9 +104,11 @@ class HomeViewModel extends ChangeNotifier {
     eventList.removeAt(index);
     eventList.insert(index, event);
 
-    await NotificationService().cancelNotification(event.id);
-    await NotificationService()
-        .scheduleNotifications(event.id, event.title, date.format(DateTime.parse(event.datetime)), true, DateTime.parse(event.datetime), _context);
+    // await NotificationService().cancelNotification(event.id);
+    // await NotificationService()
+    //     .scheduleNotifications(event.title, date.format(DateTime.parse(event.datetime)), true, DateTime.parse(event.datetime), _context, event.repeat);
+
+    // TODO
 
     Response response = await saveEvents(eventList);
     return response;
@@ -184,5 +200,57 @@ class HomeViewModel extends ChangeNotifier {
     } catch (e) {
       return Response(isSuccess: false, message: e.toString(), code: -1);
     }
+  }
+
+  Future<List<AppNotification>> scheduleNotifications(
+    String eventTitle,
+    DateTime dateTime,
+    Repeat selectedRepeat,
+    bool _fiveChecked,
+    bool _tenChecked,
+    bool _fifteenChecked,
+    bool _thirtyChecked,
+    bool _hourChecked,
+    bool _fourHChecked,
+    bool _dayChecked,
+  ) async {
+    List<AppNotification> notifications = [];
+
+    DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
+    if (_fiveChecked) {
+      notifications.addAll(await NotificationService()
+          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(minutes: 5)), _context, selectedRepeat));
+    }
+
+    if (_tenChecked) {
+      notifications.addAll(await NotificationService()
+          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(minutes: 10)), _context, selectedRepeat));
+    }
+    if (_fifteenChecked) {
+      notifications.addAll(await NotificationService()
+          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(minutes: 15)), _context, selectedRepeat));
+    }
+    if (_thirtyChecked) {
+      notifications.addAll(await NotificationService()
+          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(minutes: 30)), _context, selectedRepeat));
+    }
+    if (_hourChecked) {
+      notifications.addAll(await NotificationService()
+          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(hours: 1)), _context, selectedRepeat));
+    }
+
+    if (_fourHChecked) {
+      notifications.addAll(await NotificationService()
+          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(hours: 4)), _context, selectedRepeat));
+    }
+
+    if (_dayChecked) {
+      notifications.addAll(await NotificationService()
+          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(days: 1)), _context, selectedRepeat));
+    }
+
+    notifications.addAll(await NotificationService().scheduleNotifications(eventTitle, date.format(dateTime), dateTime, _context, selectedRepeat));
+
+    return notifications;
   }
 }

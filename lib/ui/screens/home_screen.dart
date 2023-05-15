@@ -2,11 +2,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/model/event_category.dart';
 import 'package:todo_app/ui/icons.dart';
 import 'package:todo_app/ui/screens/info_bottom_sheet.dart';
+import 'package:todo_app/ui/screens/manage_event_bottom_sheet.dart';
 import 'package:todo_app/ui/screens/settings_screen.dart';
 import 'package:todo_app/ui/widgets/app_alert_dialog.dart';
 import 'package:todo_app/ui/widgets/app_card.dart';
@@ -58,7 +60,16 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   Future<Response> _getEvents() async {
+    DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
+
     Response eventResponse = await viewModel.loadEvents();
+
+    for (var e in viewModel.eventList) {
+      if (DateTime.parse(e.datetime).isBefore(DateTime.now())) {
+        e.datetime = DateTime.parse(e.datetime).add(Duration(days: 6)).toString();
+        print("ENDED");
+      }
+    }
 
     return eventResponse;
   }
@@ -70,47 +81,100 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void _createDialog({int index = 0, bool isEditing = false}) {
-    showDialog(
+    // showDialog(
+    //     context: context,
+    //     builder: (BuildContext dialogContext) {
+    //       return StatefulBuilder(
+    //         builder: (mContext, setState) {
+    //           int i = index;
+
+    //           if (isEditing) {
+    //             i = viewModel.categoryList.indexWhere((element) =>
+    //                 element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
+    //                 element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
+    //                 element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor);
+    //           }
+
+    //           return AppDialog(
+    //             title: isEditing ? viewModel.eventList[index].title : "",
+    //             destination: isEditing ? DateTime.parse(viewModel.eventList[index].datetime) : DateTime.now(),
+    //             categoryIndex: isEditing
+    //                 ? i != -1
+    //                     ? i
+    //                     : 0
+    //                 : 0,
+    //             onCloseClick: () {
+    //               Navigator.pop(context);
+    //             },
+    //             onEventCreate: (event) async {
+    //               if (isEditing) {
+    //                 _editEvent(index, event);
+    //               } else {
+    //                 _createEvent(event);
+    //               }
+    //               Navigator.pop(context);
+    //             },
+    //             onRemoveClick: () {
+    //               _removeEvent(viewModel.eventList[index]);
+    //               Navigator.pop(context);
+    //             },
+    //             isEditing: isEditing,
+    //             event: isEditing ? viewModel.eventList[index] : null,
+    //           );
+    //         },
+    //       );
+    //     });
+
+    showModalBottomSheet(
         context: context,
-        builder: (BuildContext dialogContext) {
-          return StatefulBuilder(
-            builder: (mContext, setState) {
-              int i = index;
+        elevation: 0.0,
+        backgroundColor: Colors.transparent,
+        isScrollControlled: true,
+        builder: (BuildContext context) {
+          int i = index;
 
-              if (isEditing) {
-                i = viewModel.categoryList.indexWhere((element) =>
-                    element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
-                    element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
-                    element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor);
-              }
+          if (isEditing) {
+            i = viewModel.categoryList.indexWhere((element) =>
+                element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
+                element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
+                element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor);
+          }
 
-              return AppDialog(
-                title: isEditing ? viewModel.eventList[index].title : "",
-                destination: isEditing ? DateTime.parse(viewModel.eventList[index].datetime) : DateTime.now(),
-                categoryIndex: isEditing
-                    ? i != -1
-                        ? i
-                        : 0
-                    : 0,
-                onCloseClick: () {
-                  Navigator.pop(context);
-                },
-                onEventCreate: (event) async {
-                  if (isEditing) {
-                    _editEvent(index, event);
-                  } else {
-                    _createEvent(event);
-                  }
-                  Navigator.pop(context);
-                },
-                onRemoveClick: () {
-                  _removeEvent(viewModel.eventList[index]);
-                  Navigator.pop(context);
-                },
-                isEditing: isEditing,
-                event: isEditing ? viewModel.eventList[index] : null,
-              );
-            },
+          return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Wrap(
+              children: [
+                BottomSheetCard(
+                  label: isEditing ? AppLocalizations.of(context).event_manage_title : AppLocalizations.of(context).event_creation_title,
+                  children: [
+                    ManageEventBottomSheet(
+                      categoryIndex: isEditing
+                          ? i != -1
+                              ? i
+                              : 0
+                          : 0,
+                      onCloseClick: () {
+                        Navigator.pop(context);
+                      },
+                      onEventCreate: (event) async {
+                        if (isEditing) {
+                          _editEvent(index, event);
+                        } else {
+                          _createEvent(event);
+                        }
+                        Navigator.pop(context);
+                      },
+                      onRemoveClick: () {
+                        _removeEvent(viewModel.eventList[index]);
+                        Navigator.pop(context);
+                      },
+                      isEditing: isEditing,
+                      event: isEditing ? viewModel.eventList[index] : null,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           );
         });
   }
@@ -215,7 +279,7 @@ class HomeScreenState extends State<HomeScreen> {
             padding: MediaQuery.of(context).viewInsets,
             child: Wrap(
               children: [
-                BottomSheetCard(label: "Информация о событии", children: [
+                BottomSheetCard(label: AppLocalizations.of(context).event_description, children: [
                   InfoBottomSheet(
                     event: event,
                     onEditPressed: () {
@@ -226,13 +290,16 @@ class HomeScreenState extends State<HomeScreen> {
                       viewModel.editEvent(
                           index,
                           AppEvent(
-                              id: event.id,
-                              title: event.title,
-                              description: description,
-                              eventCategory: event.eventCategory,
-                              datetime: event.datetime,
-                              disableNotifications: event.disableNotifications,
-                              notifications: event.notifications));
+                            id: event.id,
+                            title: event.title,
+                            description: description,
+                            eventCategory: event.eventCategory,
+                            datetime: event.datetime,
+                            disableNotifications: event.disableNotifications,
+                            notifications: event.notifications,
+                            reminders: event.reminders,
+                            repeat: event.repeat,
+                          ));
                       Navigator.pop(context);
                     },
                   )
@@ -375,7 +442,7 @@ class HomeScreenState extends State<HomeScreen> {
                                           ClipRRect(
                                             borderRadius: AppShapes.borderRadius,
                                             child: Dismissible(
-                                              key: Key(viewModel.eventList[index].toString()),
+                                              key: UniqueKey(),
                                               dismissThresholds: const {
                                                 DismissDirection.endToStart: 0.3,
                                                 DismissDirection.startToEnd: 2,
@@ -385,6 +452,7 @@ class HomeScreenState extends State<HomeScreen> {
                                                 shape: AppShapes.roundedRectangleShape,
                                                 color: Color(viewModel.eventList[index].eventCategory.categoryColor),
                                                 margin: const EdgeInsets.all(0),
+                                                clipBehavior: Clip.antiAlias,
                                                 child: Container(
                                                   padding: const EdgeInsets.symmetric(horizontal: 16),
                                                   child: Row(
@@ -402,6 +470,7 @@ class HomeScreenState extends State<HomeScreen> {
                                                 shape: AppShapes.roundedRectangleShape,
                                                 color: Theme.of(context).errorColor,
                                                 margin: const EdgeInsets.all(0),
+                                                clipBehavior: Clip.antiAlias,
                                                 child: Container(
                                                   padding: const EdgeInsets.symmetric(horizontal: 16),
                                                   child: Row(

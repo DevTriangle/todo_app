@@ -198,6 +198,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                           Scrollbar(
                             controller: colorController,
                             thumbVisibility: true,
+                            radius: const Radius.circular(100),
                             child: Container(
                                 padding: const EdgeInsets.all(6),
                                 constraints: const BoxConstraints(maxHeight: 130),
@@ -246,6 +247,7 @@ class SettingCategoryDialogState extends State<SettingCategoryDialog> {
                           Scrollbar(
                             controller: iconController,
                             thumbVisibility: true,
+                            radius: const Radius.circular(100),
                             child: Container(
                                 padding: const EdgeInsets.all(6),
                                 constraints: const BoxConstraints(maxHeight: 128),
