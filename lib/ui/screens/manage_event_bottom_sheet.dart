@@ -415,7 +415,8 @@ class ManageEventBottomSheetState extends State<ManageEventBottomSheet> {
                                                     Switch(
                                                       value: _disableNotification,
                                                       activeColor: Theme.of(context).primaryColor,
-                                                      inactiveTrackColor: Theme.of(context).hintColor.withOpacity(0.1),
+                                                      inactiveThumbColor: Theme.of(context).hintColor,
+                                                      inactiveTrackColor: Theme.of(context).hintColor.withOpacity(0.15),
                                                       onChanged: (value) {
                                                         _disableNotifications();
                                                         setSheetState(() {});

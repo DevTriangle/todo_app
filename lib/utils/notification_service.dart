@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:todo_app/model/app_event.dart';
 import 'package:todo_app/ui/screens/home_screen.dart';
@@ -43,12 +44,7 @@ class NotificationService {
     });
   }
 
-  Future selectNotification(String? payload) async {
-    // await Navigator.push(
-    //   context,
-    //   MaterialPageRoute<void>(builder: (context) => const HomeScreen()),
-    // );
-  }
+  Future selectNotification(String? payload) async {}
 
   Future<bool> cancelNotification(int id) async {
     await flutterLocalNotificationsPlugin.cancel(id);
@@ -73,26 +69,22 @@ class NotificationService {
         {
           int id = Random().nextInt(2147483647);
           tz.TZDateTime time = tz.TZDateTime.from(dateTime, tz.local);
+
           await flutterLocalNotificationsPlugin.periodicallyShow(
             id,
             title,
             body,
+            time,
             RepeatInterval.daily,
             NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
           );
           notifications.add(AppNotification(id, DateTime.parse(time.toString()).toString()));
-          // for (int i = 0; i < 52; i++) {
-          //   int id = Random().nextInt(2147483647);
 
-          //   print("d" + DateTime.parse(time.toString()).toString());
-
-          //   await flutterLocalNotificationsPlugin.zonedSchedule(
-          //       id, title, body, time, NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
-          //       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime, payload: "");
-
-          //   notifications.add(AppNotification(id, DateTime.parse(time.toString()).toString()));
-          //   time = time.add(Duration(days: 1));
-          // }
+          int id2 = Random().nextInt(2147483647);
+          await flutterLocalNotificationsPlugin.zonedSchedule(
+              id2, title, body, time, NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
+              uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+          notifications.add(AppNotification(id2, DateTime.parse(time.toString()).toString()));
         }
         break;
       case "1w":
@@ -103,23 +95,17 @@ class NotificationService {
             id,
             title,
             body,
+            time,
             RepeatInterval.weekly,
             NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
           );
           notifications.add(AppNotification(id, DateTime.parse(time.toString()).toString()));
-          // tz.TZDateTime time = tz.TZDateTime.from(dateTime, tz.local);
-          // for (int i = 0; i < 160; i++) {
-          //   int id = Random().nextInt(2147483647);
 
-          //   print("w" + DateTime.parse(time.toString()).toString());
-
-          //   await flutterLocalNotificationsPlugin.zonedSchedule(
-          //       id, title, body, time, NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
-          //       uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
-
-          //   notifications.add(AppNotification(id, DateTime.parse(time.toString()).toString()));
-          //   time = time.add(Duration(days: 7));
-          // }
+          int id2 = Random().nextInt(2147483647);
+          await flutterLocalNotificationsPlugin.zonedSchedule(
+              id2, title, body, time, NotificationDetails(android: androidNotificationDetails, iOS: iosNotificationDetails),
+              uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime);
+          notifications.add(AppNotification(id2, DateTime.parse(time.toString()).toString()));
         }
         break;
       case "1m":

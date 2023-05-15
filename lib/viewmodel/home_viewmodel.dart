@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 import 'dart:math';
 
@@ -227,40 +229,53 @@ class HomeViewModel extends ChangeNotifier {
   ) async {
     List<AppNotification> notifications = [];
 
-    DateFormat date = DateFormat("dd.MM.yyyy HH:mm");
     if (_fiveChecked) {
-      notifications.addAll(await NotificationService()
-          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(minutes: 5)), _context, selectedRepeat));
+      notifications.addAll(await NotificationService().scheduleNotifications(
+          eventTitle, "${AppLocalizations.of(_context).start_5min} \"$eventTitle\"", dateTime.subtract(const Duration(minutes: 5)), _context, selectedRepeat));
     }
 
     if (_tenChecked) {
-      notifications.addAll(await NotificationService()
-          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(minutes: 10)), _context, selectedRepeat));
+      notifications.addAll(
+        await NotificationService().scheduleNotifications(eventTitle, "${AppLocalizations.of(_context).start_10min} \"$eventTitle\"",
+            dateTime.subtract(const Duration(minutes: 10)), _context, selectedRepeat),
+      );
     }
     if (_fifteenChecked) {
-      notifications.addAll(await NotificationService()
-          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(minutes: 15)), _context, selectedRepeat));
+      notifications.addAll(
+        await NotificationService().scheduleNotifications(eventTitle, "${AppLocalizations.of(_context).start_15min} \"$eventTitle\"",
+            dateTime.subtract(const Duration(minutes: 15)), _context, selectedRepeat),
+      );
     }
     if (_thirtyChecked) {
-      notifications.addAll(await NotificationService()
-          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(minutes: 30)), _context, selectedRepeat));
+      notifications.addAll(
+        await NotificationService().scheduleNotifications(eventTitle, "${AppLocalizations.of(_context).start_30min} \"$eventTitle\"",
+            dateTime.subtract(const Duration(minutes: 30)), _context, selectedRepeat),
+      );
     }
     if (_hourChecked) {
-      notifications.addAll(await NotificationService()
-          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(hours: 1)), _context, selectedRepeat));
+      notifications.addAll(
+        await NotificationService().scheduleNotifications(
+            eventTitle, "${AppLocalizations.of(_context).start_1h} \"$eventTitle\"", dateTime.subtract(const Duration(hours: 1)), _context, selectedRepeat),
+      );
     }
 
     if (_fourHChecked) {
-      notifications.addAll(await NotificationService()
-          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(hours: 4)), _context, selectedRepeat));
+      notifications.addAll(
+        await NotificationService().scheduleNotifications(
+            eventTitle, "${AppLocalizations.of(_context).start_4h} \"$eventTitle\"", dateTime.subtract(const Duration(hours: 4)), _context, selectedRepeat),
+      );
     }
 
     if (_dayChecked) {
-      notifications.addAll(await NotificationService()
-          .scheduleNotifications(eventTitle, date.format(dateTime), dateTime.subtract(const Duration(days: 1)), _context, selectedRepeat));
+      notifications.addAll(
+        await NotificationService().scheduleNotifications(
+            eventTitle, "${AppLocalizations.of(_context).start_1d} \"$eventTitle\"", dateTime.subtract(const Duration(days: 1)), _context, selectedRepeat),
+      );
     }
 
-    notifications.addAll(await NotificationService().scheduleNotifications(eventTitle, date.format(dateTime), dateTime, _context, selectedRepeat));
+    notifications.addAll(
+      await NotificationService().scheduleNotifications(eventTitle, AppLocalizations.of(_context).event_start, dateTime, _context, selectedRepeat),
+    );
 
     return notifications;
   }

@@ -74,50 +74,6 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void _createDialog({int index = 0, bool isEditing = false}) {
-    // showDialog(
-    //     context: context,
-    //     builder: (BuildContext dialogContext) {
-    //       return StatefulBuilder(
-    //         builder: (mContext, setState) {
-    //           int i = index;
-
-    //           if (isEditing) {
-    //             i = viewModel.categoryList.indexWhere((element) =>
-    //                 element.categoryTitle == viewModel.eventList[index].eventCategory.categoryTitle &&
-    //                 element.categoryIconID == viewModel.eventList[index].eventCategory.categoryIconID &&
-    //                 element.categoryColor == viewModel.eventList[index].eventCategory.categoryColor);
-    //           }
-
-    //           return AppDialog(
-    //             title: isEditing ? viewModel.eventList[index].title : "",
-    //             destination: isEditing ? DateTime.parse(viewModel.eventList[index].datetime) : DateTime.now(),
-    //             categoryIndex: isEditing
-    //                 ? i != -1
-    //                     ? i
-    //                     : 0
-    //                 : 0,
-    //             onCloseClick: () {
-    //               Navigator.pop(context);
-    //             },
-    //             onEventCreate: (event) async {
-    //               if (isEditing) {
-    //                 _editEvent(index, event);
-    //               } else {
-    //                 _createEvent(event);
-    //               }
-    //               Navigator.pop(context);
-    //             },
-    //             onRemoveClick: () {
-    //               _removeEvent(viewModel.eventList[index]);
-    //               Navigator.pop(context);
-    //             },
-    //             isEditing: isEditing,
-    //             event: isEditing ? viewModel.eventList[index] : null,
-    //           );
-    //         },
-    //       );
-    //     });
-
     showModalBottomSheet(
         context: context,
         elevation: 0.0,

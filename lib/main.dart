@@ -72,6 +72,7 @@ class MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: AppColors.lightBackgroundColor,
         hintColor: AppColors.lightTextColor,
         cardColor: AppColors.lightTertiaryColor,
+        primaryColor: const Color(AppColors.primaryColor),
         fontFamily: "Rubik",
       ),
       darkTheme: ThemeData(
@@ -79,6 +80,7 @@ class MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSwatch(primarySwatch: AppColors.primarySwatch)
             .copyWith(brightness: Brightness.dark, background: AppColors.darkBackgroundColor, surface: AppColors.darkCardColor, outline: Colors.transparent),
         canvasColor: AppColors.darkBackgroundColor,
+        primaryColor: const Color(AppColors.primaryColor),
         scaffoldBackgroundColor: AppColors.darkBackgroundColor,
         hintColor: AppColors.darkTextColor,
         cardColor: AppColors.darkTertiaryColor,

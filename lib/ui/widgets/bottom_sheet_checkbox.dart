@@ -32,6 +32,7 @@ class BottomSheetCheckbox extends StatelessWidget {
                     child: Checkbox(
                       value: checked,
                       onChanged: enabled ? onPressed : null,
+                      side: BorderSide(color: enabled ? Theme.of(context).hintColor : Theme.of(context).disabledColor, width: 1.5),
                       shape: AppShapes.smallRoundedRectangleShape,
                     ),
                   ),

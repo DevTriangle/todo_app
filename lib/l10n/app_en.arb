@@ -124,5 +124,15 @@
     "repeat1d": "Every day",
     "repeat1w": "Every week",
     "repeat1m": "Every month",
-    "repeat1y": "Every year"
+    "repeat1y": "Every year",
+
+    "start_5min": "5 minutes before the start",
+    "start_10min": "10 minutes before the start",
+    "start_15min": "15 minutes before the start",
+    "start_30min": "30 minutes before the start",
+    "start_1h": "1 hour before the start",
+    "start_4h": "4 hours before the start",
+    "start_1d": "1 day before the start",
+
+    "event_start": "The event has started"
 }
