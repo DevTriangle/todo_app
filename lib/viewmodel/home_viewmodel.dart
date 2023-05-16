@@ -101,12 +101,9 @@ class HomeViewModel extends ChangeNotifier {
         }
 
         for (var e in eventList) {
-          print(e.notifications.last.time);
           if (e.notifications.isNotEmpty &&
               DateTime.parse(e.notifications.last.time).isBefore(DateTime.now()) &&
               (e.repeat.type != "no" || e.repeat.type != "1d" || e.repeat.type != "1w")) {
-            print("1");
-
             e.notifications = await scheduleNotifications(
               e.title,
               DateTime.parse(e.datetime),
