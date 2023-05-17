@@ -70,31 +70,33 @@ class HomeViewModel extends ChangeNotifier {
       if (eventList.isNotEmpty) {
         for (var e in eventList) {
           DateTime dt = DateTime.parse(e.datetime);
-          while (DateTime.parse(e.datetime).isBefore(DateTime.now())) {
-            DateTime time = DateTime.parse(e.datetime);
-            if (time.isBefore(DateTime.now()) && e.repeat.type != "") {
-              switch (e.repeat.type) {
-                case "1d":
-                  {
-                    e.datetime = Jiffy(time).add(days: 1).dateTime.toString();
-                  }
-                  break;
-                case "1w":
-                  {
-                    e.datetime = Jiffy(time).add(weeks: 1).dateTime.toString();
-                  }
-                  break;
-                case "1m":
-                  {
-                    e.datetime = Jiffy(time).add(months: 1).dateTime.toString();
-                    print(e.datetime);
-                  }
-                  break;
-                case "1y":
-                  {
-                    e.datetime = Jiffy(time).add(years: 1).dateTime.toString();
-                  }
-                  break;
+          if (e.repeat.type != "no") {
+            while (DateTime.parse(e.datetime).isBefore(DateTime.now())) {
+              DateTime time = DateTime.parse(e.datetime);
+              if (time.isBefore(DateTime.now())) {
+                switch (e.repeat.type) {
+                  case "1d":
+                    {
+                      e.datetime = Jiffy(time).add(days: 1).dateTime.toString();
+                    }
+                    break;
+                  case "1w":
+                    {
+                      e.datetime = Jiffy(time).add(weeks: 1).dateTime.toString();
+                    }
+                    break;
+                  case "1m":
+                    {
+                      e.datetime = Jiffy(time).add(months: 1).dateTime.toString();
+                      print(e.datetime);
+                    }
+                    break;
+                  case "1y":
+                    {
+                      e.datetime = Jiffy(time).add(years: 1).dateTime.toString();
+                    }
+                    break;
+                }
               }
             }
           }
@@ -103,7 +105,7 @@ class HomeViewModel extends ChangeNotifier {
         for (var e in eventList) {
           if (e.notifications.isNotEmpty &&
               DateTime.parse(e.notifications.last.time).isBefore(DateTime.now()) &&
-              (e.repeat.type != "no" || e.repeat.type != "1d" || e.repeat.type != "1w")) {
+              (e.repeat.type != "no" && e.repeat.type != "1d" && e.repeat.type != "1w")) {
             e.notifications = await scheduleNotifications(
               e.title,
               DateTime.parse(e.datetime),
