@@ -79,7 +79,9 @@ class ManageEventBottomSheetState extends State<ManageEventBottomSheet> {
       _titleController.text = widget.event!.title;
       _dateTimeController.text = date.format(time);
 
-      _selectedRepeat = viewModel.repeatList[0];
+      _selectedRepeat = widget.event!.repeat;
+      print("${widget.event!.repeat.name} ${widget.event!.repeat.type}");
+      print(viewModel.repeatList);
 
       _category = viewModel.categoryList[widget.categoryIndex];
 

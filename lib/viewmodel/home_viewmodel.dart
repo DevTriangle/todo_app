@@ -20,7 +20,7 @@ class HomeViewModel extends ChangeNotifier {
   List<AppEvent> eventList = <AppEvent>[];
   List<EventCategory> categoryList = [];
   List<Repeat> repeatList = [
-    Repeat("Не повторяется", "no"),
+    Repeat("Не повторять", "no"),
   ];
 
   late BuildContext _context;
@@ -88,7 +88,6 @@ class HomeViewModel extends ChangeNotifier {
                   case "1m":
                     {
                       e.datetime = Jiffy(time).add(months: 1).dateTime.toString();
-                      print(e.datetime);
                     }
                     break;
                   case "1y":

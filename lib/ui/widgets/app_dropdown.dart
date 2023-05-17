@@ -111,13 +111,16 @@ class RepeatDropdown extends StatelessWidget {
   final EdgeInsets margin;
   final void Function(dynamic item)? onChanged;
 
-  const RepeatDropdown(
+  RepeatDropdown(
       {super.key,
       required this.value,
       required this.items,
       this.padding = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
       this.margin = const EdgeInsets.symmetric(horizontal: 0.0, vertical: 0),
-      required this.onChanged});
+      required this.onChanged
+      });
+
+  Repeat? _selectedRepeat;
 
   @override
   Widget build(BuildContext context) {
@@ -127,20 +130,20 @@ class RepeatDropdown extends StatelessWidget {
         padding: padding,
         margin: margin,
         child: DropdownButtonHideUnderline(
-          child: DropdownButton<Repeat>(
+          child: DropdownButton<String>(
               borderRadius: AppShapes.borderRadius,
               dropdownColor: Theme.of(context).colorScheme.surface,
               items: items.map((Repeat item) {
-                return DropdownMenuItem<Repeat>(value: item, child: Text(item.name));
+                return DropdownMenuItem<String>(value: item.type, child: Text(item.name), onTap: () { _selectedRepeat = item; },);
               }).toList(),
-              value: value,
+              value: value.type,
               style: TextStyle(
                 color: Theme.of(context).hintColor,
                 fontWeight: FontWeight.w500,
                 fontSize: 16,
                 fontFamily: "Rubik",
               ),
-              onChanged: onChanged != null ? (item) => onChanged!(item!) : null),
+              onChanged: onChanged != null ? (item) => onChanged!(Repeat(_selectedRepeat!.name, item!)) : null),
         ));
   }
 }
