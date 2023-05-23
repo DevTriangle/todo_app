@@ -69,7 +69,6 @@ class HomeViewModel extends ChangeNotifier {
 
       if (eventList.isNotEmpty) {
         for (var e in eventList) {
-          DateTime dt = DateTime.parse(e.datetime);
           if (e.repeat.type != "no") {
             while (DateTime.parse(e.datetime).isBefore(DateTime.now())) {
               DateTime time = DateTime.parse(e.datetime);
